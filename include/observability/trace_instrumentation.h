@@ -199,6 +199,7 @@ private:
         _trace_span_##__LINE__.get(), \
         _trace_span_##__LINE__->childContext(operation_name));
 
+#if defined(THEMIS_ENABLE_TRACING)
 inline void recordTraceEvent(std::string_view event_name,
                              std::initializer_list<std::pair<std::string, std::string>> attrs = {}) {
     auto* span = getCurrentSpan();
@@ -337,6 +338,21 @@ inline void recordTraceEvent(std::string_view event_name,
     themis::observability::TraceContextGuard _trace_guard_##__LINE__( \
         _trace_span_##__LINE__.get(), \
         _trace_span_##__LINE__->childContext(operation_name));
+
+#else
+
+inline void recordTraceEvent(std::string_view,
+                             std::initializer_list<std::pair<std::string, std::string>> = {}) {}
+
+#define TRACE_SCOPE_COORDINATOR(operation_name, parent_context) do { } while (false)
+#define TRACE_SCOPE_SHARD_ROUTER(operation_name) do { } while (false)
+#define TRACE_SCOPE_WAL_SHIPPER(operation_name) do { } while (false)
+#define TRACE_EVENT(event_name, ...) do { } while (false)
+#define TRACE_BAGGAGE(key, value) do { } while (false)
+#define TRACE_SET_STATUS(status, ...) do { } while (false)
+#define TRACE_SCOPE_AI(operation_name) do { } while (false)
+
+#endif
 
 } // namespace observability
 } // namespace themis

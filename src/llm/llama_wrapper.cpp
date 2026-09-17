@@ -1341,7 +1341,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         response.model_used = current_model_id_;
         response.tokens_prompt = prompt_tokens.size();
         
-        if (request.lora_adapter_id) {
+        if (request.lora_adapter_id && lora_manager && lora_manager->isLoRALoaded(*request.lora_adapter_id)) {
             response.lora_used = *request.lora_adapter_id;
         }
         
@@ -2823,7 +2823,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.model_used = current_model_id_ + " (speculative)";
         response.tokens_prompt = prompt_tokens.size();
         
-        if (request.lora_adapter_id) {
+        if (request.lora_adapter_id && lora_manager && lora_manager->isLoRALoaded(*request.lora_adapter_id)) {
             response.lora_used = *request.lora_adapter_id;
         }
         
@@ -3099,7 +3099,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         response.model_used = current_model_id_;
         response.tokens_prompt = prompt_tokens.size();
         
-        if (request.lora_adapter_id) {
+        if (request.lora_adapter_id && lora_manager && lora_manager->isLoRALoaded(*request.lora_adapter_id)) {
             response.lora_used = *request.lora_adapter_id;
         }
         

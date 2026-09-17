@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include "ggml.h"
+#include "gguf.h"
 #include "llm/llama_wrapper.h"
 #include "llm/model_loader.h"
 #include "llm/multi_lora_manager.h"
@@ -42,6 +44,8 @@ protected:
             fs::remove_all(test_lora_dir);
         }
     }
+
+public:
 
     static void writeGGUFString(std::ostream& out, const std::string& value) {
         const uint64_t len = static_cast<uint64_t>(value.size());
@@ -118,106 +122,204 @@ protected:
         }
     }
 
-    static void writeMinimalValidGGUF(std::ostream& out,
+    static void writeMinimalValidGGUF(const std::string& file_path,
                                      const std::string& model_name,
                                      size_t bytes_to_write) {
-        constexpr char kMagic[4] = {'G', 'G', 'U', 'F'};
-        constexpr uint32_t kVersion = 3;
-        constexpr uint64_t kKvCount = 17;
-        constexpr uint32_t kTensorType = 0; // F32 GGML type
-
-        const std::string architecture = "llama";
-        const uint64_t n_vocab = 3;
-        const uint64_t n_embd = 64;
-        const uint64_t n_ff = 64;
-
-        struct TensorSpec {
-            std::string name;
-            std::vector<uint64_t> dims;
-        };
-
-        const std::vector<TensorSpec> tensor_specs = {
-            {"token_embd.weight", {n_embd, n_vocab}},
-            {"output_norm.weight", {n_embd}},
-            {"blk.0.attn_norm.weight", {n_embd}},
-            {"blk.0.attn_q.weight", {n_embd, n_embd}},
-            {"blk.0.attn_k.weight", {n_embd, n_embd}},
-            {"blk.0.attn_v.weight", {n_embd, n_embd}},
-            {"blk.0.attn_output.weight", {n_embd, n_embd}},
-            {"blk.0.ffn_norm.weight", {n_embd}},
-            {"blk.0.ffn_gate.weight", {n_embd, n_ff}},
-            {"blk.0.ffn_down.weight", {n_ff, n_embd}},
-            {"blk.0.ffn_up.weight", {n_embd, n_ff}}
-        };
-
-        const uint64_t kTensorCount = static_cast<uint64_t>(tensor_specs.size());
-
-        out.write(kMagic, sizeof(kMagic));
-        writeGGUFUInt32(out, kVersion);
-        writeGGUFUInt64(out, kTensorCount);
-        writeGGUFUInt64(out, kKvCount);
-
-        writeGGUFMetadataString(out, "general.architecture", architecture);
-        writeGGUFMetadataString(out, "general.name", model_name);
-        writeGGUFMetadataUInt32(out, "llama.context_length", 2048u);
-        writeGGUFMetadataUInt32(out, "llama.embedding_length", static_cast<uint32_t>(n_embd));
-        writeGGUFMetadataUInt32(out, "llama.block_count", 1u);
-        writeGGUFMetadataUInt32(out, "llama.feed_forward_length", static_cast<uint32_t>(n_ff));
-        writeGGUFMetadataUInt32(out, "llama.attention.head_count", 1u);
-        writeGGUFMetadataUInt32(out, "llama.attention.head_count_kv", 1u);
-        writeGGUFMetadataFloat32(out, "llama.attention.layer_norm_rms_epsilon", 1.0e-5f);
-        writeGGUFMetadataUInt32(out, "llama.rope.dimension_count", static_cast<uint32_t>(n_embd));
-        writeGGUFMetadataString(out, "tokenizer.ggml.model", "llama");
-        writeGGUFMetadataString(out, "tokenizer.ggml.pre", "default");
-        writeGGUFStringArray(out, "tokenizer.ggml.tokens", {"<unk>", "<s>", "</s>"});
-        writeGGUFUInt32Array(out, "tokenizer.ggml.token_type", {0u, 1u, 1u});
-        writeGGUFFloat32Array(out, "tokenizer.ggml.scores", {0.0f, 0.0f, 0.0f});
-        writeGGUFMetadataUInt32(out, "tokenizer.ggml.bos_token_id", 1u);
-        writeGGUFMetadataBool(out, "tokenizer.ggml.add_bos_token", true);
-
-        uint64_t data_offset = 0;
-        for (const auto& tensor : tensor_specs) {
-            uint64_t element_count = 1;
-            for (uint64_t dim : tensor.dims) {
-                element_count *= dim;
-            }
-            const uint64_t bytes = element_count * sizeof(float);
-
-            writeGGUFString(out, tensor.name);
-            writeGGUFUInt32(out, static_cast<uint32_t>(tensor.dims.size()));
-            for (uint64_t dim : tensor.dims) {
-                writeGGUFUInt64(out, dim);
-            }
-            writeGGUFUInt32(out, kTensorType);
-            writeGGUFUInt64(out, data_offset);
-            data_offset += bytes;
+        struct gguf_context* ctx = gguf_init_empty();
+        if (!ctx) {
+            throw std::runtime_error("gguf_init_empty() failed for test fixture");
         }
 
-        const std::streamoff current = static_cast<std::streamoff>(out.tellp());
-        const std::streamoff aligned = ((current + 31) / 32) * 32;
-        const std::streamoff pad = std::max<std::streamoff>(0, aligned - current);
-        for (std::streamoff i = 0; i < pad; ++i) {
-            out.put('\0');
+        gguf_set_val_str(ctx, "general.architecture", "llama");
+        gguf_set_val_str(ctx, "general.name", model_name.c_str());
+        gguf_set_val_u32(ctx, "llama.context_length", 2048u);
+        gguf_set_val_u32(ctx, "llama.embedding_length", 64u);
+        gguf_set_val_u32(ctx, "llama.block_count", 1u);
+        gguf_set_val_u32(ctx, "llama.feed_forward_length", 64u);
+        gguf_set_val_u32(ctx, "llama.attention.head_count", 1u);
+        gguf_set_val_u32(ctx, "llama.attention.head_count_kv", 1u);
+        gguf_set_val_f32(ctx, "llama.attention.layer_norm_rms_epsilon", 1.0e-5f);
+        gguf_set_val_u32(ctx, "llama.rope.dimension_count", 64u);
+        gguf_set_val_str(ctx, "tokenizer.ggml.model", "llama");
+        gguf_set_val_str(ctx, "tokenizer.ggml.pre", "default");
+
+        std::vector<std::string> tokenizer_tokens;
+        tokenizer_tokens.reserve(96);
+        tokenizer_tokens.emplace_back("<unk>");
+        tokenizer_tokens.emplace_back("<s>");
+        tokenizer_tokens.emplace_back("</s>");
+        tokenizer_tokens.emplace_back("\n");
+        for (char ch = ' '; ch <= '~'; ++ch) {
+            tokenizer_tokens.emplace_back(1, ch);
         }
 
-        std::vector<char> dummy_data(bytes_to_write, 0);
-        out.write(dummy_data.data(), static_cast<std::streamsize>(dummy_data.size()));
+        std::vector<const char*> token_ptrs;
+        token_ptrs.reserve(tokenizer_tokens.size());
+        for (const auto& token : tokenizer_tokens) {
+            token_ptrs.push_back(token.c_str());
+        }
+        gguf_set_arr_str(ctx, "tokenizer.ggml.tokens", token_ptrs.data(), token_ptrs.size());
+
+        std::vector<int32_t> token_types(tokenizer_tokens.size(), 0);
+        token_types[1] = 1;
+        token_types[2] = 1;
+        gguf_set_arr_data(ctx, "tokenizer.ggml.token_type", GGUF_TYPE_INT32,
+                          token_types.data(), token_types.size());
+
+        std::vector<float> token_scores(tokenizer_tokens.size(), 0.0f);
+        gguf_set_arr_data(ctx, "tokenizer.ggml.scores", GGUF_TYPE_FLOAT32,
+                          token_scores.data(), token_scores.size());
+
+        gguf_set_val_u32(ctx, "tokenizer.ggml.unk_token_id", 0u);
+        gguf_set_val_u32(ctx, "tokenizer.ggml.bos_token_id", 1u);
+        gguf_set_val_u32(ctx, "tokenizer.ggml.eos_token_id", 2u);
+        gguf_set_val_u32(ctx, "tokenizer.ggml.pad_token_id", 0u);
+        gguf_set_val_bool(ctx, "tokenizer.ggml.add_bos_token", true);
+        gguf_set_val_bool(ctx, "tokenizer.ggml.add_eos_token", false);
+
+        ggml_init_params params = {256ull * 1024ull * 1024ull, nullptr, false};
+        ggml_context* gctx = ggml_init(params);
+        if (!gctx) {
+            gguf_free(ctx);
+            throw std::runtime_error("ggml_init() failed for test fixture");
+        }
+
+        const std::array<int64_t, 2> embd_ne = {64, static_cast<int64_t>(tokenizer_tokens.size())};
+        auto* embed = ggml_new_tensor(gctx, GGML_TYPE_F32, embd_ne.size(), embd_ne.data());
+        ggml_set_name(embed, "token_embd.weight");
+
+        const std::array<int64_t, 1> norm_ne = {64};
+        auto* norm = ggml_new_tensor(gctx, GGML_TYPE_F32, norm_ne.size(), norm_ne.data());
+        ggml_set_name(norm, "output_norm.weight");
+
+        const std::array<int64_t, 2> q_ne = {64, 64};
+        auto* q = ggml_new_tensor(gctx, GGML_TYPE_F32, q_ne.size(), q_ne.data());
+        ggml_set_name(q, "blk.0.attn_q.weight");
+
+        const std::array<int64_t, 2> k_ne = {64, 64};
+        auto* k = ggml_new_tensor(gctx, GGML_TYPE_F32, k_ne.size(), k_ne.data());
+        ggml_set_name(k, "blk.0.attn_k.weight");
+
+        const std::array<int64_t, 2> v_ne = {64, 64};
+        auto* v = ggml_new_tensor(gctx, GGML_TYPE_F32, v_ne.size(), v_ne.data());
+        ggml_set_name(v, "blk.0.attn_v.weight");
+
+        const std::array<int64_t, 1> attn_norm_ne = {64};
+        auto* attn_norm = ggml_new_tensor(gctx, GGML_TYPE_F32, attn_norm_ne.size(), attn_norm_ne.data());
+        ggml_set_name(attn_norm, "blk.0.attn_norm.weight");
+
+        const std::array<int64_t, 2> out_ne = {64, 64};
+        auto* out = ggml_new_tensor(gctx, GGML_TYPE_F32, out_ne.size(), out_ne.data());
+        ggml_set_name(out, "blk.0.attn_output.weight");
+
+        const std::array<int64_t, 1> ffn_norm_ne = {64};
+        auto* ffn_norm = ggml_new_tensor(gctx, GGML_TYPE_F32, ffn_norm_ne.size(), ffn_norm_ne.data());
+        ggml_set_name(ffn_norm, "blk.0.ffn_norm.weight");
+
+        const std::array<int64_t, 2> gate_ne = {64, 64};
+        auto* gate = ggml_new_tensor(gctx, GGML_TYPE_F32, gate_ne.size(), gate_ne.data());
+        ggml_set_name(gate, "blk.0.ffn_gate.weight");
+
+        const std::array<int64_t, 2> down_ne = {64, 64};
+        auto* down = ggml_new_tensor(gctx, GGML_TYPE_F32, down_ne.size(), down_ne.data());
+        ggml_set_name(down, "blk.0.ffn_down.weight");
+
+        const std::array<int64_t, 2> up_ne = {64, 64};
+        auto* up = ggml_new_tensor(gctx, GGML_TYPE_F32, up_ne.size(), up_ne.data());
+        ggml_set_name(up, "blk.0.ffn_up.weight");
+
+        const std::array<int64_t, 2> output_ne = {64, static_cast<int64_t>(tokenizer_tokens.size())};
+        auto* output = ggml_new_tensor(gctx, GGML_TYPE_F32, output_ne.size(), output_ne.data());
+        ggml_set_name(output, "output.weight");
+
+        gguf_add_tensor(ctx, embed);
+        gguf_add_tensor(ctx, norm);
+        gguf_add_tensor(ctx, q);
+        gguf_add_tensor(ctx, k);
+        gguf_add_tensor(ctx, v);
+        gguf_add_tensor(ctx, attn_norm);
+        gguf_add_tensor(ctx, out);
+        gguf_add_tensor(ctx, ffn_norm);
+        gguf_add_tensor(ctx, gate);
+        gguf_add_tensor(ctx, down);
+        gguf_add_tensor(ctx, up);
+        gguf_add_tensor(ctx, output);
+
+        const bool wrote = gguf_write_to_file(ctx, file_path.c_str(), false);
+        ggml_free(gctx);
+        gguf_free(ctx);
+        if (!wrote) {
+            throw std::runtime_error("gguf_write_to_file() failed for test fixture: " + file_path);
+        }
+
+        struct gguf_init_params verify_params = {};
+        verify_params.no_alloc = true;
+        verify_params.ctx = nullptr;
+        struct gguf_context* verify_ctx = gguf_init_from_file(file_path.c_str(), verify_params);
+        if (!verify_ctx) {
+            throw std::runtime_error("gguf_init_from_file() failed for generated test fixture: " + file_path);
+        }
+        gguf_free(verify_ctx);
+
+        if (bytes_to_write > 0) {
+            std::ifstream in(file_path, std::ios::binary | std::ios::ate);
+            const std::streamoff actual_size = in.tellg();
+            if (actual_size >= 0 && static_cast<size_t>(actual_size) < bytes_to_write) {
+                std::vector<char> pad(bytes_to_write - static_cast<size_t>(actual_size), 0);
+                std::ofstream out(file_path, std::ios::binary | std::ios::app);
+                out.write(pad.data(), static_cast<std::streamsize>(pad.size()));
+            }
+        }
     }
     
+    static std::string resolveRealModelPath() {
+        const char* env_path = std::getenv("THEMIS_TEST_MODEL_PATH");
+        if (env_path && fs::exists(env_path) && fs::is_regular_file(env_path)) {
+            return env_path;
+        }
+
+        for (const auto& root : {fs::path("."), fs::path("./models"), fs::path("../models"), fs::path("../../models"), fs::path("./llama.cpp/models"), fs::path("../llama.cpp/models")}) {
+            for (const auto& name : {
+                    "TinyLlama-1.1B-Chat-v1.0.gguf",
+                    "tinyllama-1.1b-chat-v1.0.gguf",
+                    "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+                    "tinyllama_1.1b.gguf",
+                    "default.gguf",
+                    "gemma4_latest.gguf",
+                    "phi4_latest.gguf",
+                    "qwen3-coder_latest.gguf",
+                    "test_model.gguf"}) {
+                const fs::path candidate = root / name;
+                if (fs::exists(candidate) && fs::is_regular_file(candidate)) {
+                    return candidate.string();
+                }
+            }
+        }
+        return {};
+    }
+
+    static std::string resolveModelPathForInference(const std::string& fallback_name, size_t fallback_size_mb = 50) {
+        if (const std::string real_path = resolveRealModelPath(); !real_path.empty()) {
+            return real_path;
+        }
+
+        const std::string path = std::string("./test_llm_models/") + fallback_name;
+        if (!fs::exists(path)) {
+            LLMPluginTest::writeMinimalValidGGUF(path, fallback_name, fallback_size_mb * 1024ULL * 1024ULL);
+        }
+        return path;
+    }
+
     // Create a dummy model file for testing
     void createDummyModel(const std::string& filename, size_t size_mb = 100) {
         std::string path = test_model_dir + "/" + filename;
-        std::ofstream file(path, std::ios::binary);
-        writeMinimalValidGGUF(file, filename, size_mb * 1024ULL * 1024ULL);
-        file.close();
+        writeMinimalValidGGUF(path, filename, size_mb * 1024ULL * 1024ULL);
     }
     
     // Create a dummy LoRA file
     void createDummyLoRA(const std::string& filename, size_t size_mb = 10) {
         std::string path = test_lora_dir + "/" + filename;
-        std::ofstream file(path, std::ios::binary);
-        writeMinimalValidGGUF(file, filename, size_mb * 1024ULL * 1024ULL);
-        file.close();
+        writeMinimalValidGGUF(path, filename, size_mb * 1024ULL * 1024ULL);
     }
 };
 
@@ -408,6 +510,7 @@ TEST_F(LLMPluginTest, LlamaWrapper_Initialization) {
     LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     
@@ -420,6 +523,7 @@ TEST_F(LLMPluginTest, LlamaWrapper_ModelLoading) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.lazy_loader_config.max_models = 2;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     
@@ -446,6 +550,7 @@ TEST_F(LLMPluginTest, LlamaWrapper_LoRAManagement) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     
@@ -468,14 +573,16 @@ TEST_F(LLMPluginTest, LlamaWrapper_BasicInference) {
     LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    
-    createDummyModel("tiny.gguf", 50);
-    plugin.loadModel(test_model_dir + "/tiny.gguf", {});
-    
+
+    const std::string model_path = resolveModelPathForInference("tiny.gguf", 50);
+    ASSERT_FALSE(model_path.empty());
+    plugin.loadModel(model_path, {});
+
     InferenceRequest request;
-    request.prompt = "What is ThemisDB?";
+    request.prompt = "<unk>";
     request.max_tokens = 100;
     request.temperature = 0.7f;
     request.top_p = 0.9f;
@@ -496,11 +603,12 @@ TEST_F(LLMPluginTest, AsyncInference_NonBlocking) {
     LlamaWrapper::Config plugin_config;
     plugin_config.n_gpu_layers = 32;
     plugin_config.n_ctx = 2048;
+    plugin_config.require_model_integrity = false;
     
     auto plugin = std::make_shared<LlamaWrapper>(plugin_config);
-    
-    createDummyModel("async_model.gguf", 50);
-    plugin->loadModel(test_model_dir + "/async_model.gguf", {});
+
+    const std::string model_path = resolveModelPathForInference("async_model.gguf", 50);
+    plugin->loadModel(model_path, {});
     
     AsyncInferenceEngine::Config engine_config;
     engine_config.num_worker_threads = 2;
@@ -509,7 +617,7 @@ TEST_F(LLMPluginTest, AsyncInference_NonBlocking) {
     AsyncInferenceEngine engine(plugin, engine_config);
     
     InferenceRequest request;
-    request.prompt = "Test prompt";
+    request.prompt = "<unk>";
     request.max_tokens = 50;
     
     // Submit request - should return immediately
@@ -528,39 +636,46 @@ TEST_F(LLMPluginTest, AsyncInference_NonBlocking) {
 }
 
 TEST_F(LLMPluginTest, AsyncInference_Callback) {
-    auto plugin = std::make_shared<LlamaWrapper>(LlamaWrapper::Config{});
-    createDummyModel("callback_model.gguf", 50);
-    plugin->loadModel(test_model_dir + "/callback_model.gguf", {});
+    LlamaWrapper::Config plugin_config;
+    plugin_config.require_model_integrity = false;
+    auto plugin = std::make_shared<LlamaWrapper>(plugin_config);
+    const std::string model_path = resolveModelPathForInference("callback_model.gguf", 50);
+    plugin->loadModel(model_path, {});
     
     AsyncInferenceEngine engine(plugin, AsyncInferenceEngine::Config{});
     
     InferenceRequest request;
-    request.prompt = "Test";
+    request.prompt = "<unk>";
     request.max_tokens = 20;
     
     std::atomic<bool> callback_called{false};
     std::string result_text = {};
+    std::promise<void> callback_ready;
+    auto callback_future = callback_ready.get_future();
     
     engine.submitAsync(
         request,
-        [&callback_called, &result_text](const InferenceResponse& response) {
+        [&callback_called, &result_text, &callback_ready](const InferenceResponse& response) {
             callback_called.store(true);
             result_text = response.text;
+            callback_ready.set_value();
         },
         5
     );
-    
-    // Wait for callback
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+    ASSERT_EQ(callback_future.wait_for(std::chrono::seconds(30)), std::future_status::ready)
+        << "callback did not complete within the execution window for the real GGUF path";
     
     EXPECT_TRUE(callback_called);
     EXPECT_FALSE(result_text.empty());
 }
 
 TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
-    auto plugin = std::make_shared<LlamaWrapper>(LlamaWrapper::Config{});
-    createDummyModel("priority_model.gguf", 50);
-    plugin->loadModel(test_model_dir + "/priority_model.gguf", {});
+    LlamaWrapper::Config plugin_config;
+    plugin_config.require_model_integrity = false;
+    auto plugin = std::make_shared<LlamaWrapper>(plugin_config);
+    const std::string model_path = resolveModelPathForInference("priority_model.gguf", 50);
+    plugin->loadModel(model_path, {});
     
     AsyncInferenceEngine::Config config;
     config.num_worker_threads = 1;  // Single worker to test priority
@@ -570,34 +685,43 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
     
     std::vector<int> completion_order;
     std::mutex order_mutex = {};
-    
+    std::promise<void> low_done;
+    std::promise<void> high_done;
+    auto low_future = low_done.get_future();
+    auto high_future = high_done.get_future();
+
     // Submit low priority request
     engine.submitAsync(
-        InferenceRequest{.prompt = "Low priority", .max_tokens = 10},
-        [&order_mutex, &completion_order](const InferenceResponse& response) {
+        InferenceRequest{.prompt = "<unk>", .max_tokens = 10},
+        [&order_mutex, &completion_order, &low_done](const InferenceResponse& response) {
             (void)response;
             std::lock_guard<std::mutex> lock(order_mutex);
             completion_order.push_back(1);
+            low_done.set_value();
         },
         1  // Low priority
     );
     
     // Submit high priority request
     engine.submitAsync(
-        InferenceRequest{.prompt = "High priority", .max_tokens = 10},
-        [&order_mutex, &completion_order](const InferenceResponse& response) {
+        InferenceRequest{.prompt = "<unk>", .max_tokens = 10},
+        [&order_mutex, &completion_order, &high_done](const InferenceResponse& response) {
             (void)response;
             std::lock_guard<std::mutex> lock(order_mutex);
             completion_order.push_back(10);
+            high_done.set_value();
         },
         10  // High priority
     );
-    
-    // Wait for completion
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    
-    // High priority should complete first (if not already processing)
+
+    ASSERT_EQ(low_future.wait_for(std::chrono::seconds(30)), std::future_status::ready)
+        << "low-priority request did not complete within the real GGUF execution window";
+    ASSERT_EQ(high_future.wait_for(std::chrono::seconds(30)), std::future_status::ready)
+        << "high-priority request did not complete within the real GGUF execution window";
+
     EXPECT_GE(completion_order.size(), 2);
+    EXPECT_TRUE(std::find(completion_order.begin(), completion_order.end(), 10) != completion_order.end());
+    EXPECT_TRUE(std::find(completion_order.begin(), completion_order.end(), 1) != completion_order.end());
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -608,11 +732,12 @@ TEST_F(LLMPluginTest, Integration_RAGWorkflow) {
     LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 8192;  // Large context for RAG
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    
-    createDummyModel("rag_model.gguf", 100);
-    plugin.loadModel(test_model_dir + "/rag_model.gguf", {});
+
+    const std::string model_path = resolveModelPathForInference("rag_model.gguf", 100);
+    plugin.loadModel(model_path, {});
     
     // Create RAG context
     RAGContext rag_context;
@@ -624,7 +749,7 @@ TEST_F(LLMPluginTest, Integration_RAGWorkflow) {
     rag_context.max_context_tokens = 2048;
     
     InferenceRequest request;
-    request.prompt = "What is ThemisDB?";
+    request.prompt = "<unk>";
     request.max_tokens = 100;
     
     // Generate with RAG
@@ -639,20 +764,21 @@ TEST_F(LLMPluginTest, Integration_MultiLoRASwitch) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     
-    createDummyModel("base.gguf", 100);
+    const std::string model_path = resolveModelPathForInference("base.gguf", 100);
     createDummyLoRA("legal.bin", 20);
     createDummyLoRA("medical.bin", 20);
     
-    plugin.loadModel(test_model_dir + "/base.gguf", {});
+    plugin.loadModel(model_path, {});
     plugin.loadLoRA("legal", test_lora_dir + "/legal.bin", {});
     plugin.loadLoRA("medical", test_lora_dir + "/medical.bin", {});
     
     // Generate with legal LoRA
     InferenceRequest legal_req;
-    legal_req.prompt = "Explain contract law";
+    legal_req.prompt = "<unk>";
     legal_req.max_tokens = 50;
     legal_req.lora_adapter_id = "legal";
     
@@ -663,7 +789,7 @@ TEST_F(LLMPluginTest, Integration_MultiLoRASwitch) {
     
     // Generate with medical LoRA (fast switch!)
     InferenceRequest medical_req;
-    medical_req.prompt = "Explain diabetes";
+    medical_req.prompt = "<unk>";
     medical_req.max_tokens = 50;
     medical_req.lora_adapter_id = "medical";
     
@@ -685,15 +811,16 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     
-    createDummyModel("model.gguf", 100);
+    const std::string model_path = resolveModelPathForInference("model.gguf", 100);
     createDummyLoRA("adapter.bin", 20);
     
-    plugin.loadModel(test_model_dir + "/model.gguf", {});
+    plugin.loadModel(model_path, {});
     plugin.loadLoRA("adapter", test_lora_dir + "/adapter.bin", 1.0f);
-    
+
     // Verify LoRA is loaded before inference
     auto loaded_loras = plugin.listLoRAs();
     ASSERT_EQ(loaded_loras.size(), 1);
@@ -702,7 +829,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
     
     // Inference with LoRA specified
     InferenceRequest req;
-    req.prompt = "Test prompt";
+    req.prompt = "<unk>";
     req.max_tokens = 32;
     req.lora_adapter_id = "adapter";
     
@@ -719,14 +846,15 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_InvalidLoRAFails) {
     LlamaWrapper::Config config;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    createDummyModel("model.gguf", 100);
-    plugin.loadModel(test_model_dir + "/model.gguf", {});
+    const std::string model_path = resolveModelPathForInference("model.gguf", 100);
+    plugin.loadModel(model_path, {});
     
     // Try to use non-existent LoRA
     InferenceRequest req;
-    req.prompt = "Test";
+    req.prompt = "<unk>";
     req.max_tokens = 32;
     req.lora_adapter_id = "nonexistent-lora";
     
@@ -736,23 +864,23 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_InvalidLoRAFails) {
     EXPECT_FALSE(resp.text.empty());
     
     // lora_used should NOT be set since LoRA wasn't loaded
-    if (resp.lora_used.has_value()) {
-        EXPECT_NE(resp.lora_used.value(), "nonexistent-lora");
-    }
+    EXPECT_FALSE(resp.lora_used.has_value())
+        << "invalid LoRA should not be reported as active in the response payload";
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_WithoutLoRA) {
     LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    createDummyModel("base.gguf", 100);
-    plugin.loadModel(test_model_dir + "/base.gguf", {});
+    const std::string model_path = resolveModelPathForInference("base.gguf", 100);
+    plugin.loadModel(model_path, {});
     
     // Inference WITHOUT LoRA
     InferenceRequest req;
-    req.prompt = "Test";
+    req.prompt = "<unk>";
     req.max_tokens = 32;
     // No lora_adapter_id specified
     
@@ -767,6 +895,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_WithoutLoRA) {
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_ModelNotLoaded) {
     LlamaWrapper::Config config;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     createDummyLoRA("orphan.bin", 20);
@@ -781,12 +910,13 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_VerifyScaleFactor) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    createDummyModel("model.gguf", 100);
+    const std::string model_path = resolveModelPathForInference("model.gguf", 100);
     createDummyLoRA("scaled.bin", 20);
     
-    plugin.loadModel(test_model_dir + "/model.gguf", {});
+    plugin.loadModel(model_path, {});
     plugin.loadLoRA("scaled", test_lora_dir + "/scaled.bin", 2.0f);
     
     // Verify LoRA was loaded with correct scale
@@ -797,7 +927,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_VerifyScaleFactor) {
     
     // Inference with scaled LoRA
     InferenceRequest req;
-    req.prompt = "Test";
+    req.prompt = "<unk>";
     req.max_tokens = 32;
     req.lora_adapter_id = "scaled";
     
@@ -811,19 +941,20 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    createDummyModel("seq_model.gguf", 100);
+    const std::string model_path = resolveModelPathForInference("seq_model.gguf", 100);
     createDummyLoRA("lora_a.bin", 20);
     createDummyLoRA("lora_b.bin", 20);
     
-    plugin.loadModel(test_model_dir + "/seq_model.gguf", {});
+    plugin.loadModel(model_path, {});
     plugin.loadLoRA("lora_a", test_lora_dir + "/lora_a.bin", 1.0f);
     plugin.loadLoRA("lora_b", test_lora_dir + "/lora_b.bin", 1.0f);
     
     // Request 1: Use lora_a
     InferenceRequest req1;
-    req1.prompt = "Request with A";
+    req1.prompt = "<unk>";
     req1.max_tokens = 32;
     req1.lora_adapter_id = "lora_a";
     req1.request_id = "req-001";
@@ -835,7 +966,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests) {
     
     // Request 2: Use lora_b (different LoRA - verify switching works)
     InferenceRequest req2;
-    req2.prompt = "Request with B";
+    req2.prompt = "<unk>";
     req2.max_tokens = 32;
     req2.lora_adapter_id = "lora_b";
     req2.request_id = "req-002";
@@ -847,7 +978,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests) {
     
     // Request 3: Back to lora_a (verify switching back)
     InferenceRequest req3;
-    req3.prompt = "Request with A again";
+    req3.prompt = "<unk>";
     req3.max_tokens = 32;
     req3.lora_adapter_id = "lora_a";
     req3.request_id = "req-003";
@@ -863,12 +994,13 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_CacheVerification) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    createDummyModel("cache_model.gguf", 100);
+    const std::string model_path = resolveModelPathForInference("cache_model.gguf", 100);
     createDummyLoRA("cached.bin", 20);
     
-    plugin.loadModel(test_model_dir + "/cache_model.gguf", {});
+    plugin.loadModel(model_path, {});
     
     // Load LoRA twice (should hit cache)
     bool loaded1 = plugin.loadLoRA("cached", test_lora_dir + "/cached.bin", 1.0f);
@@ -888,12 +1020,13 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
-    createDummyModel("unload_model.gguf", 100);
+    const std::string model_path = resolveModelPathForInference("unload_model.gguf", 100);
     createDummyLoRA("unload.bin", 20);
     
-    plugin.loadModel(test_model_dir + "/unload_model.gguf", {});
+    plugin.loadModel(model_path, {});
     
     // Load
     EXPECT_TRUE(plugin.loadLoRA("unload", test_lora_dir + "/unload.bin", 1.0f));
@@ -909,7 +1042,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload) {
     
     // Inference should work after reload
     InferenceRequest req;
-    req.prompt = "Test";
+    req.prompt = "<unk>";
     req.max_tokens = 32;
     req.lora_adapter_id = "unload";
     
@@ -918,12 +1051,193 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload) {
     EXPECT_EQ(resp.lora_used.value(), "unload");
 }
 
+TEST_F(LLMPluginTest, MultiLoRAManager_ConcurrentAccessSharedState) {
+    MultiLoRAManager::Config config;
+    config.max_lora_slots = 16;
+    config.max_lora_vram_mb = 4096;
+    config.enable_multi_lora_batch = true;
+
+    MultiLoRAManager manager(config);
+
+    for (int i = 0; i < 6; ++i) {
+        const std::string filename = "parallel_" + std::to_string(i) + ".bin";
+        createDummyLoRA(filename, 16);
+    }
+
+    std::atomic<int> successful_loads{0};
+    std::vector<std::thread> workers;
+    workers.reserve(4);
+
+    for (int worker = 0; worker < 4; ++worker) {
+        workers.emplace_back([&, worker]() {
+            for (int i = 0; i < 12; ++i) {
+                const std::string id = "worker_" + std::to_string(worker) + "_" + std::to_string(i);
+                const std::string path = test_lora_dir + "/parallel_" + std::to_string((i + worker) % 6) + ".bin";
+                if (manager.loadLoRA(id, path, "shared-model", 1.0f)) {
+                    ++successful_loads;
+                }
+                auto list = manager.listLoRAs("shared-model");
+                EXPECT_LE(list.size(), static_cast<size_t>(config.max_lora_slots));
+                const auto info = manager.getLoRAInfo(id);
+                if (info.has_value()) {
+                    EXPECT_TRUE(info->is_loaded);
+                }
+            }
+        });
+    }
+
+    for (auto& worker : workers) {
+        worker.join();
+    }
+
+    EXPECT_GT(successful_loads.load(), 0);
+    EXPECT_LE(manager.listLoRAs("shared-model").size(), static_cast<size_t>(config.max_lora_slots));
+}
+
+TEST_F(LLMPluginTest, MultiLoRAManager_MultiGPUPlacementBalance) {
+    MultiLoRAManager::Config config;
+    config.max_lora_slots = 8;
+    config.max_lora_vram_mb = 256;
+    config.multi_gpu.enabled = true;
+    config.multi_gpu.devices = {0, 1};
+    config.multi_gpu.strategy = MultiGPUStrategy::ROUND_ROBIN;
+    config.multi_gpu.max_vram_per_gpu_mb = 128;
+
+    MultiLoRAManager manager(config);
+
+    createDummyLoRA("gpu_a.bin", 16);
+    createDummyLoRA("gpu_b.bin", 16);
+
+    EXPECT_TRUE(manager.loadLoRA("gpu_a", test_lora_dir + "/gpu_a.bin", "base-model", false, GPUPlacement::MULTI_GPU, 1.0f));
+    EXPECT_TRUE(manager.loadLoRA("gpu_b", test_lora_dir + "/gpu_b.bin", "base-model", false, GPUPlacement::MULTI_GPU, 1.0f));
+
+    const auto placement_a = manager.getLoRAGPUPlacement("gpu_a");
+    const auto placement_b = manager.getLoRAGPUPlacement("gpu_b");
+    EXPECT_FALSE(placement_a.empty());
+    EXPECT_FALSE(placement_b.empty());
+    EXPECT_GE(manager.getPerGPUMemoryUsage().size(), 2u);
+
+    const auto memory = manager.getMemoryStats();
+    EXPECT_GT(memory["vram_used_mb"].get<size_t>(), 0u);
+}
+
+TEST_F(LLMPluginTest, MultiLoRAManager_EvictsExpiredAdaptersAndRespectsVRAMPressure) {
+    MultiLoRAManager::Config config;
+    config.max_lora_slots = 2;
+    config.max_lora_vram_mb = 64;
+    config.lora_ttl = std::chrono::seconds(0);
+
+    MultiLoRAManager manager(config);
+
+    createDummyLoRA("ttl_a.bin", 16);
+    createDummyLoRA("ttl_b.bin", 16);
+    createDummyLoRA("ttl_c.bin", 16);
+    EXPECT_TRUE(manager.loadLoRA("ttl_a", test_lora_dir + "/ttl_a.bin", "base-model", 1.0f));
+    EXPECT_TRUE(manager.loadLoRA("ttl_b", test_lora_dir + "/ttl_b.bin", "base-model", 1.0f));
+    EXPECT_TRUE(manager.loadLoRA("ttl_c", test_lora_dir + "/ttl_c.bin", "base-model", 1.0f));
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(25));
+    EXPECT_GE(manager.getStatistics().evictions, 1u);
+    EXPECT_GE(manager.evictExpired(), 1u);
+    EXPECT_FALSE(manager.isLoRALoaded("ttl_a"));
+    EXPECT_FALSE(manager.isLoRALoaded("ttl_b"));
+}
+
+TEST_F(LLMPluginTest, LoRASecurityValidator_RejectsInvalidMetadataAndUntrustedPaths) {
+    LoRASecurityConfig security_config;
+    security_config.allowed_base_models = {"approved-model"};
+    security_config.min_rank = 8;
+    security_config.max_rank = 32;
+    security_config.validate_metadata = true;
+
+    LoRASecurityValidator validator(security_config);
+
+    const fs::path base_lora_dir = fs::path(test_lora_dir);
+    const fs::path bad_metadata = base_lora_dir / "bad_metadata.lora";
+    std::ofstream bad_file(bad_metadata, std::ios::binary);
+    bad_file << R"({"base_model":"wrong-model","rank":2})";
+    bad_file.close();
+    EXPECT_FALSE(validator.validateMetadata(bad_metadata.string()));
+
+    const fs::path outside = fs::path("./outside_lora_dir") / "foreign.bin";
+    fs::create_directories(fs::path("./outside_lora_dir"));
+    std::ofstream out_file(outside, std::ios::binary);
+    out_file << "not a valid lora";
+    out_file.close();
+
+    MultiLoRAManager::Config manager_config;
+    manager_config.max_lora_slots = 4;
+    manager_config.max_lora_vram_mb = 256;
+    manager_config.security_validator = std::make_shared<LoRASecurityValidator>(security_config);
+    manager_config.lora_base_dir = fs::absolute(test_lora_dir).string();
+    manager_config.enforce_security_validation = true;
+
+    MultiLoRAManager manager(manager_config);
+    EXPECT_FALSE(manager.loadLoRA("bad-metadata", bad_metadata.string(), "approved-model", 1.0f));
+    EXPECT_FALSE(manager.loadLoRA("outside", outside.string(), "approved-model", 1.0f));
+}
+
+TEST_F(LLMPluginTest, LlamaWrapper_RecoveryAfterFailedLoRALoad) {
+    LlamaWrapper::Config config;
+    config.n_gpu_layers = 32;
+    config.n_ctx = 4096;
+    config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
+
+    LlamaWrapper plugin(config);
+    const std::string model_path = resolveModelPathForInference("recover_model.gguf", 100);
+    plugin.loadModel(model_path, {});
+
+    const std::string missing_path = test_lora_dir + "/missing_recovery.bin";
+    EXPECT_FALSE(plugin.loadLoRA("recover", missing_path, 1.0f));
+
+    createDummyLoRA("recover.bin", 20);
+    EXPECT_TRUE(plugin.loadLoRA("recover", test_lora_dir + "/recover.bin", 1.0f));
+    EXPECT_EQ(plugin.listLoRAs().size(), 1u);
+
+    InferenceRequest req;
+    req.prompt = "<unk>";
+    req.max_tokens = 32;
+    req.lora_adapter_id = "recover";
+
+    InferenceResponse resp = plugin.generate(req);
+    ASSERT_TRUE(resp.lora_used.has_value());
+    EXPECT_EQ(resp.lora_used.value(), "recover");
+}
+
+TEST_F(LLMPluginTest, MultiLoRAManager_OperationLatencyIsStableUnderLoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_slots = 32;
+    config.max_lora_vram_mb = 4096;
+
+    MultiLoRAManager manager(config);
+
+    for (int i = 0; i < 12; ++i) {
+        const std::string filename = "perf_" + std::to_string(i) + ".bin";
+        createDummyLoRA(filename, 8);
+        EXPECT_TRUE(manager.loadLoRA("perf_" + std::to_string(i), test_lora_dir + "/" + filename, "base-model", 1.0f));
+    }
+
+    const auto start = std::chrono::steady_clock::now();
+    for (int i = 0; i < 200; ++i) {
+        (void)manager.listLoRAs("base-model");
+        (void)manager.getLoRAInfo("perf_0");
+        (void)manager.isLoRALoaded("perf_1");
+    }
+    const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start
+    );
+
+    EXPECT_LT(elapsed_ms.count(), 250);
+}
+
 // ═══════════════════════════════════════════════════════════
 // RoPE Scaling Tests (Phase 3.1)
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(LLMPluginTest, RopeScaling_ConfigValidation) {
     LlamaWrapper::Config config;
+    config.require_model_integrity = false;
     
     // Test valid RoPE scaling configuration
     config.rope_scaling.enabled = true;
@@ -937,6 +1251,7 @@ TEST_F(LLMPluginTest, RopeScaling_ConfigValidation) {
 
 TEST_F(LLMPluginTest, RopeScaling_InvalidConfig) {
     LlamaWrapper::Config config;
+    config.require_model_integrity = false;
     
     // Test invalid configuration: max_context < original_context
     config.rope_scaling.enabled = true;
@@ -949,6 +1264,7 @@ TEST_F(LLMPluginTest, RopeScaling_InvalidConfig) {
 
 TEST_F(LLMPluginTest, RopeScaling_YarnParameters) {
     LlamaWrapper::Config config;
+    config.require_model_integrity = false;
     
     config.rope_scaling.enabled = true;
     config.rope_scaling.method = RopeScalingMethod::YARN;
@@ -1008,6 +1324,7 @@ TEST_F(LLMPluginTest, RopeScaling_AllMethods) {
     
     for (auto method : methods) {
         LlamaWrapper::Config config;
+        config.require_model_integrity = false;
         config.rope_scaling.enabled = true;
         config.rope_scaling.method = method;
         config.rope_scaling.max_context = 16384;
@@ -1019,6 +1336,7 @@ TEST_F(LLMPluginTest, RopeScaling_AllMethods) {
 
 TEST_F(LLMPluginTest, RopeScaling_InvalidYarnParameters) {
     LlamaWrapper::Config config;
+    config.require_model_integrity = false;
     
     config.rope_scaling.enabled = true;
     config.rope_scaling.method = RopeScalingMethod::YARN;
@@ -1071,9 +1389,7 @@ protected:
                           std::to_string(
                               std::chrono::steady_clock::now().time_since_epoch().count());
         fs::create_directories(test_model_dir_);
-        // Tiny sentinel model file (no real GGUF data needed for unit tests).
-        std::ofstream f(test_model_dir_ + "/tiny.gguf", std::ios::binary);
-        f.write("GGUF", 4);
+        LLMPluginTest::writeMinimalValidGGUF(test_model_dir_ + "/tiny.gguf", "tiny.gguf", 0);
     }
 
     void TearDown() override {

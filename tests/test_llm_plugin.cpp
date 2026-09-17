@@ -394,7 +394,9 @@ TEST_F(LLMPluginTest, AsyncInference_NonBlocking) {
 }
 
 TEST_F(LLMPluginTest, AsyncInference_Callback) {
-    auto plugin = std::make_shared<LlamaWrapper>(LlamaWrapper::Config{});
+    LlamaWrapper::Config cfg;
+    cfg.require_model_integrity = false;
+    auto plugin = std::make_shared<LlamaWrapper>(cfg);
     createDummyModel("callback_model.gguf", 50);
     plugin->loadModel(test_model_dir + "/callback_model.gguf", {});
     
@@ -424,7 +426,9 @@ TEST_F(LLMPluginTest, AsyncInference_Callback) {
 }
 
 TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
-    auto plugin = std::make_shared<LlamaWrapper>(LlamaWrapper::Config{});
+    LlamaWrapper::Config cfg;
+    cfg.require_model_integrity = false;
+    auto plugin = std::make_shared<LlamaWrapper>(cfg);
     createDummyModel("priority_model.gguf", 50);
     plugin->loadModel(test_model_dir + "/priority_model.gguf", {});
     
@@ -549,6 +553,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     
@@ -583,6 +588,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_InvalidLoRAFails) {
     LlamaWrapper::Config config;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     createDummyModel("model.gguf", 100);
@@ -675,6 +681,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     createDummyModel("seq_model.gguf", 100);
@@ -727,6 +734,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_CacheVerification) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     createDummyModel("cache_model.gguf", 100);
@@ -752,6 +760,7 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload) {
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
+    config.require_model_integrity = false;
     
     LlamaWrapper plugin(config);
     createDummyModel("unload_model.gguf", 100);

@@ -51,11 +51,11 @@
 
 #if defined(THEMIS_ENABLE_TRACING)
 #define THEMIS_LLM_TRACE_SCOPE(operation_name) TRACE_SCOPE_AI(operation_name)
-#define THEMIS_LLM_TRACE_EVENT(event_name, attrs) \
-    themis::observability::recordTraceEvent(event_name, attrs)
+#define THEMIS_LLM_TRACE_EVENT(event_name, ...) \
+    themis::observability::recordTraceEvent(event_name, __VA_ARGS__)
 #else
 #define THEMIS_LLM_TRACE_SCOPE(operation_name) do { } while (false)
-#define THEMIS_LLM_TRACE_EVENT(event_name, attrs) do { } while (false)
+#define THEMIS_LLM_TRACE_EVENT(event_name, ...) do { } while (false)
 #endif
 
 namespace themis {

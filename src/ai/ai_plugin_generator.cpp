@@ -35,11 +35,11 @@
 
 #if defined(THEMIS_ENABLE_TRACING)
 #define THEMIS_AI_TRACE_SCOPE(operation_name) TRACE_SCOPE_AI(operation_name)
-#define THEMIS_AI_TRACE_EVENT(event_name, attrs) \
-    themis::observability::recordTraceEvent(event_name, attrs)
+#define THEMIS_AI_TRACE_EVENT(event_name, ...) \
+    themis::observability::recordTraceEvent(event_name, __VA_ARGS__)
 #else
 #define THEMIS_AI_TRACE_SCOPE(operation_name) do { } while (false)
-#define THEMIS_AI_TRACE_EVENT(event_name, attrs) do { } while (false)
+#define THEMIS_AI_TRACE_EVENT(event_name, ...) do { } while (false)
 #endif
 
 namespace themis {
@@ -938,12 +938,12 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     ++stat_successes_;
-    themis::observability::recordTraceEvent("ai.plugin.generate.success",
-                                           {{"ai.generated.name", generated.manifest.name},
-                                            {"ai.generated.version", generated.manifest.version},
-                                            {"ai.generated.passed_security_checks",
-                                             generated.passed_security_checks ? std::string("true")
-                                                                             : std::string("false")}});
+    THEMIS_AI_TRACE_EVENT("ai.plugin.generate.success",
+                          {{"ai.generated.name", generated.manifest.name},
+                           {"ai.generated.version", generated.manifest.version},
+                           {"ai.generated.passed_security_checks",
+                            generated.passed_security_checks ? std::string("true")
+                                                            : std::string("false")}});
     return generated;
 }
 

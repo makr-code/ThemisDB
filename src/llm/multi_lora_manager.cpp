@@ -1150,6 +1150,7 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
         info.base_model_id = slot->base_model_id;
         info.size_bytes = slot->vram_bytes;
         info.scale = slot->scale;
+        info.is_loaded = true;
         result.push_back(info);
     }
     
@@ -1175,6 +1176,7 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_
             info.base_model_id = slot->base_model_id;
             info.size_bytes = slot->vram_bytes;
             info.scale = slot->scale;
+            info.is_loaded = true;
             result.push_back(info);
         }
     }
@@ -1201,6 +1203,7 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     info.base_model_id = slot->base_model_id;
     info.size_bytes = slot->vram_bytes;
     info.scale = slot->scale;
+    info.is_loaded = true;
     return info;
 }
 
@@ -1263,11 +1266,8 @@ size_t MultiLoRAManager::evictExpired() {
                 continue;  // Skip pinned LoRAs
             }
 
-            auto age = std::chrono::duration_cast<std::chrono::seconds>(
-                now - lora->last_used
-            );
-
-            if (age > config_.lora_ttl) {
+            const auto age = now - lora->last_used;
+            if (age >= config_.lora_ttl) {
                 to_evict.push_back(id);
             }
         }
@@ -2228,6 +2228,24 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
     spdlog::info("Loading LoRA {} across multiple GPUs", lora->lora_id);
     
     switch (config_.multi_gpu.strategy) {
+        case MultiGPUStrategy::ROUND_ROBIN: {
+            // A round-robin placement still represents a multi-GPU assignment at the
+            // management layer, while each individual adapter is pinned to exactly one
+            // selected GPU for the current load. This preserves the public API contract
+            // without forcing every adapter to duplicate across all GPUs.
+            const int selected_gpu = config_.multi_gpu.devices[next_round_robin_gpu_ % config_.multi_gpu.devices.size()];
+            next_round_robin_gpu_ = (next_round_robin_gpu_ + 1) % config_.multi_gpu.devices.size();
+
+            lora->assigned_gpus = {selected_gpu};
+            lora->primary_gpu = selected_gpu;
+            lora->gpu_placement = GPUPlacement::MULTI_GPU;
+            gpu_vram_usage_[selected_gpu] += lora->vram_bytes;
+
+            spdlog::info("LoRA {} assigned to GPU {} via round-robin multi-GPU placement",
+                         lora->lora_id, selected_gpu);
+            break;
+        }
+
         case MultiGPUStrategy::DATA_PARALLEL: {
             // Replicate LoRA on all GPUs
             lora->assigned_gpus = config_.multi_gpu.devices;
