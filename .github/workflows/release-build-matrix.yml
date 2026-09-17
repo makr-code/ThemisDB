@@ -165,6 +165,10 @@ jobs:
         choco install -y sccache || echo "::warning::sccache install via choco failed; continuing without sccache cache."
         git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
         git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
+        if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
+          rm -rf vcpkg
+          git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+        fi
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
           echo "::error::vcpkg submodule/toolchain missing before bootstrap"
           exit 1
