@@ -18,6 +18,8 @@ const MAX_GROUPS_IN_REPORT = Math.max(1, Number.parseInt(process.env.MAX_GROUPS_
 const MAX_ITEMS_PER_GROUP_IN_REPORT = Math.max(1, Number.parseInt(process.env.MAX_ITEMS_PER_GROUP_IN_REPORT || '5', 10) || 5);
 const CHRONIC_THRESHOLD = 3;
 const MAX_MARKDOWN_CHARS = Math.max(1000, Number.parseInt(process.env.MAX_MARKDOWN_CHARS || '50000', 10) || 50000);
+const MAX_STATE_ERRORS = Math.max(50, Number.parseInt(process.env.MAX_STATE_ERRORS || '250', 10) || 250);
+const MAX_STATE_MESSAGE_CHARS = Math.max(40, Number.parseInt(process.env.MAX_STATE_MESSAGE_CHARS || '160', 10) || 160);
 const TRACK_B_MODULE_ORDER = ['index', 'storage', 'tensor', 'config', 'utils'];
 const LATEST_PRIORITY_WINDOW_HOURS = Math.max(1, Number.parseInt(process.env.LATEST_PRIORITY_WINDOW_HOURS || '24', 10) || 24);
 const TRACK_A_PRIORITY_FILES = [
@@ -504,7 +506,7 @@ class ErrorAggregator {
         module: finding.module || 'unknown',
         file: finding.file || '(unknown)',
         line: finding.line || null,
-        message: finding.message || 'n/a',
+        message: String(finding.message || 'n/a').slice(0, MAX_STATE_MESSAGE_CHARS),
         frequency: data.frequency || 1,
         firstSeen: data.firstSeen || null,
         lastSeen: data.lastSeen || data.firstSeen || null,
@@ -513,13 +515,20 @@ class ErrorAggregator {
     }
 
     errors.sort((a, b) => (b.priorityScore || 0) - (a.priorityScore || 0));
+    const chronicErrors = errors.filter((entry) => (entry.frequency || 0) >= CHRONIC_THRESHOLD);
+    const nonChronic = errors.filter((entry) => (entry.frequency || 0) < CHRONIC_THRESHOLD);
+    const selected = chronicErrors.slice(0, MAX_STATE_ERRORS);
+    if (selected.length < MAX_STATE_ERRORS) {
+      selected.push(...nonChronic.slice(0, MAX_STATE_ERRORS - selected.length));
+    }
     return {
       version: 1,
       generated_at: new Date().toISOString(),
       window_hours: LATEST_PRIORITY_WINDOW_HOURS,
       total_unique_errors: errors.length,
+      stored_error_count: selected.length,
       chronic_threshold: CHRONIC_THRESHOLD,
-      errors,
+      errors: selected,
     };
   }
 
@@ -922,7 +931,7 @@ async function main() {
   fs.writeFileSync(compactOutputFile, compactMarkdown);
   fs.writeFileSync(groupedOutputFile, JSON.stringify(grouped, null, 2));
   fs.writeFileSync(tracksOutputFile, JSON.stringify(tracks, null, 2));
-  fs.writeFileSync(currentStateOutputFile, JSON.stringify(currentState, null, 2));
+  fs.writeFileSync(currentStateOutputFile, JSON.stringify(currentState));
 
   console.log(`\n📊 Aggregation Results:`);
   console.log(`  - Total input findings: ${stats.total_input_findings}`);
