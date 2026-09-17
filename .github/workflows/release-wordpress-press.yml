@@ -29,6 +29,11 @@ on:
         required: false
         default: true
         type: boolean
+      dry_run:
+        description: "Wenn true: keine WordPress-API Mutation, nur Preview/Summary"
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -235,6 +240,19 @@ jobs:
           fi
           echo "status=${TARGET_STATUS}" >> "$GITHUB_OUTPUT"
 
+      - name: Resolve dry-run mode
+        id: dry-run
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DRY_RUN_INPUT: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          DRY_RUN="false"
+          if [ "${EVENT_NAME}" = "workflow_dispatch" ] && [ "${DRY_RUN_INPUT}" = "true" ]; then
+            DRY_RUN="true"
+          fi
+          echo "enabled=${DRY_RUN}" >> "$GITHUB_OUTPUT"
+
       - name: Generate press post content
         id: generate
         if: steps.context.outputs.should_publish == 'true'
@@ -376,7 +394,7 @@ jobs:
 
       - name: Publish post to WordPress
         id: publish
-        if: steps.context.outputs.should_publish == 'true'
+        if: steps.context.outputs.should_publish == 'true' && steps.dry-run.outputs.enabled != 'true'
         env:
           CONTEXT_PATH: ${{ steps.context.outputs.context_path }}
           POST_PATH: ${{ steps.generate.outputs.post_path }}
@@ -495,6 +513,45 @@ jobs:
               print(f"WordPress post URL: {result['post_url']}")
           PY
 
+      - name: Build dryrun preview
+        id: preview
+        if: steps.context.outputs.should_publish == 'true'
+        env:
+          POST_PATH: ${{ steps.generate.outputs.post_path }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+
+          post_path = os.environ.get("POST_PATH", "").strip()
+          title = ""
+          preview = ""
+          mode = ""
+          if post_path and os.path.exists(post_path):
+              with open(post_path, "r", encoding="utf-8") as f:
+                  payload = json.load(f)
+              title = str(payload.get("title", "")).replace("\n", " ").strip()
+              content = str(payload.get("content", "")).replace("\n", " ").strip()
+              preview = content[:320]
+              mode = str(payload.get("generation_mode", "")).strip()
+
+          out = os.environ.get("GITHUB_OUTPUT")
+          if not out:
+              raise SystemExit("GITHUB_OUTPUT not set")
+          with open(out, "a", encoding="utf-8") as fh:
+              fh.write(f"title={title}\n")
+              fh.write(f"preview={preview}\n")
+              fh.write(f"generation_mode={mode}\n")
+          PY
+
+      - name: Upload dryrun/generated post artifact
+        if: steps.context.outputs.should_publish == 'true' && steps.generate.outputs.post_path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: wordpress-press-post-${{ github.run_number }}
+          path: ${{ steps.generate.outputs.post_path }}
+          retention-days: 14
+
       - name: Write workflow summary
         if: always()
         env:
@@ -503,8 +560,12 @@ jobs:
           SHOULD_PUBLISH: ${{ steps.context.outputs.should_publish }}
           STABLE_REASON: ${{ steps.context.outputs.stable_reason }}
           TARGET_POST_STATUS: ${{ steps.target-status.outputs.status }}
+          DRY_RUN_ENABLED: ${{ steps.dry-run.outputs.enabled }}
           PUBLISH_RESULT: ${{ steps.publish.outputs.result }}
           POST_URL: ${{ steps.publish.outputs.post_url }}
+          PREVIEW_TITLE: ${{ steps.preview.outputs.title }}
+          PREVIEW_TEXT: ${{ steps.preview.outputs.preview }}
+          GENERATION_MODE: ${{ steps.preview.outputs.generation_mode }}
         run: |
           {
             echo "## WordPress Press Release"
@@ -512,11 +573,20 @@ jobs:
             echo "- Release Tag: \`${RELEASE_TAG:-n/a}\`"
             echo "- Release URL: ${RELEASE_URL:-n/a}"
             echo "- Stable Gate: \`${SHOULD_PUBLISH:-false}\` (${STABLE_REASON:-n/a})"
+            echo "- Dry Run: \`${DRY_RUN_ENABLED:-false}\`"
             echo "- Target Post Status: \`${TARGET_POST_STATUS:-n/a}\`"
             echo "- Publish Result: \`${PUBLISH_RESULT:-not-run}\`"
             echo "- WordPress Post URL: ${POST_URL:-n/a}"
+            echo "- Generation Mode: \`${GENERATION_MODE:-n/a}\`"
             echo ""
             if [ "${SHOULD_PUBLISH:-false}" != "true" ]; then
               echo "> Press-Mitteilung wurde nicht veroeffentlicht, weil kein stable Release erkannt wurde."
+            elif [ "${DRY_RUN_ENABLED:-false}" = "true" ]; then
+              echo "> Dryrun aktiv: Es wurde nichts in WordPress geschrieben."
+              echo ""
+              echo "### Dryrun Preview"
+              echo "**Titel:** ${PREVIEW_TITLE:-n/a}"
+              echo ""
+              echo "**Auszug:** ${PREVIEW_TEXT:-n/a}"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
