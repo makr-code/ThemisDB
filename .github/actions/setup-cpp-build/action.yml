@@ -62,6 +62,10 @@ runs:
 
     - name: Install build dependencies
       shell: bash
+      env:
+        CC_INPUT: ${{ inputs.cc }}
+        CXX_INPUT: ${{ inputs.cxx }}
+        EXTRA_INPUT: ${{ inputs.extra-packages }}
       run: |
         sudo apt-get update -qq
         normalize_compiler_pkg() {
@@ -90,10 +94,10 @@ runs:
           esac
         }
 
-        CC_PKG="$(normalize_compiler_pkg "${{ inputs.cc }}" "")"
-        CXX_PKG="$(normalize_compiler_pkg "${{ inputs.cxx }}" "${{ inputs.cc }}")"
+        CC_PKG="$(normalize_compiler_pkg "${CC_INPUT}" "")"
+        CXX_PKG="$(normalize_compiler_pkg "${CXX_INPUT}" "${CC_INPUT}")"
         if [ -z "${CC_PKG}" ] || [ -z "${CXX_PKG}" ]; then
-          echo "::error::Compiler package normalization produced empty value (cc='${{ inputs.cc }}', cxx='${{ inputs.cxx }}')."
+          echo "::error::Compiler package normalization produced empty value (cc='${CC_INPUT}', cxx='${CXX_INPUT}')."
           exit 1
         fi
         # Base packages required by every C++ CI job. Vulkan/GLSL tooling is
@@ -101,7 +105,7 @@ runs:
         # validation runs that configure the Vulkan-capable build presets.
         BASE_PKGS="cmake ninja-build ${CC_PKG} ${CXX_PKG} libgtest-dev pkg-config git libfmt-dev libboost-dev libboost-filesystem-dev libvulkan-dev glslc libcpp-httplib-dev"
         # Append optional extra packages (guard against empty string)
-        EXTRA="${{ inputs.extra-packages }}"
+        EXTRA="${EXTRA_INPUT}"
         # shellcheck disable=SC2086
         sudo apt-get install -y --no-install-recommends $BASE_PKGS ${EXTRA:+$EXTRA}
 
