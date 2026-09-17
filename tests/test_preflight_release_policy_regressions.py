@@ -62,7 +62,7 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
     raise AssertionError(f"Could not find balanced CMake block for {anchor!r}")
 
 
-def extract_shell_path_tokens(command_suffix: str) -> list[str]:
+def split_command_tokens(command_suffix: str) -> list[str]:
     return command_suffix.split()
 
 
@@ -77,12 +77,12 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             sync_prefix = "git submodule sync -- "
             update_prefix = "git submodule update --init --depth 1 "
             sync_matches = [
-                extract_shell_path_tokens(line.split(sync_prefix, 1)[1].split("||", 1)[0])
+                split_command_tokens(line.split(sync_prefix, 1)[1].split("||", 1)[0].strip())
                 for line in job_block.splitlines()
                 if sync_prefix in line
             ]
             update_matches = [
-                extract_shell_path_tokens(line.split(update_prefix, 1)[1].split("||", 1)[0])
+                split_command_tokens(line.split(update_prefix, 1)[1].split("||", 1)[0].strip())
                 for line in job_block.splitlines()
                 if update_prefix in line
             ]
