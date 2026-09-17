@@ -70,7 +70,14 @@ TEST(SafetyMonitoringTest, RecordsCountersExporterAndDurableSink) {
         exported.push_back(event.type);
     });
 
-    const auto sink_file = std::filesystem::temp_directory_path() / "themis_llm_safety_monitoring_test.jsonl";
+    const auto sink_file = std::filesystem::temp_directory_path() /
+                           ("themis_llm_safety_monitoring_test_" +
+                            std::to_string(std::chrono::steady_clock::now()
+                                               .time_since_epoch()
+                                               .count()) +
+                            ".jsonl");
+    std::error_code ec = {};
+    std::filesystem::remove(sink_file, ec);
     ASSERT_TRUE(monitoring.setDurableSinkPath(sink_file.string()));
 
     monitoring.record(SafetyEvent{"r1", SafetyEventType::ALLOWED, "ok", 0.1, 1000});
@@ -95,6 +102,5 @@ TEST(SafetyMonitoringTest, RecordsCountersExporterAndDurableSink) {
     }
     EXPECT_EQ(line_count, 3u);
 
-    std::error_code ec = {};
     std::filesystem::remove(sink_file, ec);
 }

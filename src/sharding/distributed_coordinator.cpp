@@ -20,6 +20,22 @@
 
 namespace themis::sharding {
 
+namespace {
+
+void sleepWhileRunning(
+    const std::atomic<bool>& running,
+    std::chrono::milliseconds total,
+    std::chrono::milliseconds quantum = std::chrono::milliseconds(100))
+{
+    while (running.load(std::memory_order_acquire) && total.count() > 0) {
+        const auto slice = std::min(total, quantum);
+        std::this_thread::sleep_for(slice);
+        total -= slice;
+    }
+}
+
+}  // namespace
+
 // CoordinatorTask JSON serialization
 /** @brief Serialize coordinator task into JSON payload. */
 nlohmann::json DistributedCoordinator::CoordinatorTask::toJson() const {
@@ -114,7 +130,8 @@ void DistributedCoordinator::start() {
     election_thread_ = std::thread([this]() {
         while (running_.load(std::memory_order_acquire)) {
             electionLoop();
-            std::this_thread::sleep_for(
+            sleepWhileRunning(
+                running_,
                 std::chrono::milliseconds(config_.election_timeout_ms)
             );
         }
@@ -126,7 +143,8 @@ void DistributedCoordinator::start() {
             if (isLeader()) {
                 sendHeartbeat();
             }
-            std::this_thread::sleep_for(
+            sleepWhileRunning(
+                running_,
                 std::chrono::milliseconds(config_.heartbeat_interval_ms)
             );
         }
@@ -138,7 +156,7 @@ void DistributedCoordinator::start() {
             if (isLeader()) {
                 taskExecutorLoop();
             }
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+            sleepWhileRunning(running_, std::chrono::seconds(1));
         }
     });
     
@@ -209,9 +227,14 @@ void DistributedCoordinator::startElection() {
     // Wait for election timeout
     // Note: This blocks the calling thread by design for simplicity.
     // Production implementations should make this asynchronous or allow interruption.
-    std::this_thread::sleep_for(
+    sleepWhileRunning(
+        running_,
         std::chrono::milliseconds(config_.election_timeout_ms)
     );
+
+    if (!running_.load(std::memory_order_acquire)) {
+        return;
+    }
     
     // Check if we won (simplified: highest shard_id wins)
     // In production: use Raft-style voting

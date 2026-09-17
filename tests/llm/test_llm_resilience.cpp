@@ -372,10 +372,10 @@ TEST_F(LLMResilienceTest, RetryPolicy_ExponentialBackoff) {
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    // Should have waited approximately: 100ms + 200ms = 300ms
-    // (first call is immediate, retries are delayed)
-    EXPECT_GE(duration.count(), 300);
-    EXPECT_LT(duration.count(), 500);  // With some margin
+    // max_retries counts retry attempts after the initial call, so the
+    // expected delay sequence is 100ms + 200ms + 400ms.
+    EXPECT_GE(duration.count(), 700);
+    EXPECT_LT(duration.count(), 1000);  // With some margin
 }
 
 // ============================================================================

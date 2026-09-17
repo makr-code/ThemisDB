@@ -542,22 +542,58 @@ std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard
     if (!topology_) {
         return shard_id; // Fallback to shard ID if no topology
     }
-    
-    // For now, return the shard ID itself
-    // In a full implementation, this would:
-    // 1. Get replica set for the shard
-    // 2. Check latency records for each replica
-    // 3. Select the one with lowest RTT
-    // 4. Fall back to nearest on timeout
-    
+
+    const auto collectCandidates = [this](const ShardInfo& info, bool include_self) {
+        std::vector<std::string> result;
+
+        if (include_self && latency_records_.find(info.shard_id) != latency_records_.end()) {
+            result.push_back(info.shard_id);
+        }
+
+        for (const auto& replica_id : info.replica_endpoints) {
+            if (replica_id.empty()) {
+                continue;
+            }
+            const bool known_shard = topology_->hasShard(replica_id);
+            const bool measured_replica = latency_records_.find(replica_id) != latency_records_.end();
+            if ((known_shard || measured_replica) &&
+                std::find(result.begin(), result.end(), replica_id) == result.end()) {
+                result.push_back(replica_id);
+            }
+        }
+
+        return result;
+    };
+
+    std::vector<std::string> candidates;
+    if (const auto shard_info = topology_->getShard(shard_id); shard_info.has_value()) {
+        candidates = collectCandidates(*shard_info, false);
+    }
+
+    if (candidates.empty()) {
+        if (const auto local_info = topology_->getShard(local_shard_id_); local_info.has_value()) {
+            candidates = collectCandidates(*local_info, true);
+        }
+    }
+
+    if (candidates.empty()) {
+        return shard_id;
+    }
+
     uint64_t min_latency = UINT64_MAX;
-    std::string best_replica = shard_id;
+    std::string best_replica = candidates.front();
     
     // Query latency records for all potential replicas
     {
         std::shared_lock<std::shared_mutex> lock(latency_mutex_);
         
-        for (const auto& [replica_id, dc_map] : latency_records_) {
+        for (const auto& replica_id : candidates) {
+            const auto replica_it = latency_records_.find(replica_id);
+            if (replica_it == latency_records_.end()) {
+                continue;
+            }
+
+            const auto& dc_map = replica_it->second;
             auto it = dc_map.find(requesting_datacenter_id);
             if (it != dc_map.end()) {
                 uint64_t rtt = it->second.rtt_ms;

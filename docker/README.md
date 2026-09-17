@@ -55,6 +55,24 @@ docker buildx build --progress=plain --load \
 
 This is the recommended smoke test for validating the root build path with cache-aware BuildKit layers.
 
+## Buildx Builder starten
+
+`docker buildx start` ist kein gültiger Buildx-Befehl. Wenn ein benannter Builder gestoppt ist, starte ihn mit Bootstrap:
+
+```bash
+docker buildx ls
+docker buildx inspect themisdb-multiarch --bootstrap
+```
+
+Falls der Builder noch nicht existiert, ihn zuerst anlegen und dann aktivieren:
+
+```bash
+docker buildx create --name themisdb-multiarch --use
+docker buildx inspect themisdb-multiarch --bootstrap
+```
+
+Damit wird der Docker-Container-Builder gestartet und für `docker buildx build` bereitgestellt.
+
 ## Cache-aware build behavior
 
 The current build uses BuildKit cache mounts for:

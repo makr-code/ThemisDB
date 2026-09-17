@@ -39,6 +39,84 @@ bool containsToken(const std::string& text, std::string_view token) {
     return text.find(token) != std::string::npos;
 }
 
+std::string removeSpaces(const std::string& text) {
+    std::string out = {};
+    out.reserve(text.size());
+    for (char c : text) {
+        if (c != ' ') {
+            out.push_back(c);
+        }
+    }
+    return out;
+}
+
+std::string collapseSingleLetterRuns(const std::string& text) {
+    std::string collapsed = {};
+    collapsed.reserve(text.size());
+
+    std::size_t index = 0;
+    while (index < text.size()) {
+        if (text[index] == ' ') {
+            if (!collapsed.empty() && collapsed.back() != ' ') {
+                collapsed.push_back(' ');
+            }
+            ++index;
+            continue;
+        }
+
+        std::size_t end = index;
+        while (end < text.size() && text[end] != ' ') {
+            ++end;
+        }
+
+        const std::size_t token_len = end - index;
+        if (token_len == 1) {
+            std::string joined = text.substr(index, 1);
+            std::size_t cursor = end;
+            while (cursor < text.size()) {
+                std::size_t space_count = 0;
+                while (cursor < text.size() && text[cursor] == ' ') {
+                    ++space_count;
+                    ++cursor;
+                }
+
+                std::size_t next_end = cursor;
+                while (next_end < text.size() && text[next_end] != ' ') {
+                    ++next_end;
+                }
+
+                if (space_count == 0 || next_end - cursor != 1) {
+                    break;
+                }
+
+                joined.push_back(text[cursor]);
+                cursor = next_end;
+            }
+
+            if (joined.size() >= 3) {
+                if (!collapsed.empty() && collapsed.back() != ' ') {
+                    collapsed.push_back(' ');
+                }
+                collapsed += joined;
+                index = cursor;
+                continue;
+            }
+        }
+
+        if (!collapsed.empty() && collapsed.back() != ' ') {
+            collapsed.push_back(' ');
+        }
+        collapsed.append(text, index, token_len);
+        index = end;
+    }
+
+    if (!collapsed.empty() && collapsed.back() == ' ') {
+        collapsed.pop_back();
+    }
+
+    return collapsed;
+}
+
 } // namespace
 
 GuardDecision PromptGuardian::evaluate(const std::string& prompt) const {
@@ -53,7 +131,13 @@ GuardDecision PromptGuardian::evaluate(const std::string& prompt) const {
     }
 
     const std::string normalized = normalize(out.sanitized_prompt);
-    if (containsContextualRisk(normalized, out.matched_topics, out.reason)) {
+    const std::string compacted = collapseSingleLetterRuns(normalized);
+    const std::string condensed = removeSpaces(compacted);
+    if (containsContextualRisk(normalized, out.matched_topics, out.reason) ||
+        compacted != normalized &&
+        containsContextualRisk(compacted, out.matched_topics, out.reason) ||
+        condensed != compacted &&
+        containsContextualRisk(condensed, out.matched_topics, out.reason)) {
         out.allowed = false;
     }
 

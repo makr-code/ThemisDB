@@ -228,14 +228,16 @@ bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
     const std::vector<std::string>& old_topology,
     const std::vector<std::string>& new_topology) {
     
-    // Detect node join: new_topology.size() > old_topology.size()
-    // Detect node leave: new_topology.size() <old_topology.size()
-    if (new_topology.size() == old_topology.size()) {
-        return false; // No topology change
+    if (old_topology == new_topology) {
+        return false;
     }
     
-    // Any join/leave changes shard ownership and requires a rebalance plan.
-    return true;
+    std::vector<std::string> old_sorted = old_topology;
+    std::vector<std::string> new_sorted = new_topology;
+    std::sort(old_sorted.begin(), old_sorted.end());
+    std::sort(new_sorted.begin(), new_sorted.end());
+
+    return old_sorted != new_sorted;
 }
 
 /**

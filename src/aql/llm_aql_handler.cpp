@@ -49,6 +49,15 @@
 #include "sharding/sharding_manager.h"
 #include "storage/rocksdb_wrapper.h"
 
+#if defined(THEMIS_ENABLE_TRACING)
+#define THEMIS_LLM_TRACE_SCOPE(operation_name) TRACE_SCOPE_AI(operation_name)
+#define THEMIS_LLM_TRACE_EVENT(event_name, attrs) \
+    themis::observability::recordTraceEvent(event_name, attrs)
+#else
+#define THEMIS_LLM_TRACE_SCOPE(operation_name) do { } while (false)
+#define THEMIS_LLM_TRACE_EVENT(event_name, attrs) do { } while (false)
+#endif
+
 namespace themis {
 namespace aql {
 
@@ -769,9 +778,9 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                                         const std::string &lora_id,
                                         const std::unordered_map<std::string, std::string> &options) {
     // --- Wave D D2: OTel span for the LLM inference pipeline ---
-    TRACE_SCOPE_AI("llm.infer");
-    themis::observability::recordTraceEvent("llm.infer.start",
-                                           {{"llm.model_id", model_id}, {"llm.lora_id", lora_id}});
+    THEMIS_LLM_TRACE_SCOPE("llm.infer");
+    THEMIS_LLM_TRACE_EVENT("llm.infer.start",
+                            {{"llm.model_id", model_id}, {"llm.lora_id", lora_id}});
 
     auto start_time = std::chrono::steady_clock::now();
     auto &metrics   = LLMMetricsCollector::instance();
@@ -1090,11 +1099,11 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                       const std::string &lora_id,
                                       const std::unordered_map<std::string, std::string> &options) {
     // --- Wave D D2: OTel span for the RAG pipeline ---
-    TRACE_SCOPE_AI("llm.rag");
-    themis::observability::recordTraceEvent("llm.rag.start",
-                                           {{"llm.collection", collection},
-                                            {"llm.top_k", std::to_string(top_k)},
-                                            {"llm.lora_id", lora_id}});
+    THEMIS_LLM_TRACE_SCOPE("llm.rag");
+    THEMIS_LLM_TRACE_EVENT("llm.rag.start",
+                           {{"llm.collection", collection},
+                            {"llm.top_k", std::to_string(top_k)},
+                            {"llm.lora_id", lora_id}});
 
     auto start_time       = std::chrono::steady_clock::now();
     auto &metrics         = LLMMetricsCollector::instance();
@@ -1578,7 +1587,7 @@ std::string LLMAQLHandler::buildNLToAQLSystemPrompt(const std::string &schema_co
     }
 
     if (!validation_feedback.empty()) {
-        out += "Your previous attempt produced AQL validation diagnostics (data only):\n";
+        out += "Your previous attempt produced AQL validation error diagnostics (data only):\n";
         out += "### VALIDATION_FEEDBACK_START ###\n";
         out += validation_feedback;
         out += "\n### VALIDATION_FEEDBACK_END ###\n";
@@ -2055,36 +2064,30 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
     (void)model_id;
     try {
         const std::string original_query = buildChatOriginalQuery(messages);
-        // If a test/mock executor has been injected, use it instead of the live LLM.
+        // If a test/mock executor has been injected, use it instead of the LLM client.
         std::string response = {};
         if (impl_->chat_executor_) {
             response = impl_->chat_executor_(messages);
         } else {
-            // Use EmbeddedLLM chat interface
-            auto &llm = llm::EmbeddedLLMManager::instance().get();
-
-            // Note: EmbeddedLLM's chat() doesn't directly support custom parameters
-            // We can use generateWithParams for the formatted chat prompt instead
-
-            // Determine chat format from options or use default
-            llm::ChatFormat format = llm::ChatFormat::ChatML;
-            if (options.count("chat_format")) {
-                const auto &fmt = options.at("chat_format");
-                if (fmt == "llama2") {
-                    format = llm::ChatFormat::Llama2;
-                } else if (fmt == "alpaca") {
-                    format = llm::ChatFormat::Alpaca;
-                } else if (fmt == "vicuna") {
-                    format = llm::ChatFormat::Vicuna;
+            // Default to the deterministic LLM client used by offline and unit-test
+            // paths. It intentionally avoids the raw chat formatter that can block
+            // benign system prompts while still producing stable responses.
+            llm::GenerationOptions generation_options;
+            if (const auto it = options.find("max_tokens"); it != options.end()) {
+                try {
+                    generation_options.max_tokens = std::stoi(it->second);
+                } catch (...) {
+                    // Keep the default when the caller passes a non-numeric hint.
                 }
             }
 
-            // Note: model_id selection would require extending EmbeddedLLM API
-            // For now, use the default model
-
-            // If we have custom parameters, we might need to use a different approach
-            // For now, use the standard chat method with default parameters
-            response = llm.chat(messages, format);
+            auto generation_result = impl_->llm_client_->generate(original_query, generation_options);
+            if (!generation_result.success) {
+                throw std::runtime_error(generation_result.error_message.empty()
+                                             ? "LLM client generation failed"
+                                             : generation_result.error_message);
+            }
+            response = std::move(generation_result.text);
         }
 
         enforceWaveCC1C2Hooks(
@@ -2132,7 +2135,15 @@ std::string LLMAQLHandler::streamExplainAQLAsSSE(const std::string &aql_query,
     try {
         const std::string prompt = buildAQLExplanationPrompt(aql_query, schema_context);
         auto &llm                = llm::EmbeddedLLMManager::instance().get();
-        return llm.generateStreamingSSE(prompt, std::move(stream_callback), request_id);
+        auto sse_normalizing_callback = [stream_callback = std::move(stream_callback)](
+                                            const std::string& chunk) mutable {
+            if (chunk.rfind("data: ", 0) == 0) {
+                stream_callback(chunk);
+            } else {
+                stream_callback("data: " + chunk);
+            }
+        };
+        return llm.generateStreamingSSE(prompt, std::move(sse_normalizing_callback), request_id);
 
     } catch (const LLMException &) {
         throw;

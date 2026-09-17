@@ -99,14 +99,14 @@ public:
         // production inference.
         spdlog::debug("DefaultLLMClient: no plugin registered, using keyword-based fallback");
 
-        std::string mock_aql = "SELECT * FROM data WHERE 1=1";
+        std::string mock_aql = "FOR doc IN data RETURN doc";
 
         if (prompt.find("user") != std::string::npos) {
-            mock_aql = "SELECT id, name FROM users WHERE status = 'active'";
+            mock_aql = "FOR user IN users RETURN user";
         } else if (prompt.find("order") != std::string::npos) {
-            mock_aql = "SELECT * FROM orders WHERE created_date >= NOW() - '30d'";
+            mock_aql = "FOR order IN orders RETURN order";
         } else if (prompt.find("product") != std::string::npos) {
-            mock_aql = "SELECT * FROM products WHERE category = 'electronics'";
+            mock_aql = "FOR product IN products RETURN product";
         }
 
         result.success           = true;

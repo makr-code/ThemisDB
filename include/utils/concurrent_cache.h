@@ -146,6 +146,17 @@ public:
      */
     const MapType& map() const { return map_; }
 
+    /**
+     * @brief Finds a value while holding the cache mutex.
+     * @param key Key to look up.
+     * @return Pointer to the stored value when present, otherwise nullptr.
+     */
+    const Value* find_ptr(const Key& key) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = map_.find(key);
+        return it != map_.end() ? &it->second : nullptr;
+    }
+
 private:
     mutable std::mutex mutex_;
     MapType map_;

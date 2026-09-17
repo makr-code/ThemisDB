@@ -80,10 +80,46 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
         return QuorumResult::failed("Quorum not achievable with available nodes");
     }
     
-    // Execute operations in parallel
+    if (required_acks == 1) {
+        std::vector<std::string> successful_nodes;
+        std::vector<std::string> failed_nodes;
+
+        for (const auto& node : target_nodes) {
+            bool success = false;
+            try {
+                success = operation(node);
+            } catch (const std::exception& e) {
+                THEMIS_DEBUG("Operation on node {} failed with exception: {}", node, e.what());
+            }
+
+            if (success) {
+                successful_nodes.push_back(node);
+                auto end = std::chrono::steady_clock::now();
+                auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+                stats_.successful_writes.fetch_add(1, std::memory_order_release);
+                return QuorumResult::successful(1, required_acks, successful_nodes, latency);
+            }
+
+            failed_nodes.push_back(node);
+        }
+
+        auto end = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        stats_.failed_writes.fetch_add(1, std::memory_order_release);
+        QuorumResult result = QuorumResult::failed("Failed to achieve write quorum");
+        result.acks_received = 0;
+        result.acks_required = required_acks;
+        result.successful_nodes = successful_nodes;
+        result.failed_nodes = failed_nodes;
+        result.latency = latency;
+        return result;
+    }
+
+    // Execute operations in parallel.
     // NOTE: For production with large clusters, consider using a thread pool
-    // to avoid excessive thread creation overhead
+    // to avoid excessive thread creation overhead.
     std::vector<std::pair<std::string, std::future<bool>>> futures;
+    futures.reserve(target_nodes.size());
     for (const auto& node : target_nodes) {
         auto future = std::async(std::launch::async, operation, node);
         futures.push_back({node, std::move(future)});
@@ -156,7 +192,43 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
     size_t required_acks = getReadQuorumSize(target_nodes.size());
     
     // Execute operations in parallel
+    if (required_acks == 1) {
+        std::vector<std::string> successful_nodes;
+        std::vector<std::string> failed_nodes;
+
+        for (const auto& node : target_nodes) {
+            std::optional<std::string> data;
+            try {
+                data = operation(node);
+            } catch (const std::exception& e) {
+                THEMIS_DEBUG("Operation on node {} failed with exception: {}", node, e.what());
+            }
+
+            if (data.has_value()) {
+                successful_nodes.push_back(node);
+                auto end = std::chrono::steady_clock::now();
+                auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+                stats_.successful_reads.fetch_add(1, std::memory_order_release);
+                return QuorumResult::successful(1, required_acks, successful_nodes, latency);
+            }
+
+            failed_nodes.push_back(node);
+        }
+
+        auto end = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        stats_.failed_reads.fetch_add(1, std::memory_order_release);
+        QuorumResult result = QuorumResult::failed("No nodes available for read");
+        result.acks_received = 0;
+        result.acks_required = required_acks;
+        result.successful_nodes = successful_nodes;
+        result.failed_nodes = failed_nodes;
+        result.latency = latency;
+        return result;
+    }
+
     std::vector<std::pair<std::string, std::future<std::optional<std::string>>>> futures;
+    futures.reserve(target_nodes.size());
     for (const auto& node : target_nodes) {
         auto future = std::async(std::launch::async, operation, node);
         futures.push_back({node, std::move(future)});
@@ -293,14 +365,14 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
                 if constexpr (std::is_same_v<T, bool>) {
                     if (result) {
                         acks++;
-                        if (config_.fail_fast && acks >= required_acks) {
+                        if (acks >= required_acks) {
                             break;  // Early exit
                         }
                     }
                 } else if constexpr (std::is_same_v<T, std::optional<std::string>>) {
                     if (result.has_value()) {
                         acks++;
-                        if (config_.fail_fast && acks >= required_acks) {
+                        if (acks >= required_acks) {
                             break;  // Early exit
                         }
                     }

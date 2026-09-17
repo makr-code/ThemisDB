@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.009" timestamp="2026-09-17T18:19:20.126" name="AllTests">
+  <testsuite name="ModelLoaderAsyncTest" tests="1" failures="0" disabled="0" skipped="0" errors="0" time="0.008" timestamp="2026-09-17T18:19:20.127">
+    <testcase name="ProgressCallbackCalled" file="C:\Projects\ThemisDB\tests\llm\test_model_loader_async.cpp" line="37" status="run" result="completed" time="0.008" timestamp="2026-09-17T18:19:20.127" classname="ModelLoaderAsyncTest" />
+  </testsuite>
+</testsuites>

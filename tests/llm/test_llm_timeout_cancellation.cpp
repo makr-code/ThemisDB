@@ -6,6 +6,7 @@
 #include <atomic>
 #include <chrono>
 #include <filesystem>
+#include <future>
 #include <thread>
 #include <spdlog/spdlog.h>
 
@@ -113,6 +114,65 @@ public:
 private:
     int num_tokens_;
     int token_delay_ms_;
+};
+
+/**
+ * @brief Plugin that blocks until a shared gate is released.
+ *
+ * Used by queue/backpressure tests so the first request stays in-flight while
+ * later requests accumulate in the pending queue deterministically.
+ */
+class BlockingPlugin : public ILLMPlugin {
+public:
+    explicit BlockingPlugin(
+        std::shared_future<void> gate,
+        std::shared_ptr<std::promise<void>> started_signal = nullptr
+    )
+        : gate_(std::move(gate)), started_signal_(std::move(started_signal)) {}
+
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id = "blocking";
+        info.is_loaded = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+
+    InferenceResponse generate(const InferenceRequest& request) override {
+        if (started_signal_) {
+            try {
+                started_signal_->set_value();
+            } catch (...) {
+                // The signal is best-effort and may already be satisfied.
+            }
+            started_signal_.reset();
+        }
+        gate_.wait();
+        InferenceResponse resp;
+        resp.request_id = request.request_id;
+        resp.text = "blocked response";
+        resp.model_id = "blocking";
+        resp.inference_time_ms = 1.0f;
+        return resp;
+    }
+    InferenceResponse generateRAG(const RAGContext&, const InferenceRequest& req) override {
+        return generate(req);
+    }
+    std::vector<float> embed(const std::string&) override { return {}; }
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+
+private:
+    std::shared_future<void> gate_;
+    std::shared_ptr<std::promise<void>> started_signal_;
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -408,19 +468,26 @@ TEST_F(AsyncEngineTimeoutCancelTest, SubmitAsyncHonoursTimeout) {
 // request is dropped (promise resolved with an exception) and the new higher-
 // priority request is accepted.
 TEST_F(AsyncEngineTimeoutCancelTest, DropOldestPolicyDropsLowestPriorityRequest) {
-    auto slow_plugin = std::make_shared<SlowStreamingPlugin>(50, 20); // ~1 s per request
+    auto gate = std::make_shared<std::promise<void>>();
+    auto started = std::make_shared<std::promise<void>>();
+    auto blocking_plugin = std::make_shared<BlockingPlugin>(
+        gate->get_future().share(),
+        started
+    );
 
     AsyncInferenceEngine::Config drop_cfg;
     drop_cfg.num_worker_threads = 1;
-    drop_cfg.max_queue_size = 2;  // very small queue: 1 worker slot + 1 queued
+    drop_cfg.max_queue_size = 1;  // one pending request; next submit must trigger backpressure
     drop_cfg.backpressure = AsyncInferenceEngine::Config::BackpressurePolicy::DROP_OLDEST;
 
-    AsyncInferenceEngine engine(slow_plugin, drop_cfg);
+    AsyncInferenceEngine engine(blocking_plugin, drop_cfg);
 
-    // Fill the worker + queue completely with low-priority requests.
     InferenceRequest low_req;
     low_req.prompt = "low priority";
-    auto h1 = engine.submit(low_req, 0);  // taken by worker
+    auto h1 = engine.submit(low_req, 0);  // enters generate() and blocks
+
+    ASSERT_EQ(started->get_future().wait_for(std::chrono::seconds(2)), std::future_status::ready);
+
     auto h2 = engine.submit(low_req, 0);  // fills the queue
 
     // Now submit a higher-priority request — DROP_OLDEST should drop h2.
@@ -428,24 +495,26 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestPolicyDropsLowestPriorityRequest)
     high_req.prompt = "high priority";
     auto h3 = engine.submit(high_req, 100);  // should succeed; h2 gets dropped
 
-    // Depending on worker scheduling at submit time, either h1 or h2 can be
-    // the dropped low-priority request. Ensure at least one is dropped.
-    bool low_dropped = false;
-    auto mark_dropped = [&low_dropped](InferenceHandle& h) {
-        try {
-            h.get();  // result discarded; we only care about the exception
-        } catch (const std::runtime_error& e) {
-            low_dropped = true;
-            spdlog::info("DROP_OLDEST test: low-priority request dropped: {}", e.what());
-        }
-    };
+    bool h2_dropped = false;
+    try {
+        h2.get();
+    } catch (const std::runtime_error& e) {
+        h2_dropped = true;
+        spdlog::info("DROP_OLDEST test: queued low-priority request dropped: {}", e.what());
+    }
+    EXPECT_TRUE(h2_dropped);
 
-    mark_dropped(h1);
-    mark_dropped(h2);
+    gate->set_value();
 
-    EXPECT_TRUE(low_dropped);
+    bool h1_ok = false;
+    try {
+        h1.get();
+        h1_ok = true;
+    } catch (const std::exception& e) {
+        spdlog::warn("DROP_OLDEST test: h1 unexpected exception: {}", e.what());
+    }
+    EXPECT_TRUE(h1_ok);
 
-    // h3 should eventually complete without throwing (queue had room after drop).
     bool h3_ok = false;
     try {
         h3.get();
@@ -461,56 +530,73 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestPolicyDropsLowestPriorityRequest)
 // Test 9: DROP_OLDEST drops the request with strictly the lowest priority,
 // not just the first one added.
 TEST_F(AsyncEngineTimeoutCancelTest, DropOldestTargetsLowestPriorityNotFIFO) {
-    auto slow_plugin = std::make_shared<SlowStreamingPlugin>(50, 20);
+    auto gate = std::make_shared<std::promise<void>>();
+    auto started = std::make_shared<std::promise<void>>();
+    auto blocking_plugin = std::make_shared<BlockingPlugin>(
+        gate->get_future().share(),
+        started
+    );
 
     AsyncInferenceEngine::Config drop_cfg;
     drop_cfg.num_worker_threads = 1;
-    drop_cfg.max_queue_size = 3;  // 1 worker + 2 queued
+    drop_cfg.max_queue_size = 2;  // two pending requests; next submit must trigger backpressure
     drop_cfg.backpressure = AsyncInferenceEngine::Config::BackpressurePolicy::DROP_OLDEST;
 
-    AsyncInferenceEngine engine(slow_plugin, drop_cfg);
+    AsyncInferenceEngine engine(blocking_plugin, drop_cfg);
 
-    // Fill the worker and queue.
     InferenceRequest filler;
     filler.prompt = "filler";
-    auto h_worker = engine.submit(filler, 5);  // taken by worker
-    auto h_high   = engine.submit(filler, 10); // queued, higher priority
-    auto h_low    = engine.submit(filler, 1);  // queued, lowest priority
+    auto h_worker = engine.submit(filler, 5);  // enters generate() and blocks
+
+    ASSERT_EQ(started->get_future().wait_for(std::chrono::seconds(2)), std::future_status::ready);
+
+    auto h_high = engine.submit(filler, 10); // queued, higher priority
+    auto h_low  = engine.submit(filler, 1);  // queued, lowest priority
 
     // New request triggers DROP_OLDEST — must drop h_low (priority=1).
     InferenceRequest new_req;
     new_req.prompt = "new";
     auto h_new = engine.submit(new_req, 7);
 
-    // h_low must be dropped.
     bool low_dropped = false;
     try {
-        h_low.get();  // result discarded; we only care about the exception
+        h_low.get();
     } catch (const std::runtime_error& e) {
         low_dropped = true;
         spdlog::info("DROP_OLDEST priority test: h_low dropped: {}", e.what());
     }
     EXPECT_TRUE(low_dropped);
 
+    gate->set_value();
+
+    bool worker_ok = false;
+    try {
+        h_worker.get();
+        worker_ok = true;
+    } catch (const std::exception& e) {
+        spdlog::warn("DROP_OLDEST priority test: h_worker unexpected exception: {}", e.what());
+    }
+    EXPECT_TRUE(worker_ok);
+
+    bool high_ok = false;
+    try {
+        h_high.get();
+        high_ok = true;
+    } catch (const std::exception& e) {
+        spdlog::warn("DROP_OLDEST priority test: h_high unexpected exception: {}", e.what());
+    }
+    EXPECT_TRUE(high_ok);
+
+    bool new_ok = false;
+    try {
+        h_new.get();
+        new_ok = true;
+    } catch (const std::exception& e) {
+        spdlog::warn("DROP_OLDEST priority test: h_new unexpected exception: {}", e.what());
+    }
+    EXPECT_TRUE(new_ok);
+
     engine.shutdown();
-
-    auto consume_without_block = [](InferenceHandle& h) {
-        if (h.ready()) {
-            try { h.get(); } catch (...) {}
-            return;
-        }
-        h.cancel();
-        for (int i = 0; i < 50 && !h.ready(); ++i) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
-        if (h.ready()) {
-            try { h.get(); } catch (...) {}
-        }
-    };
-
-    consume_without_block(h_worker);
-    consume_without_block(h_high);
-    consume_without_block(h_new);
 }
 
 // ═══════════════════════════════════════════════════════════

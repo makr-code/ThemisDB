@@ -64,7 +64,7 @@ bool SafetyMonitoring::setDurableSinkPath(const std::string& path) {
         }
     }
 
-    std::ofstream test(path, std::ios::app);
+    std::ofstream test(path, std::ios::out | std::ios::trunc);
     if (!test.is_open()) {
         return false;
     }

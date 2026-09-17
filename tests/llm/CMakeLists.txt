@@ -10,6 +10,22 @@ set(_llm_wiki_private_orchestrator_header
     "${_llm_wiki_private_include_dir}/wikipedia/wiki_workspace_orchestrator.h")
 set(_llm_wiki_private_orchestrator_source
     "${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp")
+set(_llm_wiki_plugin_impl_source
+    "${THEMIS_ROOT_DIR}/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp")
+set(_llm_wiki_process_policy_source
+    "${THEMIS_ROOT_DIR}/src/llm_wiki/process_policy_manager.cpp")
+
+# Keep distributed tracing implementation available for all LLM focused builds.
+set(_llm_observability_link_sources
+    ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+    ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
+    ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
+)
+
+set(_llm_orchestrator_link_sources
+    ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+)
 
 if(WIN32)
     function(themis_llm_sync_runtime_dlls target_name)
@@ -74,6 +90,9 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    target_sources(${_target} PRIVATE
+        ${_llm_observability_link_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -94,6 +113,11 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_wave3_gap_fixes")
+        target_sources(${_target} PRIVATE
+            ${_llm_orchestrator_link_sources}
         )
     endif()
     if(_stem STREQUAL "test_kernel_fusion_cpu_fallback" OR _stem STREQUAL "test_kernel_fusion_cuda")
@@ -162,13 +186,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         # wiring direct providers for symbols referenced by InferenceEngineEnhanced.
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
-        )
-    endif()
-    if(_stem STREQUAL "test_llm_w1s06_exception_boundaries")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
-            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
-            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
     endif()
     if(_stem STREQUAL "test_llm_query_rewriter")
@@ -289,14 +306,14 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
        _stem STREQUAL "test_llm_wiki_performance" OR
        _stem STREQUAL "test_llm_wiki_provenance_focused" OR
        _stem STREQUAL "test_llm_wiki_block4_backend_gate")
-        # These tests require workspace state manager and edition gate
+        # These tests require workspace state manager, edition gate, and plugin implementation.
         if(TARGET themis_llm_wiki)
             target_link_libraries(${_target} PRIVATE themis_llm_wiki)
         else()
             target_sources(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
                 ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
-            )
+                ${_llm_wiki_plugin_impl_source}                ${_llm_wiki_process_policy_source}            )
             target_include_directories(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/llm_wiki
             )
@@ -463,6 +480,9 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    target_sources(${_target} PRIVATE
+        ${_llm_observability_link_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -472,6 +492,11 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_wave3_gap_fixes")
+        target_sources(${_target} PRIVATE
+            ${_llm_orchestrator_link_sources}
         )
     endif()
     if(_stem STREQUAL "test_llm_kernel_fusion_cpu_fallback" OR _stem STREQUAL "test_llm_kernel_fusion_cuda")
@@ -504,14 +529,17 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
        _stem STREQUAL "test_llm_wiki_performance" OR
        _stem STREQUAL "test_llm_wiki_phase4_roundtrip" OR
        _stem STREQUAL "test_llm_wiki_phase_b_integration" OR
-         _stem STREQUAL "test_llm_wiki_provenance_focused" OR
-         _stem STREQUAL "test_llm_wiki_process_policy_manager")
+       _stem STREQUAL "test_llm_wiki_block4_backend_gate" OR
+       _stem STREQUAL "test_llm_wiki_provenance_focused" OR
+       _stem STREQUAL "test_llm_wiki_process_policy_manager")
         if(TARGET themis_llm_wiki)
             target_link_libraries(${_target} PRIVATE themis_llm_wiki)
         else()
             target_sources(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
                 ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
+                ${_llm_wiki_plugin_impl_source}
+                ${_llm_wiki_process_policy_source}
             )
             target_include_directories(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/llm_wiki

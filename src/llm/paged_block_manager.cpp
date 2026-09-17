@@ -24,7 +24,8 @@ PagedBlockManager::PagedBlockManager(const Config& config)
 }
 
 void PagedBlockManager::initializeFreeList() {
-    std::lock_guard<std::mutex> lock(free_list_mutex_);
+    std::lock_guard<std::mutex> free_lock(free_list_mutex_);
+    std::lock_guard<std::mutex> store_lock(block_store_mutex_);
     
     // Resolve number of blocks (support legacy total_blocks alias)
     int num_blocks = config_.max_blocks;
@@ -34,21 +35,27 @@ void PagedBlockManager::initializeFreeList() {
         const_cast<Config&>(config_).max_blocks = num_blocks;
     }
 
+    block_store_.clear();
+    while (!free_list_.empty()) {
+        free_list_.pop();
+    }
+
     // Initialize all blocks as free
     for (int i = 0; i < num_blocks; i++) {
-        Block block;
-        block.block_id = i;
+        auto block = std::make_shared<Block>();
+        block->block_id = i;
         const std::size_t token_offset = static_cast<std::size_t>(i) * config_.block_size_tokens;
         if (token_offset > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
             throw std::overflow_error("PagedBlockManager: physical_address exceeds int range");
         }
-        block.physical_address = static_cast<int>(token_offset);
-        block.is_free = true;
-        block.memory_bytes = config_.block_size_tokens * config_.token_size_bytes;
-        block.ref_count = 0;
+        block->physical_address = static_cast<int>(token_offset);
+        block->is_free = true;
+        block->memory_bytes = config_.block_size_tokens * config_.token_size_bytes;
+        block->ref_count = 0;
         
-        // Store in cache (lock-free access)
-        blocks_.insert(i, block);
+        // Store in stable block table for lifetime-safe accessors.
+        block_store_[i] = block;
+        blocks_.insert(i, *block);
         
         // Add to free list
         free_list_.push(i);
@@ -72,13 +79,14 @@ std::vector<int> PagedBlockManager::allocateBlocks(int num_blocks) {
         free_list_.pop();
         allocated_ids.push_back(block_id);
         
-        // Update block state (lock-free via ConcurrentCache)
-        auto block = blocks_.get(block_id);
-        if (block) {
-            block->is_free = false;
-            block->ref_count = 1;
-            block->tokens.clear();
-            blocks_.insert(block_id, *block);
+        std::lock_guard<std::mutex> store_lock(block_store_mutex_);
+        auto it = block_store_.find(block_id);
+        if (it != block_store_.end()) {
+            auto& block = *it->second;
+            block.is_free = false;
+            block.ref_count = 1;
+            block.tokens.clear();
+            blocks_.insert(block_id, block);
         }
     }
     
@@ -94,13 +102,14 @@ void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
     
     for (int block_id : block_ids) {
-        // Update block state
-        auto block = blocks_.get(block_id);
-        if (block && !block->is_free) {
-            block->is_free = true;
-            block->ref_count = 0;
-            block->tokens.clear();
-            blocks_.insert(block_id, *block);
+        std::lock_guard<std::mutex> store_lock(block_store_mutex_);
+        auto it = block_store_.find(block_id);
+        if (it != block_store_.end() && !it->second->is_free) {
+            auto& block = *it->second;
+            block.is_free = true;
+            block.ref_count = 0;
+            block.tokens.clear();
+            blocks_.insert(block_id, block);
             
             // Return to free list
             free_list_.push(block_id);
@@ -113,17 +122,19 @@ void PagedBlockManager::deallocate(int block_id) {
 }
 
 void PagedBlockManager::withBlock(int block_id, std::function<void(const Block&)> callback) const {
-    auto block_opt = blocks_.get(block_id);
-    if (block_opt) {
-        callback(*block_opt);
+    std::lock_guard<std::mutex> lock(block_store_mutex_);
+    auto it = block_store_.find(block_id);
+    if (it != block_store_.end()) {
+        callback(*it->second);
     }
 }
 
 std::optional<std::reference_wrapper<const PagedBlockManager::Block>> 
 PagedBlockManager::getBlockRef(int block_id) const {
-    auto block_opt = blocks_.get(block_id);
-    if (block_opt) {
-        return std::reference_wrapper<const Block>(*block_opt);
+    std::lock_guard<std::mutex> lock(block_store_mutex_);
+    auto it = block_store_.find(block_id);
+    if (it != block_store_.end()) {
+        return std::cref(*it->second);
     }
     return std::nullopt;
 }
@@ -163,13 +174,19 @@ int PagedBlockManager::getNumFreeBlocks() const {
 }
 
 void PagedBlockManager::reset() {
-    blocks_.clear();
-    
-    std::lock_guard<std::mutex> lock(free_list_mutex_);
-    while (!free_list_.empty()) {
-        free_list_.pop();
+    {
+        std::lock_guard<std::mutex> store_lock(block_store_mutex_);
+        block_store_.clear();
     }
-    
+    blocks_.clear();
+
+    {
+        std::lock_guard<std::mutex> lock(free_list_mutex_);
+        while (!free_list_.empty()) {
+            free_list_.pop();
+        }
+    }
+
     initializeFreeList();
 }
 

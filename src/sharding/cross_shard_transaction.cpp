@@ -702,7 +702,7 @@ bool CrossShardTransactionCoordinator::addParticipant(
     }
     
     // W2-S07: Lock with timeout to prevent indefinite blocking on high contention
-    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
     if (!lock.try_lock_for(config_.lock_timeout)) {
         spdlog::error("Lock acquisition timeout adding participant to transaction {}", transaction_id);
         return false;
@@ -746,103 +746,45 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         return false;
     }
     
-    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
-    
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    if (txn.state != TransactionState::ACTIVE) {
-        spdlog::error("Transaction {} is not active", transaction_id);
-        return false;
-    }
-    
-    // W2-S04: Fail-closed if no participants added (precondition violation)
-    if (txn.participants.empty()) {
-        spdlog::error("Cannot prepare transaction {} with no participants", transaction_id);
-        return false;
-    }
-
-    // Issue #5390: Cross-Shard FK Referential Integrity Check.
-    // Validate all registered foreign key constraints BEFORE advancing to
-    // PREPARING and before sending any PREPARE RPC to participants.
-    // If any FK violation is detected, fail the prepare phase immediately
-    // (fail-closed) so that orphaned child records can never be committed.
+    // Snapshot the transaction and validator under a single short critical
+    // section, then do all validation and RPC work outside the transaction lock.
+    // This avoids the self-deadlock pattern where a std::unique_lock is
+    // re-locked while still owned by the same thread.
+    std::shared_ptr<CrossShardForeignKeyValidator> fk_validator;
+    std::map<std::string, std::vector<std::string>> shard_ops;
+    std::vector<std::pair<std::string, ShardParticipant>> participants_snapshot;
     {
-        std::shared_ptr<CrossShardForeignKeyValidator> fk_val;
+        std::unique_lock<std::timed_mutex> tx_lock(transactions_mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return false;
+        }
+
+        auto& txn = it->second;
+        if (txn.state != TransactionState::ACTIVE) {
+            spdlog::error("Transaction {} is not active", transaction_id);
+            return false;
+        }
+
+        if (txn.participants.empty()) {
+            spdlog::error("Cannot prepare transaction {} with no participants", transaction_id);
+            return false;
+        }
+
+        for (const auto& [shard_id, participant] : txn.participants) {
+            shard_ops[shard_id] = participant.operations;
+            participants_snapshot.emplace_back(shard_id, participant);
+        }
+
         {
             std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
-            fk_val = fk_validator_;
-        }
-        if (fk_val) {
-            // Collect all operations across all participants for FK checking.
-            std::map<std::string, std::vector<std::string>> shard_ops;
-            for (const auto& [shard_id, participant] : txn.participants) {
-                for (const auto& op_str : participant.operations) {
-                    shard_ops[shard_id].push_back(op_str);
-                }
-            }
-
-            // Run validation outside the transaction lock to avoid deadlock
-            // while the lookup callback may perform network I/O.
-            lock.unlock();
-            auto violations = fk_val->validate(transaction_id, shard_ops);
-            if (!lock.try_lock_for(config_.lock_timeout)) {
-                spdlog::error("Lock acquisition timeout after FK validation for "
-                              "transaction {}", transaction_id);
-                return false;
-            }
-
-            if (!violations.empty()) {
-                spdlog::error(
-                    "Transaction {} aborted during prepare: {} cross-shard FK "
-                    "violation(s) detected",
-                    transaction_id,violations.size());
-                for (const auto& v : violations) {
-                    spdlog::error("  FK violation: {}", v.message);
-                }
-                // Transaction remains ACTIVE so caller may inspect and abort.
-                return false;
-            }
+            fk_validator = fk_validator_;
         }
     }
 
-    txn.state = TransactionState::PREPARING;
-    persistTransactionState(transaction_id, TransactionState::PREPARING);
-    lock.unlock();
-
-    // --- Cross-shard FK validation gate (issue #5392) ---
-    // Snapshot the validator pointer outside any transaction lock to avoid
-    // holding two mutexes simultaneously.
-    std::shared_ptr<CrossShardForeignKeyValidator> fk_validator;
-    {
-        std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
-        fk_validator = fk_validator_;
-    }
     if (fk_validator) {
-        // Build the per-shard operation map from participant data.
-        std::map<std::string, std::vector<std::string>> shard_ops;
-        {
-            if (!lock.try_lock_for(config_.lock_timeout)) {
-                spdlog::error("FK validation: lock timeout reading operations for txn {}",
-                              transaction_id);
-                return false;
-            }
-            auto it2 = transactions_.find(transaction_id);
-            if (it2 != transactions_.end()) {
-                for (const auto& [sid, p] : it2->second.participants) {
-                    shard_ops[sid] = p.operations;
-                }
-            }
-            lock.unlock();
-        }
-
         const auto violations = fk_validator->validate(transaction_id, shard_ops);
-
-        // Abort if any non-deferrable violation was found.
         bool has_blocking = false;
         for (const auto& v : violations) {
             if (!v.deferrable) {
@@ -853,22 +795,34 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
             }
         }
         if (has_blocking) {
-            if (lock.try_lock_for(config_.lock_timeout)) {
-                auto it2 = transactions_.find(transaction_id);
-                if (it2 != transactions_.end()) {
-                    it2->second.state = TransactionState::ACTIVE;
-                }
-                lock.unlock();
-            }
+            // Resting in ACTIVE is the fail-closed state observed by callers.
             return false;
         }
     }
-    // --- End FK validation gate ---
 
-    // Send prepare requests to all participants
+    {
+        std::unique_lock<std::timed_mutex> tx_lock(transactions_mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} disappeared during prepare", transaction_id);
+            return false;
+        }
+        if (it->second.state != TransactionState::ACTIVE) {
+            spdlog::error("Transaction {} changed state unexpectedly during prepare", transaction_id);
+            return false;
+        }
+        it->second.state = TransactionState::PREPARING;
+    }
+
+    // The persistence helper also locks transactions_mutex_.  Do not call it while
+    // the same mutex remains owned in this thread, otherwise std::timed_mutex
+    // throws std::system_error(resource_deadlock_would_occur).
+    persistTransactionState(transaction_id, TransactionState::PREPARING);
+
     bool all_prepared = true;
-    for (auto& [shard_id, participant] : txn.participants) {
-        // Phase 2.3.3: Log PREPARE to WAL
+    IsolationLevel isolation = IsolationLevel::SNAPSHOT_ISOLATION;
+    for (const auto& [shard_id, participant] : participants_snapshot) {
+        // Phase 2.3.3: Log PREPARE to WAL.
         if (transaction_wal_) {
             try {
                 nlohmann::json prepare_data = {
@@ -881,38 +835,28 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
                 spdlog::warn("Failed to log PREPARE to WAL: {}", e.what());
             }
         }
-        
-        // CST-5: sendPrepare() performs network I/O outside the lock.
-        // Wrap the call so that any exception still re-acquires the lock,
-        // keeping the unique_lock in a defined (locked) state for cleanup.
+
         bool prepared = false;
         try {
             prepared = sendPrepare(shard_id, transaction_id);
         } catch (...) {
-            if (!lock.try_lock_for(config_.lock_timeout)) {
-                spdlog::critical("Lock acquisition timeout in prepare exception handler "
-                                 "for shard {} in transaction {}", shard_id, transaction_id);
-                all_prepared = false;
-                throw;
-            }
-            participant.prepared = false;
-            participant.error_message = "sendPrepare threw an exception";
-            all_prepared = false;
             spdlog::error("sendPrepare threw for shard {} in transaction {}",
                          shard_id, transaction_id);
-            // Leave lock held; the outer loop will break naturally.
-            throw;
+            prepared = false;
         }
 
-        if (!lock.try_lock_for(config_.lock_timeout)) {
-            spdlog::error("Lock acquisition timeout after sendPrepare for shard {} in "
-                          "transaction {}", shard_id, transaction_id);
-            all_prepared = false;
-            break;
+        {
+            std::unique_lock<std::timed_mutex> tx_lock(transactions_mutex_);
+            auto it = transactions_.find(transaction_id);
+            if (it != transactions_.end()) {
+                auto participant_it = it->second.participants.find(shard_id);
+                if (participant_it != it->second.participants.end()) {
+                    participant_it->second.prepared = prepared;
+                    participant_it->second.error_message = prepared ? "" : "Prepare failed";
+                }
+            }
         }
-        participant.prepared = prepared;
-        
-        // Phase 2.3.3: Log PREPARED response to WAL
+
         if (transaction_wal_) {
             try {
                 std::string response = prepared ? "prepared" : "aborted";
@@ -922,34 +866,31 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
                 spdlog::warn("Failed to log PREPARED to WAL: {}", e.what());
             }
         }
-        lock.unlock();
-        
+
         if (!prepared) {
             all_prepared = false;
-            participant.error_message = "Prepare failed";
-            spdlog::error("Prepare failed for shard {} in transaction {}", 
+            spdlog::error("Prepare failed for shard {} in transaction {}",
                          shard_id, transaction_id);
         }
     }
-    
-    if (!lock.try_lock_for(config_.lock_timeout)) {
-        spdlog::error("Lock acquisition timeout consolidating prepare results for "
-                      "transaction {}", transaction_id);
-        return false;
+
+    {
+        std::unique_lock<std::timed_mutex> tx_lock(transactions_mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it != transactions_.end()) {
+            isolation = it->second.isolation_level;
+            if (all_prepared) {
+                it->second.state = TransactionState::PREPARED;
+            } else {
+                it->second.state = TransactionState::ACTIVE;
+            }
+        }
     }
-    // Capture isolation level while the lock is held.
-    const auto isolation = transactions_.count(transaction_id) > 0
-        ? transactions_.at(transaction_id).isolation_level
-        : IsolationLevel::SNAPSHOT_ISOLATION;
 
     if (all_prepared) {
-        txn.state = TransactionState::PREPARED;
         persistTransactionState(transaction_id, TransactionState::PREPARED);
         spdlog::info("Transaction {} prepared successfully", transaction_id);
-    } else {
-        txn.state = TransactionState::ACTIVE;  // Roll back to active
     }
-    lock.unlock();
 
     // ── Distributed SSI validation (SERIALIZABLE transactions only) ──────────
     // Perform cross-shard conflict detection after all participants have
@@ -993,7 +934,7 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
                 finishTerminalDecision(transaction_id);
             });
 
-    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -1105,7 +1046,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
             });
 
     // W2-S07: Enforce lock timeout during abort decision phase
-    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
     if (!lock.try_lock_for(config_.lock_timeout)) {
         spdlog::error("Lock acquisition timeout acquiring abort decision for transaction {}",
                       transaction_id);
@@ -1224,7 +1165,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
         return false;
     }
     
-    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {

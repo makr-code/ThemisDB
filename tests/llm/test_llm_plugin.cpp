@@ -42,18 +42,173 @@ protected:
             fs::remove_all(test_lora_dir);
         }
     }
+
+    static void writeGGUFString(std::ostream& out, const std::string& value) {
+        const uint64_t len = static_cast<uint64_t>(value.size());
+        out.write(reinterpret_cast<const char*>(&len), sizeof(len));
+        if (!value.empty()) {
+            out.write(value.data(), static_cast<std::streamsize>(value.size()));
+        }
+    }
+
+    static void writeGGUFUInt32(std::ostream& out, uint32_t value) {
+        out.write(reinterpret_cast<const char*>(&value), sizeof(value));
+    }
+
+    static void writeGGUFUInt64(std::ostream& out, uint64_t value) {
+        out.write(reinterpret_cast<const char*>(&value), sizeof(value));
+    }
+
+    static void writeGGUFMetadataString(std::ostream& out, const std::string& key, const std::string& value) {
+        writeGGUFString(out, key);
+        writeGGUFUInt32(out, 8u); // GGUF string type
+        writeGGUFString(out, value);
+    }
+
+    static void writeGGUFMetadataUInt32(std::ostream& out, const std::string& key, uint32_t value) {
+        writeGGUFString(out, key);
+        writeGGUFUInt32(out, 4u); // GGUF uint32 type
+        writeGGUFUInt32(out, value);
+    }
+
+    static void writeGGUFFloat32(std::ostream& out, float value) {
+        out.write(reinterpret_cast<const char*>(&value), sizeof(value));
+    }
+
+    static void writeGGUFMetadataFloat32(std::ostream& out, const std::string& key, float value) {
+        writeGGUFString(out, key);
+        writeGGUFUInt32(out, 6u); // GGUF float32 type
+        writeGGUFFloat32(out, value);
+    }
+
+    static void writeGGUFMetadataBool(std::ostream& out, const std::string& key, bool value) {
+        writeGGUFString(out, key);
+        writeGGUFUInt32(out, 7u); // GGUF bool type
+        const uint8_t b = value ? 1u : 0u;
+        out.write(reinterpret_cast<const char*>(&b), sizeof(b));
+    }
+
+    static void writeGGUFStringArray(std::ostream& out, const std::string& key, const std::vector<std::string>& values) {
+        writeGGUFString(out, key);
+        writeGGUFUInt32(out, 9u); // GGUF array type
+        writeGGUFUInt32(out, static_cast<uint32_t>(8u)); // element type: string
+        writeGGUFUInt64(out, static_cast<uint64_t>(values.size()));
+        for (const auto& value : values) {
+            writeGGUFString(out, value);
+        }
+    }
+
+    static void writeGGUFUInt32Array(std::ostream& out, const std::string& key, const std::vector<uint32_t>& values) {
+        writeGGUFString(out, key);
+        writeGGUFUInt32(out, 9u); // GGUF array type
+        writeGGUFUInt32(out, static_cast<uint32_t>(4u)); // element type: uint32
+        writeGGUFUInt64(out, static_cast<uint64_t>(values.size()));
+        for (const auto& value : values) {
+            writeGGUFUInt32(out, value);
+        }
+    }
+
+    static void writeGGUFFloat32Array(std::ostream& out, const std::string& key, const std::vector<float>& values) {
+        writeGGUFString(out, key);
+        writeGGUFUInt32(out, 9u); // GGUF array type
+        writeGGUFUInt32(out, static_cast<uint32_t>(6u)); // element type: float32
+        writeGGUFUInt64(out, static_cast<uint64_t>(values.size()));
+        for (const auto& value : values) {
+            writeGGUFFloat32(out, value);
+        }
+    }
+
+    static void writeMinimalValidGGUF(std::ostream& out,
+                                     const std::string& model_name,
+                                     size_t bytes_to_write) {
+        constexpr char kMagic[4] = {'G', 'G', 'U', 'F'};
+        constexpr uint32_t kVersion = 3;
+        constexpr uint64_t kKvCount = 17;
+        constexpr uint32_t kTensorType = 0; // F32 GGML type
+
+        const std::string architecture = "llama";
+        const uint64_t n_vocab = 3;
+        const uint64_t n_embd = 64;
+        const uint64_t n_ff = 64;
+
+        struct TensorSpec {
+            std::string name;
+            std::vector<uint64_t> dims;
+        };
+
+        const std::vector<TensorSpec> tensor_specs = {
+            {"token_embd.weight", {n_embd, n_vocab}},
+            {"output_norm.weight", {n_embd}},
+            {"blk.0.attn_norm.weight", {n_embd}},
+            {"blk.0.attn_q.weight", {n_embd, n_embd}},
+            {"blk.0.attn_k.weight", {n_embd, n_embd}},
+            {"blk.0.attn_v.weight", {n_embd, n_embd}},
+            {"blk.0.attn_output.weight", {n_embd, n_embd}},
+            {"blk.0.ffn_norm.weight", {n_embd}},
+            {"blk.0.ffn_gate.weight", {n_embd, n_ff}},
+            {"blk.0.ffn_down.weight", {n_ff, n_embd}},
+            {"blk.0.ffn_up.weight", {n_embd, n_ff}}
+        };
+
+        const uint64_t kTensorCount = static_cast<uint64_t>(tensor_specs.size());
+
+        out.write(kMagic, sizeof(kMagic));
+        writeGGUFUInt32(out, kVersion);
+        writeGGUFUInt64(out, kTensorCount);
+        writeGGUFUInt64(out, kKvCount);
+
+        writeGGUFMetadataString(out, "general.architecture", architecture);
+        writeGGUFMetadataString(out, "general.name", model_name);
+        writeGGUFMetadataUInt32(out, "llama.context_length", 2048u);
+        writeGGUFMetadataUInt32(out, "llama.embedding_length", static_cast<uint32_t>(n_embd));
+        writeGGUFMetadataUInt32(out, "llama.block_count", 1u);
+        writeGGUFMetadataUInt32(out, "llama.feed_forward_length", static_cast<uint32_t>(n_ff));
+        writeGGUFMetadataUInt32(out, "llama.attention.head_count", 1u);
+        writeGGUFMetadataUInt32(out, "llama.attention.head_count_kv", 1u);
+        writeGGUFMetadataFloat32(out, "llama.attention.layer_norm_rms_epsilon", 1.0e-5f);
+        writeGGUFMetadataUInt32(out, "llama.rope.dimension_count", static_cast<uint32_t>(n_embd));
+        writeGGUFMetadataString(out, "tokenizer.ggml.model", "llama");
+        writeGGUFMetadataString(out, "tokenizer.ggml.pre", "default");
+        writeGGUFStringArray(out, "tokenizer.ggml.tokens", {"<unk>", "<s>", "</s>"});
+        writeGGUFUInt32Array(out, "tokenizer.ggml.token_type", {0u, 1u, 1u});
+        writeGGUFFloat32Array(out, "tokenizer.ggml.scores", {0.0f, 0.0f, 0.0f});
+        writeGGUFMetadataUInt32(out, "tokenizer.ggml.bos_token_id", 1u);
+        writeGGUFMetadataBool(out, "tokenizer.ggml.add_bos_token", true);
+
+        uint64_t data_offset = 0;
+        for (const auto& tensor : tensor_specs) {
+            uint64_t element_count = 1;
+            for (uint64_t dim : tensor.dims) {
+                element_count *= dim;
+            }
+            const uint64_t bytes = element_count * sizeof(float);
+
+            writeGGUFString(out, tensor.name);
+            writeGGUFUInt32(out, static_cast<uint32_t>(tensor.dims.size()));
+            for (uint64_t dim : tensor.dims) {
+                writeGGUFUInt64(out, dim);
+            }
+            writeGGUFUInt32(out, kTensorType);
+            writeGGUFUInt64(out, data_offset);
+            data_offset += bytes;
+        }
+
+        const std::streamoff current = static_cast<std::streamoff>(out.tellp());
+        const std::streamoff aligned = ((current + 31) / 32) * 32;
+        const std::streamoff pad = std::max<std::streamoff>(0, aligned - current);
+        for (std::streamoff i = 0; i < pad; ++i) {
+            out.put('\0');
+        }
+
+        std::vector<char> dummy_data(bytes_to_write, 0);
+        out.write(dummy_data.data(), static_cast<std::streamsize>(dummy_data.size()));
+    }
     
     // Create a dummy model file for testing
     void createDummyModel(const std::string& filename, size_t size_mb = 100) {
         std::string path = test_model_dir + "/" + filename;
         std::ofstream file(path, std::ios::binary);
-        
-        // Write GGUF magic bytes
-        file.write("GGUF", 4);
-        
-        // Write some dummy data to simulate model size
-        std::vector<char> dummy_data(size_mb * 1024 * 1024, 0);
-        file.write(dummy_data.data(), dummy_data.size());
+        writeMinimalValidGGUF(file, filename, size_mb * 1024ULL * 1024ULL);
         file.close();
     }
     
@@ -61,13 +216,7 @@ protected:
     void createDummyLoRA(const std::string& filename, size_t size_mb = 10) {
         std::string path = test_lora_dir + "/" + filename;
         std::ofstream file(path, std::ios::binary);
-        
-        // Write GGUF magic bytes
-        file.write("GGUF", 4);
-        
-        // Write dummy LoRA data
-        std::vector<char> dummy_data(size_mb * 1024 * 1024, 0);
-        file.write(dummy_data.data(), dummy_data.size());
+        writeMinimalValidGGUF(file, filename, size_mb * 1024ULL * 1024ULL);
         file.close();
     }
 };

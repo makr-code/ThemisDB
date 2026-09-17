@@ -150,6 +150,11 @@ public:
 private:
     Config config_;
     
+    // Stable storage for block metadata so reference-based accessors stay valid
+    // across updates and rehashes.
+    std::unordered_map<int, std::shared_ptr<Block>> block_store_;
+    mutable std::mutex block_store_mutex_;
+    
     // REUSE: ThemisDB's ConcurrentCache for block metadata
     ConcurrentCache<int, Block> blocks_;
     

@@ -568,6 +568,12 @@ foreach(_src IN LISTS SHARDING_AUTOGEN_PREFIX_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_sharding_core")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/sharding/global_secondary_index.cpp
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE sharding
         NAME ${_ctest}

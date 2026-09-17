@@ -129,10 +129,15 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
         return result;
     }
     
-    // Check cooldown
-    if (isInCooldown()) {
-        result.reason = "System in cooldown period after recent rebalance";
-        return result;
+    // Check cooldown without re-entering mutex_ (detectImbalance already holds lock).
+    if (last_rebalance_time_ != std::chrono::system_clock::time_point::min()) {
+        const auto now = std::chrono::system_clock::now();
+        const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now - last_rebalance_time_);
+        if (elapsed < config_.rebalance_cooldown) {
+            result.reason = "System in cooldown period after recent rebalance";
+            return result;
+        }
     }
     
     // Run all detection heuristics
