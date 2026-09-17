@@ -496,6 +496,7 @@ class ErrorAggregator {
   }
 
   buildStateSnapshot() {
+    const totalUniqueSrcErrors = this.fingerprints.size;
     const errors = [];
     for (const [fingerprint, data] of this.fingerprints.entries()) {
       const finding = data.finding || {};
@@ -525,7 +526,7 @@ class ErrorAggregator {
       version: 1,
       generated_at: new Date().toISOString(),
       window_hours: LATEST_PRIORITY_WINDOW_HOURS,
-      total_unique_errors: errors.length,
+      total_unique_errors: totalUniqueSrcErrors,
       stored_error_count: selected.length,
       chronic_threshold: CHRONIC_THRESHOLD,
       errors: selected,

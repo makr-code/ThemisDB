@@ -132,7 +132,9 @@ class AggregateBuildErrorsTests(unittest.TestCase):
 
             self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
             grouped = json.loads(grouped_file.read_text(encoding="utf-8"))
+            state = json.loads(state_file.read_text(encoding="utf-8"))
             self.assertEqual(grouped["stats"]["total_unique_errors"], 1)
+            self.assertEqual(state["total_unique_errors"], 1)
             self.assertEqual(grouped["entries"][0]["file"], "src/index/multi_gpu_vector_index.cpp")
 
     def test_state_snapshot_prefers_chronic_when_capped(self) -> None:
