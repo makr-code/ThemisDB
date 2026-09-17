@@ -64,10 +64,33 @@ runs:
       shell: bash
       run: |
         sudo apt-get update -qq
+        normalize_compiler_pkg() {
+          local compiler_bin="$1"
+          local c_fallback="$2"
+
+          case "$compiler_bin" in
+            clang++)
+              if [[ "$c_fallback" =~ ^clang-[0-9]+$ ]]; then
+                echo "$c_fallback"
+              else
+                echo "clang"
+              fi
+              ;;
+            clang++-*)
+              echo "clang-${compiler_bin#clang++-}"
+              ;;
+            *)
+              echo "$compiler_bin"
+              ;;
+          esac
+        }
+
+        CC_PKG="$(normalize_compiler_pkg "${{ inputs.cc }}" "")"
+        CXX_PKG="$(normalize_compiler_pkg "${{ inputs.cxx }}" "${CC_PKG}")"
         # Base packages required by every C++ CI job. Vulkan/GLSL tooling is
         # required for ThemisDB's GPU backend checks in Linux CI and local
         # validation runs that configure the Vulkan-capable build presets.
-        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev libboost-dev libboost-filesystem-dev libvulkan-dev glslc libcpp-httplib-dev"
+        BASE_PKGS="cmake ninja-build ${CC_PKG} ${CXX_PKG} libgtest-dev pkg-config git libfmt-dev libboost-dev libboost-filesystem-dev libvulkan-dev glslc libcpp-httplib-dev"
         # Append optional extra packages (guard against empty string)
         EXTRA="${{ inputs.extra-packages }}"
         # shellcheck disable=SC2086
@@ -89,4 +112,3 @@ runs:
           sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
           sudo cp *.a     /usr/lib/ 2>/dev/null || true
         fi
-
