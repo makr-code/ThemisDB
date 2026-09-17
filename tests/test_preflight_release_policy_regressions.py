@@ -92,6 +92,7 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             self.assertTrue(sync_paths)
             self.assertTrue(update_paths)
             self.assertEqual(set(sync_paths), set(update_paths))
+            # Guard the exact stale path that broke the release packaging setup step.
             self.assertFalse(any(path == "llama.cpp" or path.endswith("/llama.cpp") for path in sync_paths))
             self.assertFalse(any(path == "llama.cpp" or path.endswith("/llama.cpp") for path in update_paths))
             self.assertTrue(set(sync_paths).issubset(declared_paths))
