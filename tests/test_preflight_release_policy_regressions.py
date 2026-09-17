@@ -96,6 +96,7 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             self.assertFalse(any(path == "llama.cpp" or path.endswith("/llama.cpp") for path in sync_paths))
             self.assertFalse(any(path == "llama.cpp" or path.endswith("/llama.cpp") for path in update_paths))
             self.assertTrue(set(sync_paths).issubset(declared_paths))
+            self.assertTrue(set(update_paths).issubset(declared_paths))
 
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
         workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
