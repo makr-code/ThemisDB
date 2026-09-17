@@ -293,15 +293,16 @@ runs:
               const prefix = commentBody.slice(0, stateStartIndex);
               const stateBlock = commentBody.slice(stateStartIndex, stateBlockEnd);
               const suffix = commentBody.slice(stateBlockEnd);
-              const reservedWithState = stateBlock.length + suffix.length + overflowNotice.length;
-              if (reservedWithState <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
-                const prefixBudget = GITHUB_ISSUE_COMMENT_MAX_CHARS - reservedWithState;
-                const boundedPrefix = prefix.slice(0, Math.max(0, prefixBudget));
-                const suffixBudget = GITHUB_ISSUE_COMMENT_MAX_CHARS
-                  - boundedPrefix.length
+              if ((stateBlock.length + overflowNotice.length) <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
+                const maxPrefixAndSuffix = GITHUB_ISSUE_COMMENT_MAX_CHARS
                   - stateBlock.length
                   - overflowNotice.length;
-                const boundedSuffix = suffix.slice(0, Math.max(0, suffixBudget));
+                const boundedSuffix = suffix.slice(0, Math.max(0, maxPrefixAndSuffix));
+                const prefixBudget = GITHUB_ISSUE_COMMENT_MAX_CHARS
+                  - stateBlock.length
+                  - boundedSuffix.length
+                  - overflowNotice.length;
+                const boundedPrefix = prefix.slice(0, Math.max(0, prefixBudget));
                 const preservedStateBody = `${boundedPrefix}${stateBlock}${boundedSuffix}${overflowNotice}`;
                 if (preservedStateBody.length <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
                   return preservedStateBody;
