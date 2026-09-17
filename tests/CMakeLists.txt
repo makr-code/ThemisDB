@@ -2247,13 +2247,39 @@ endif()
 #         getDisabledModules(), getVersionSummary(), formatBuildInfo(),
 #         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 #         (from build/test_build_info.cpp, Issue #2470)
-add_test(NAME BuildInfoTests
-    COMMAND module_build_test_build_info_focused --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
-set_tests_properties(BuildInfoTests PROPERTIES
-    LABELS "build;info;module;availability;themis;unit"
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:module_build_test_build_info_focused>
-    TIMEOUT 60
-)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp")
+    add_executable(module_build_test_build_info_focused
+        test_build_info.cpp
+        ../src/themis/build_info.cpp
+    )
+
+    target_include_directories(module_build_test_build_info_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}
+    )
+
+    target_link_libraries(module_build_test_build_info_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(module_build_test_build_info_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_TEST_MODE=1
+    )
+
+    add_test(NAME BuildInfoTests
+        COMMAND module_build_test_build_info_focused --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
+    set_tests_properties(BuildInfoTests PROPERTIES
+        LABELS "build;info;module;availability;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:module_build_test_build_info_focused>
+        TIMEOUT 60
+    )
+else()
+    message(WARNING "Build info focused source not found: tests/test_build_info.cpp")
+endif()
 
 # Edition and runtime-license focused test binary (decoupled from themis_tests)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
