@@ -1,0 +1,489 @@
+name: "Release: WordPress Press"
+
+# Rechenaufwand-Score: R=3 (K=3, L=3, N=2) | last-calibrated: 2026-09-17
+# Trigger policy: separater Release-Consumer fuer Stable-Press-Mitteilungen via WordPress REST API.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag (z. B. v2.4.0). Pflicht fuer manual tests"
+        required: true
+        type: string
+      post_status:
+        description: "WordPress post status fuer diesen Lauf"
+        required: false
+        default: "draft"
+        type: choice
+        options: [draft, publish]
+      idempotency_mode:
+        description: "Bei vorhandenem slug: aktualisieren oder ueberspringen"
+        required: false
+        default: "update"
+        type: choice
+        options: [update, skip]
+      use_model:
+        description: "KI-Generierung fuer Pressemitteilung nutzen"
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-wordpress-press-${{ github.ref_name || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  wordpress-press:
+    name: Generate and Publish WordPress Press Post
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect release context
+        id: context
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            function isStableTag(tag) {
+              return !/-(rc|beta|alpha)(?:[.-]?\d+)?$/i.test(tag || '');
+            }
+
+            function extractChangelogSection(content, tagCandidates) {
+              if (!content) return '';
+              const lines = content.split(/\r?\n/);
+              let start = -1;
+              for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line.startsWith('## ')) continue;
+                if (tagCandidates.some(candidate => line.includes(candidate))) {
+                  start = i;
+                  break;
+                }
+              }
+              if (start < 0) return '';
+
+              let end = lines.length;
+              for (let i = start + 1; i < lines.length; i++) {
+                if (lines[i].trim().startsWith('## ')) {
+                  end = i;
+                  break;
+                }
+              }
+              return lines.slice(start, end).join('\n').trim();
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const eventName = context.eventName;
+
+            let releaseData;
+            if (eventName === 'release') {
+              releaseData = context.payload.release;
+            } else {
+              const dispatchTag = `${{ inputs.tag_name || '' }}`.trim();
+              if (!dispatchTag) {
+                core.setFailed('workflow_dispatch requires tag_name');
+                return;
+              }
+              const resolved = await github.rest.repos.getReleaseByTag({
+                owner,
+                repo,
+                tag: dispatchTag,
+              });
+              releaseData = resolved.data;
+            }
+
+            const tag = String(releaseData.tag_name || '').trim();
+            const tagNoV = tag.replace(/^v/, '');
+            const stableByTag = isStableTag(tag);
+            const stableByFlag = releaseData.prerelease !== true;
+            const shouldPublish = stableByTag && stableByFlag;
+            const stableReason = shouldPublish
+              ? 'stable-release'
+              : `non-stable (prerelease=${releaseData.prerelease}, tag=${tag})`;
+
+            const slugSafe = tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            const slug = `themisdb-release-${slugSafe}`;
+
+            let previousStableTag = '';
+            let compareSummary = {
+              previous_tag: '',
+              commit_count: 0,
+              commits: [],
+              referenced_prs: [],
+            };
+
+            try {
+              const releases = await github.paginate(github.rest.repos.listReleases, {
+                owner,
+                repo,
+                per_page: 100,
+              });
+              const previousStable = releases.find(r =>
+                r.tag_name !== tag &&
+                r.draft !== true &&
+                r.prerelease !== true &&
+                isStableTag(r.tag_name)
+              );
+              if (previousStable) {
+                previousStableTag = previousStable.tag_name;
+                const compare = await github.rest.repos.compareCommitsWithBasehead({
+                  owner,
+                  repo,
+                  basehead: `${previousStableTag}...${tag}`,
+                });
+                const commits = (compare.data.commits || []).slice(0, 15).map(c => ({
+                  sha: (c.sha || '').slice(0, 7),
+                  message: (c.commit?.message || '').split('\n')[0],
+                  author: c.commit?.author?.name || '',
+                }));
+                const prSet = new Set();
+                for (const c of commits) {
+                  const matches = c.message.match(/#(\d+)/g) || [];
+                  for (const m of matches) prSet.add(m.replace('#', ''));
+                }
+                compareSummary = {
+                  previous_tag: previousStableTag,
+                  commit_count: compare.data.total_commits || commits.length,
+                  commits,
+                  referenced_prs: Array.from(prSet).slice(0, 10),
+                };
+              }
+            } catch (err) {
+              core.warning(`Compare context could not be collected: ${err.message}`);
+            }
+
+            let changelogSection = '';
+            try {
+              if (fs.existsSync('CHANGELOG.md')) {
+                const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+                const candidates = [
+                  `[${tag}]`,
+                  `[${tagNoV}]`,
+                  `## ${tag}`,
+                  `## ${tagNoV}`,
+                ];
+                changelogSection = extractChangelogSection(changelog, candidates);
+              }
+            } catch (err) {
+              core.warning(`CHANGELOG section parse failed: ${err.message}`);
+            }
+
+            const assets = (releaseData.assets || []).map(a => ({
+              name: a.name,
+              size: a.size,
+              download_url: a.browser_download_url,
+            }));
+
+            const contextPayload = {
+              repository: `${owner}/${repo}`,
+              release: {
+                name: releaseData.name || tag,
+                tag,
+                url: releaseData.html_url,
+                body: releaseData.body || '',
+                published_at: releaseData.published_at,
+                prerelease: !!releaseData.prerelease,
+              },
+              stable: shouldPublish,
+              stable_reason: stableReason,
+              slug,
+              compare: compareSummary,
+              changelog_section: changelogSection,
+              assets,
+            };
+
+            const contextPath = `${process.env.RUNNER_TEMP}/wordpress_press_context.json`;
+            fs.writeFileSync(contextPath, JSON.stringify(contextPayload, null, 2), 'utf8');
+
+            core.setOutput('should_publish', shouldPublish ? 'true' : 'false');
+            core.setOutput('stable_reason', stableReason);
+            core.setOutput('context_path', contextPath);
+            core.setOutput('release_tag', tag);
+            core.setOutput('release_url', releaseData.html_url || '');
+            core.setOutput('slug', slug);
+
+      - name: Resolve target WordPress status
+        id: target-status
+        run: |
+          set -euo pipefail
+          TARGET_STATUS=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.post_status || '' }}" ]; then
+            TARGET_STATUS="${{ inputs.post_status }}"
+          elif [ -n "${WP_DEFAULT_STATUS:-}" ]; then
+            TARGET_STATUS="${WP_DEFAULT_STATUS}"
+          elif [ "${{ github.event_name }}" = "release" ]; then
+            TARGET_STATUS="publish"
+          else
+            TARGET_STATUS="draft"
+          fi
+          echo "status=${TARGET_STATUS}" >> "$GITHUB_OUTPUT"
+        env:
+          WP_DEFAULT_STATUS: ${{ vars.WP_DEFAULT_STATUS || '' }}
+
+      - name: Generate press post content
+        id: generate
+        if: steps.context.outputs.should_publish == 'true'
+        env:
+          CONTEXT_PATH: ${{ steps.context.outputs.context_path }}
+          OUTPUT_PATH: ${{ runner.temp }}/wordpress_press_post.json
+          USE_MODEL: ${{ github.event_name == 'workflow_dispatch' && inputs.use_model || true }}
+          MODEL_TOKEN: ${{ secrets.GITHUB_MODELS_TOKEN || secrets.WP_PRESS_MODEL_TOKEN || secrets.GH_MODELS_TOKEN || '' }}
+          MODEL_ENDPOINT: ${{ vars.WP_PRESS_MODEL_ENDPOINT || 'https://models.inference.ai.azure.com/chat/completions' }}
+          MODEL_NAME: ${{ vars.WP_PRESS_MODEL_NAME || 'openai/gpt-4.1-mini' }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+          import urllib.error
+
+          context_path = os.environ["CONTEXT_PATH"]
+          output_path = os.environ["OUTPUT_PATH"]
+          use_model = os.environ.get("USE_MODEL", "true").lower() == "true"
+          token = os.environ.get("MODEL_TOKEN", "").strip()
+          endpoint = os.environ.get("MODEL_ENDPOINT", "").strip()
+          model = os.environ.get("MODEL_NAME", "openai/gpt-4.1-mini").strip()
+
+          with open(context_path, "r", encoding="utf-8") as f:
+              ctx = json.load(f)
+
+          rel = ctx["release"]
+          tag = rel.get("tag", "")
+          title = f"ThemisDB {tag} als Stable Release veroeffentlicht"
+          compare = ctx.get("compare", {})
+          commits = compare.get("commits", [])[:8]
+          assets = ctx.get("assets", [])
+
+          highlights = [c.get("message", "") for c in commits if c.get("message")]
+          if not highlights and rel.get("body"):
+              highlights = [line.lstrip("- *") for line in rel["body"].splitlines() if line.strip().startswith(("-", "*"))][:8]
+
+          fallback_lines = [
+              f"<p>ThemisDB {tag} ist ab sofort als stable Release verfuegbar.</p>",
+              "<p>Dieses Release bringt wichtige Verbesserungen fuer Stabilitaet, Funktionalitaet und den produktiven Betrieb.</p>",
+          ]
+          if highlights:
+              fallback_lines.append("<h3>Wesentliche Aenderungen</h3>")
+              fallback_lines.append("<ul>")
+              for h in highlights[:8]:
+                  fallback_lines.append(f"  <li>{h}</li>")
+              fallback_lines.append("</ul>")
+          if ctx.get("changelog_section"):
+              fallback_lines.append("<h3>Changelog-Auszug</h3>")
+              fallback_lines.append(f"<pre>{ctx['changelog_section']}</pre>")
+          if assets:
+              fallback_lines.append("<h3>Artefakte</h3>")
+              fallback_lines.append("<ul>")
+              for a in assets[:10]:
+                  fallback_lines.append(f"  <li>{a.get('name','artifact')} ({a.get('size',0)} bytes)</li>")
+              fallback_lines.append("</ul>")
+          fallback_lines.append(f"<p>Alle Details und Downloads: <a href=\"{rel.get('url','')}\">GitHub Release {tag}</a></p>")
+          fallback_html = "\n".join(fallback_lines)
+
+          content_html = fallback_html
+          generation_mode = "fallback"
+
+          if use_model and token and endpoint:
+              prompt_payload = {
+                  "repository": ctx.get("repository"),
+                  "release": rel,
+                  "compare": compare,
+                  "changelog_section": ctx.get("changelog_section", ""),
+                  "assets": assets,
+              }
+              system_prompt = (
+                  "Du bist ein technischer PR-Redakteur. Erzeuge eine faktenbasierte deutsche Pressemitteilung als HTML-Fragment. "
+                  "Nutze ausschliesslich die gelieferten Fakten, erfinde nichts, keine Marketing-Superlative ohne Beleg. "
+                  "Struktur: Einleitung, 3-8 Highlights (ul), optional Breaking/Security, Abschluss mit CTA zum Release-Link."
+              )
+              user_prompt = json.dumps(prompt_payload, ensure_ascii=False)
+              body = {
+                  "model": model,
+                  "messages": [
+                      {"role": "system", "content": system_prompt},
+                      {"role": "user", "content": user_prompt},
+                  ],
+                  "temperature": 0.2,
+                  "max_tokens": 1200,
+              }
+              req = urllib.request.Request(
+                  endpoint,
+                  data=json.dumps(body).encode("utf-8"),
+                  headers={
+                      "Authorization": "Bearer " + token,
+                      "Content-Type": "application/json",
+                  },
+                  method="POST",
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=45) as resp:
+                      payload = json.loads(resp.read().decode("utf-8", errors="ignore"))
+                  choices = payload.get("choices") or []
+                  candidate = ""
+                  if choices:
+                      candidate = ((choices[0].get("message") or {}).get("content") or "").strip()
+                  if candidate:
+                      content_html = candidate
+                      generation_mode = "model"
+              except urllib.error.HTTPError as e:
+                  print(f"Model generation HTTP error: {e.code}")
+              except Exception as e:
+                  print(f"Model generation failed: {e}")
+
+          result = {
+              "title": title,
+              "content": content_html,
+              "generation_mode": generation_mode,
+          }
+          with open(output_path, "w", encoding="utf-8") as f:
+              json.dump(result, f, ensure_ascii=False, indent=2)
+
+          print(f"Generated press content mode: {generation_mode}")
+          PY
+          echo "post_path=${OUTPUT_PATH}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish post to WordPress
+        id: publish
+        if: steps.context.outputs.should_publish == 'true'
+        env:
+          CONTEXT_PATH: ${{ steps.context.outputs.context_path }}
+          POST_PATH: ${{ steps.generate.outputs.post_path }}
+          WP_BASE_URL: ${{ secrets.WP_BASE_URL }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_CATEGORY_ID: ${{ secrets.WP_CATEGORY_ID || vars.WP_CATEGORY_ID || '' }}
+          WP_AUTHOR_ID: ${{ secrets.WP_AUTHOR_ID || vars.WP_AUTHOR_ID || '' }}
+          WP_POST_STATUS: ${{ steps.target-status.outputs.status }}
+          IDEMPOTENCY_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.idempotency_mode || 'update' }}
+        run: |
+          python3 - <<'PY'
+          import base64
+          import json
+          import os
+          import urllib.parse
+          import urllib.request
+          import urllib.error
+
+          required = ["WP_BASE_URL", "WP_USER", "WP_APP_PASSWORD"]
+          for key in required:
+              if not os.environ.get(key, "").strip():
+                  raise SystemExit(f"Missing required secret: {key}")
+
+          with open(os.environ["CONTEXT_PATH"], "r", encoding="utf-8") as f:
+              ctx = json.load(f)
+          with open(os.environ["POST_PATH"], "r", encoding="utf-8") as f:
+              post = json.load(f)
+
+          base_url = os.environ["WP_BASE_URL"].rstrip("/")
+          user = os.environ["WP_USER"]
+          app_password = os.environ["WP_APP_PASSWORD"]
+          auth = base64.b64encode(f"{user}:{app_password}".encode("utf-8")).decode("ascii")
+          headers = {
+              "Authorization": f"Basic {auth}",
+              "Content-Type": "application/json",
+          }
+
+          slug = ctx.get("slug", "")
+          status = os.environ.get("WP_POST_STATUS", "publish").strip() or "publish"
+          mode = os.environ.get("IDEMPOTENCY_MODE", "update").strip() or "update"
+
+          categories_raw = os.environ.get("WP_CATEGORY_ID", "").strip()
+          categories = []
+          if categories_raw:
+              categories = [int(x.strip()) for x in categories_raw.split(",") if x.strip().isdigit()]
+
+          author_raw = os.environ.get("WP_AUTHOR_ID", "").strip()
+          author = int(author_raw) if author_raw.isdigit() else None
+
+          def request_json(method, url, payload=None):
+              body = None
+              if payload is not None:
+                  body = json.dumps(payload).encode("utf-8")
+              req = urllib.request.Request(url, data=body, headers=headers, method=method)
+              try:
+                  with urllib.request.urlopen(req, timeout=45) as resp:
+                      return resp.getcode(), json.loads(resp.read().decode("utf-8", errors="ignore"))
+              except urllib.error.HTTPError as e:
+                  body = e.read().decode("utf-8", errors="ignore")
+                  print(f"WordPress API error HTTP {e.code}: {body[:2000]}")
+                  raise
+
+          query = urllib.parse.urlencode({"slug": slug, "per_page": 1, "_fields": "id,link,status"})
+          check_url = f"{base_url}/wp-json/wp/v2/posts?{query}"
+          code, existing = request_json("GET", check_url)
+          if code >= 400:
+              raise SystemExit(f"Failed to query existing posts for slug={slug}")
+
+          payload = {
+              "title": post.get("title", ""),
+              "content": post.get("content", ""),
+              "status": status,
+              "slug": slug,
+          }
+          if categories:
+              payload["categories"] = categories
+          if author is not None:
+              payload["author"] = author
+
+          result = {"result": "", "post_id": "", "post_url": "", "post_status": status}
+
+          if existing and len(existing) > 0:
+              post_id = existing[0].get("id")
+              result["post_id"] = str(post_id)
+              if mode == "skip":
+                  result["result"] = "skipped-existing"
+                  result["post_url"] = existing[0].get("link", "")
+              else:
+                  update_url = f"{base_url}/wp-json/wp/v2/posts/{post_id}"
+                  _, updated = request_json("POST", update_url, payload)
+                  result["result"] = "updated-existing"
+                  result["post_url"] = updated.get("link", "")
+                  result["post_status"] = updated.get("status", status)
+          else:
+              create_url = f"{base_url}/wp-json/wp/v2/posts"
+              _, created = request_json("POST", create_url, payload)
+              result["result"] = "created"
+              result["post_id"] = str(created.get("id", ""))
+              result["post_url"] = created.get("link", "")
+              result["post_status"] = created.get("status", status)
+
+          output_file = os.environ.get("GITHUB_OUTPUT")
+          with open(output_file, "a", encoding="utf-8") as out:
+              out.write(f"result={result['result']}\n")
+              out.write(f"post_id={result['post_id']}\n")
+              out.write(f"post_url={result['post_url']}\n")
+              out.write(f"post_status={result['post_status']}\n")
+
+          print(f"WordPress publish result: {result['result']}")
+          if result["post_url"]:
+              print(f"WordPress post URL: {result['post_url']}")
+          PY
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          {
+            echo "## WordPress Press Release"
+            echo ""
+            echo "- Release Tag: \`${{ steps.context.outputs.release_tag }}\`"
+            echo "- Release URL: ${{ steps.context.outputs.release_url || 'n/a' }}"
+            echo "- Stable Gate: \`${{ steps.context.outputs.should_publish }}\` (${{ steps.context.outputs.stable_reason }})"
+            echo "- Target Post Status: \`${{ steps.target-status.outputs.status }}\`"
+            echo "- Publish Result: \`${{ steps.publish.outputs.result || 'not-run' }}\`"
+            echo "- WordPress Post URL: ${{ steps.publish.outputs.post_url || 'n/a' }}"
+            echo ""
+            if [ "${{ steps.context.outputs.should_publish }}" != "true" ]; then
+              echo "> Press-Mitteilung wurde nicht veroeffentlicht, weil kein stable Release erkannt wurde."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
