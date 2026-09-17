@@ -137,7 +137,23 @@ jobs:
       configure_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
       build_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake --build build --parallel 16
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
+        set -euo pipefail;
+        BUILD_LOG="$(mktemp)";
+        BUILD_EXIT_FILE="$(mktemp)";
+        trap 'rm -f "${BUILD_LOG}" "${BUILD_EXIT_FILE}"' EXIT;
+        set +e;
+        ( cmake --build build --parallel 16; echo "$?" > "${BUILD_EXIT_FILE}" ) 2>&1 | tee "${BUILD_LOG}";
+        BUILD_EXIT="$(cat "${BUILD_EXIT_FILE}")";
+        set -e;
+        if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
+          echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
+          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
+          cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
+          cmake --build build --parallel 16;
+        else
+          exit "${BUILD_EXIT}";
+        fi
       validation_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ctest --test-dir build --output-on-failure -j 1 --timeout 60
       artifact_name: ctest-results-${{ github.run_number }}
@@ -270,11 +286,34 @@ jobs:
           }
 
           disable_sccache_and_reconfigure() {
-            echo "::warning::Transient sccache backend failure detected; reconfiguring build-macos without compiler launcher and retrying once"
+            echo "::warning::Transient sccache backend failure detected; patching build caches to remove sccache compiler launcher and retrying once"
             sccache --stop-server >/dev/null 2>&1 || true
+            # Directly patch CMakeCache.txt in the top-level build and any
+            # FetchContent sub-builds (which have separate CMakeCache.txt
+            # files that are not updated by a top-level cmake reconfigure).
+            # This ensures the launcher is cleared even if the cmake reconfigure
+            # below fails for a transient reason.
+            # Use process substitution so the while loop is not in a subshell
+            # and pipefail cannot trigger on a find failure.
+            while IFS= read -r -d '' _cache; do
+              # Use perl -i (portable across macOS BSD and GNU Linux) and
+              # match any non-empty launcher value so full sccache paths
+              # (e.g. /opt/homebrew/bin/sccache) are also cleared.
+              perl -i -pe \
+                's|CMAKE_C_COMPILER_LAUNCHER:STRING=\S+|CMAKE_C_COMPILER_LAUNCHER:STRING=|g;
+                 s|CMAKE_CXX_COMPILER_LAUNCHER:STRING=\S+|CMAKE_CXX_COMPILER_LAUNCHER:STRING=|g' \
+                "${_cache}" || true
+            done < <(find build-macos -maxdepth 4 -name 'CMakeCache.txt' -print0 2>/dev/null) || true
+            # Re-run cmake configure so Ninja regenerates build files without
+            # the sccache launcher.  Non-fatal: if cmake reconfigure fails for
+            # any transient reason (e.g. FetchContent network check while the
+            # same cache backend outage is still active), the direct cache
+            # patches above still take effect on the next cmake --build call.
             cmake -S . -B build-macos \
               -DCMAKE_C_COMPILER_LAUNCHER= \
-              -DCMAKE_CXX_COMPILER_LAUNCHER=
+              -DCMAKE_CXX_COMPILER_LAUNCHER= || {
+              echo "::warning::cmake reconfigure failed during sccache disable; build will proceed with direct CMakeCache.txt patch only"
+            }
             SCCACHE_FALLBACK_APPLIED=1
           }
 
