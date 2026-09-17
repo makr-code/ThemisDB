@@ -181,9 +181,10 @@ jobs:
             const stableByTag = isStableTag(tag);
             const stableByFlag = releaseData.prerelease !== true;
             const shouldPublish = stableByTag && stableByFlag;
+            const releaseContextNote = hasReleaseObject ? 'release-object' : 'synthetic-context';
             const stableReason = shouldPublish
               ? (hasReleaseObject ? 'stable-release' : 'stable-tag-without-release-object')
-              : `non-stable (prerelease=${releaseData.prerelease}, tag=${tag})`;
+              : `non-stable (${releaseContextNote}; prerelease=${releaseData.prerelease}, tag=${tag})`;
 
             const slugSafe = tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
             const slug = `themisdb-release-${slugSafe}`;
