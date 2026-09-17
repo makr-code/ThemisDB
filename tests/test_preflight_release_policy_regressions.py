@@ -7,6 +7,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
+RELEASE_BUILD_MATRIX_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-build-matrix.yml"
 WORDPRESS_PRESS_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-wordpress-press.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
 DOCS_ROCKSDB_GENERATOR = REPO_ROOT / "scripts" / "generate_docs_rocksdb.py"
@@ -62,6 +63,31 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
 
 
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
+    def test_release_build_matrix_submodule_sync_only_references_declared_paths(self) -> None:
+        workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        gitmodules_text = (REPO_ROOT / ".gitmodules").read_text(encoding="utf-8")
+        declared_paths = set(re.findall(r"^\s*path = (.+)$", gitmodules_text, re.MULTILINE))
+
+        for job_id in ("linux-release", "windows-release"):
+            job_block = extract_yaml_job_block(workflow_text, job_id)
+            sync_match = re.search(r"git submodule sync -- (?P<paths>.+?)(?:\s+\|\|.*)?$", job_block, re.MULTILINE)
+            update_match = re.search(
+                r"git submodule update --init --depth 1 (?P<paths>.+?)(?:\s+\|\|.*)?$",
+                job_block,
+                re.MULTILINE,
+            )
+
+            self.assertIsNotNone(sync_match, msg=f"missing sync command for {job_id}")
+            self.assertIsNotNone(update_match, msg=f"missing update command for {job_id}")
+
+            sync_paths = sync_match.group("paths").split()
+            update_paths = update_match.group("paths").split()
+
+            self.assertEqual(sync_paths, update_paths)
+            self.assertTrue(sync_paths)
+            self.assertNotIn("llama.cpp", sync_paths)
+            self.assertTrue(set(sync_paths).issubset(declared_paths))
+
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
         workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
         macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
