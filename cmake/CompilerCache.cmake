@@ -44,6 +44,7 @@ if(THEMIS_COMPILER_CACHE_EXECUTABLE)
         set(_themis_cache_launcher_usable TRUE)
         execute_process(
             COMMAND "${THEMIS_COMPILER_CACHE_EXECUTABLE}" --show-stats
+            TIMEOUT 10
             RESULT_VARIABLE _themis_cache_launcher_probe_result
             OUTPUT_QUIET
             ERROR_VARIABLE _themis_cache_launcher_probe_error
