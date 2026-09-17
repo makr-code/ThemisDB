@@ -95,7 +95,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: reusable-cmake-build-${{ github.workflow_ref }}-${{ github.ref }}
+  group: reusable-cmake-build-${{ github.ref }}-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:
