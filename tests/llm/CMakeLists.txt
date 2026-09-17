@@ -17,10 +17,18 @@ if(WIN32)
             return()
         endif()
 
-        if(DEFINED _themis_vcpkg_bin_dir AND NOT "${_themis_vcpkg_bin_dir}" STREQUAL "")
+        if(CMAKE_BUILD_TYPE STREQUAL "Debug"
+           AND DEFINED _themis_vcpkg_debug_bin_dir
+           AND EXISTS "${_themis_vcpkg_debug_bin_dir}")
+            set(_llm_vcpkg_runtime_bin_dir "${_themis_vcpkg_debug_bin_dir}")
+        elseif(DEFINED _themis_vcpkg_bin_dir AND NOT "${_themis_vcpkg_bin_dir}" STREQUAL "")
             set(_llm_vcpkg_runtime_bin_dir "${_themis_vcpkg_bin_dir}")
         else()
-            set(_llm_vcpkg_runtime_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+            if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/debug/bin")
+                set(_llm_vcpkg_runtime_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/debug/bin")
+            else()
+                set(_llm_vcpkg_runtime_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+            endif()
         endif()
 
         add_custom_command(TARGET ${target_name} POST_BUILD

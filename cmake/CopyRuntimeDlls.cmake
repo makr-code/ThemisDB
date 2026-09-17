@@ -89,26 +89,3 @@ _cleanup_zero_byte_themis_dlls("${DST_DIR}")
 
 _copy_dlls_if_present("${BIN_DIR}")
 _copy_dlls_if_present("${VCPKG_BIN_DIR}")
-
-if(WIN32)
-    # Windows loader workaround:
-    # The vcpkg debug protobuf DLL (`libprotobufd.dll`) can fail during
-    # process initialization in this workspace, while the release DLL loads
-    # successfully. Keep the debug import name for consumers, but overwrite the
-    # copied payload with the working release binary so sharding/LLM focused
-    # executables can start normally.
-    if(EXISTS "${DST_DIR}/libprotobuf.dll" AND EXISTS "${DST_DIR}/libprotobufd.dll")
-        execute_process(
-            COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-                    "${DST_DIR}/libprotobuf.dll"
-                    "${DST_DIR}/libprotobufd.dll"
-            RESULT_VARIABLE _protobuf_copy_result
-        )
-        if(NOT _protobuf_copy_result EQUAL 0)
-            message(FATAL_ERROR
-                "[CopyRuntimeDlls] Failed to replace libprotobufd.dll with libprotobuf.dll")
-        endif()
-        message(STATUS
-            "[CopyRuntimeDlls] Replaced libprotobufd.dll with libprotobuf.dll for Windows loader stability")
-    endif()
-endif()

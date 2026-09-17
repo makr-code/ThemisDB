@@ -132,20 +132,24 @@ endif()
 set(_themis_vcpkg_include_dir "")
 set(_themis_vcpkg_lib_dir "")
 set(_themis_vcpkg_bin_dir "")
+set(_themis_vcpkg_debug_bin_dir "")
 if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
     set(_themis_vcpkg_include_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
     set(_themis_vcpkg_lib_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib")
     set(_themis_vcpkg_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+    set(_themis_vcpkg_debug_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
 elseif(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}")
     set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include")
     set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib")
     set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/bin")
+    set(_themis_vcpkg_debug_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/debug/bin")
 endif()
 
 if(NOT _themis_vcpkg_bin_dir AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
     set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include")
     set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib")
     set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+    set(_themis_vcpkg_debug_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/debug/bin")
 endif()
 
 # Auto-discover modularized test folders under tests/<module>/CMakeLists.txt.
@@ -2122,20 +2126,30 @@ endif()
 # Copy DLLs to test directory on Windows after build
 if(WIN32)
     function(themis_sync_runtime_dlls_for_target target_name)
+        set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_bin_dir}")
+        if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${_themis_vcpkg_debug_bin_dir}")
+            set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_debug_bin_dir}")
+        endif()
+
         add_custom_command(TARGET ${target_name} POST_BUILD
             COMMAND ${CMAKE_COMMAND}
                 -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-                -DVCPKG_BIN_DIR=${_themis_vcpkg_bin_dir}
+                -DVCPKG_BIN_DIR=${_themis_runtime_vcpkg_bin_dir}
                 -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
                 -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
             COMMENT "Syncing runtime DLLs for ${target_name}"
         )
     endfunction()
 
+    set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_bin_dir}")
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${_themis_vcpkg_debug_bin_dir}")
+        set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_debug_bin_dir}")
+    endif()
+
     add_custom_target(sync_test_runtime_dlls
         COMMAND ${CMAKE_COMMAND}
             -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-            -DVCPKG_BIN_DIR=${_themis_vcpkg_bin_dir}
+            -DVCPKG_BIN_DIR=${_themis_runtime_vcpkg_bin_dir}
             -DDST_DIR=${CMAKE_BINARY_DIR}/cmake/tests
             -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
         COMMENT "Syncing runtime DLLs to cmake/tests"
