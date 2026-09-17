@@ -137,7 +137,23 @@ jobs:
       configure_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
       build_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake --build build --parallel 16
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
+        set -euo pipefail;
+        BUILD_LOG="$(mktemp)";
+        BUILD_EXIT_FILE="$(mktemp)";
+        trap 'rm -f "${BUILD_LOG}" "${BUILD_EXIT_FILE}"' EXIT;
+        set +e;
+        ( cmake --build build --parallel 16; echo "$?" > "${BUILD_EXIT_FILE}" ) 2>&1 | tee "${BUILD_LOG}";
+        BUILD_EXIT="$(cat "${BUILD_EXIT_FILE}")";
+        set -e;
+        if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
+          echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
+          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
+          cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
+          cmake --build build --parallel 16;
+        else
+          exit "${BUILD_EXIT}";
+        fi
       validation_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ctest --test-dir build --output-on-failure -j 1 --timeout 60
       artifact_name: ctest-results-${{ github.run_number }}
