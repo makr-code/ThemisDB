@@ -283,6 +283,7 @@ jobs:
             local test_name="$2"
             local build_log
             local build_exit
+            local keep_build_log=0
             if ! has_declared_target "${target}"; then
               echo "::warning::Target ${target} is not registered in this CMake graph; skipping"
               BUILD_WARN=$(( BUILD_WARN + 1 ))
@@ -307,8 +308,8 @@ jobs:
               disable_sccache_and_reconfigure
               echo "  ↻ Retrying ${target} without sccache…"
               set +e
-              cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1
-              build_exit=$?
+              cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1 | tee "${build_log}"
+              build_exit="${PIPESTATUS[0]}"
               set -e
               if [ "${build_exit}" -eq 0 ]; then
                 echo "    ✅ ${target} built after disabling sccache"
@@ -319,14 +320,18 @@ jobs:
                   BUILT_TEST_REGEX="${BUILT_TEST_REGEX}|${test_name}"
                 fi
               else
-                echo "::warning::Target ${target} failed to build after disabling sccache; skipping its tests"
+                echo "::warning::Target ${target} failed to build after disabling sccache; log preserved at ${build_log}"
+                keep_build_log=1
                 BUILD_WARN=$(( BUILD_WARN + 1 ))
               fi
             else
-              echo "::warning::Target ${target} failed to build; skipping its tests"
+              echo "::warning::Target ${target} failed to build; log preserved at ${build_log}"
+              keep_build_log=1
               BUILD_WARN=$(( BUILD_WARN + 1 ))
             fi
-            rm -f "${build_log}"
+            if [ "${keep_build_log}" -eq 0 ]; then
+              rm -f "${build_log}"
+            fi
           }
 
           build_target test_config_file_watcher_focused ConfigFileWatcherFocusedTests
