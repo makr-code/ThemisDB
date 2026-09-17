@@ -291,8 +291,10 @@ jobs:
             DECLARED_COUNT=$(( DECLARED_COUNT + 1 ))
             echo "  → Building ${target}…"
             build_log="$(mktemp)"
+            set +e
             cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1 | tee "${build_log}"
             build_exit="${PIPESTATUS[0]}"
+            set -e
             if [ "${build_exit}" -eq 0 ]; then
               echo "    ✅ ${target} built"
               BUILT_COUNT=$(( BUILT_COUNT + 1 ))
@@ -304,8 +306,10 @@ jobs:
             elif [ "${SCCACHE_FALLBACK_APPLIED}" -eq 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${build_log}"; then
               disable_sccache_and_reconfigure
               echo "  ↻ Retrying ${target} without sccache…"
-              cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1 | tee "${build_log}"
-              build_exit="${PIPESTATUS[0]}"
+              set +e
+              cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1
+              build_exit=$?
+              set -e
               if [ "${build_exit}" -eq 0 ]; then
                 echo "    ✅ ${target} built after disabling sccache"
                 BUILT_COUNT=$(( BUILT_COUNT + 1 ))

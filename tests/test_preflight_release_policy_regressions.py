@@ -74,18 +74,22 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
     def test_macos_kqueue_lane_retries_without_sccache_on_backend_failure(self) -> None:
         workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
         macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+        helper_match = re.search(
+            r"disable_sccache_and_reconfigure\(\) \{(?P<body>.*?)\n\s+\}",
+            macos_kqueue_job,
+            re.DOTALL,
+        )
 
         self.assertIn("SCCACHE_FALLBACK_APPLIED=0", macos_kqueue_job)
         self.assertIn(
             "grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' \"${build_log}\"",
             macos_kqueue_job,
         )
-        self.assertIn(
-            'cmake -S . -B build-macos \\',
-            macos_kqueue_job,
-        )
-        self.assertIn("-DCMAKE_C_COMPILER_LAUNCHER=", macos_kqueue_job)
-        self.assertIn("-DCMAKE_CXX_COMPILER_LAUNCHER=", macos_kqueue_job)
+        self.assertIsNotNone(helper_match)
+        helper_body = helper_match.group("body")
+        self.assertIn('cmake -S . -B build-macos \\', helper_body)
+        self.assertIn("-DCMAKE_C_COMPILER_LAUNCHER=", helper_body)
+        self.assertIn("-DCMAKE_CXX_COMPILER_LAUNCHER=", helper_body)
 
     def test_ai_safety_chaos_links_themis_llm_when_available(self) -> None:
         cmake_text = TESTS_CMAKELISTS.read_text(encoding="utf-8")
