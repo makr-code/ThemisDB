@@ -92,14 +92,14 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             self.assertTrue(sync_paths)
             self.assertTrue(update_paths)
             self.assertEqual(set(sync_paths), set(update_paths))
-            self.assertTrue(
-                set(sync_paths).issubset(declared_paths),
-                msg=f"{job_id} sync command includes undeclared submodule paths (for example the stale llama.cpp entry)",
-            )
-            self.assertTrue(
-                set(update_paths).issubset(declared_paths),
-                msg=f"{job_id} update command includes undeclared submodule paths (for example the stale llama.cpp entry)",
-            )
+            for command_name, command_paths in (("sync", sync_paths), ("update", update_paths)):
+                self.assertTrue(
+                    set(command_paths).issubset(declared_paths),
+                    msg=(
+                        f"{job_id} {command_name} command includes undeclared submodule paths "
+                        "(for example the stale llama.cpp entry)"
+                    ),
+                )
 
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
         workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
