@@ -27,6 +27,7 @@ else()
 endif()
 
 find_program(THEMIS_COMPILER_CACHE_EXECUTABLE NAMES ${_themis_cache_candidates})
+set(THEMIS_COMPILER_CACHE_ACTIVE FALSE CACHE BOOL "Whether compiler cache launcher is active for this configure" FORCE)
 
 if(THEMIS_COMPILER_CACHE_EXECUTABLE)
     set(_themis_cache_root "${CMAKE_SOURCE_DIR}/.cache/sccache")
@@ -40,12 +41,44 @@ if(THEMIS_COMPILER_CACHE_EXECUTABLE)
     if(EXISTS "${_themis_cache_probe}")
         file(REMOVE "${_themis_cache_probe}")
         set(ENV{SCCACHE_DIR} "${_themis_cache_root}")
-        set(CMAKE_C_COMPILER_LAUNCHER "${THEMIS_COMPILER_CACHE_EXECUTABLE}" CACHE STRING "C compiler launcher" FORCE)
-        set(CMAKE_CXX_COMPILER_LAUNCHER "${THEMIS_COMPILER_CACHE_EXECUTABLE}" CACHE STRING "CXX compiler launcher" FORCE)
-        message(STATUS "Compiler cache: enabled (${THEMIS_COMPILER_CACHE_EXECUTABLE}) using ${_themis_cache_root}")
+
+        set(_themis_cache_launcher_usable TRUE)
+        execute_process(
+            COMMAND "${THEMIS_COMPILER_CACHE_EXECUTABLE}" --show-stats
+            TIMEOUT 10
+            RESULT_VARIABLE _themis_cache_launcher_probe_result
+            OUTPUT_QUIET
+            ERROR_VARIABLE _themis_cache_launcher_probe_error
+            ERROR_STRIP_TRAILING_WHITESPACE
+        )
+        if(NOT _themis_cache_launcher_probe_result EQUAL 0)
+            set(_themis_cache_launcher_usable FALSE)
+            string(REPLACE "\n" " " _themis_cache_launcher_probe_error_single_line "${_themis_cache_launcher_probe_error}")
+            string(STRIP "${_themis_cache_launcher_probe_error_single_line}" _themis_cache_launcher_probe_error)
+            unset(_themis_cache_launcher_probe_error_single_line)
+            if(_themis_cache_launcher_probe_error STREQUAL "")
+                set(_themis_cache_launcher_probe_error "probe command '--show-stats' failed")
+            endif()
+        endif()
+
+        if(_themis_cache_launcher_usable)
+            set(CMAKE_C_COMPILER_LAUNCHER "${THEMIS_COMPILER_CACHE_EXECUTABLE}" CACHE STRING "C compiler launcher" FORCE)
+            set(CMAKE_CXX_COMPILER_LAUNCHER "${THEMIS_COMPILER_CACHE_EXECUTABLE}" CACHE STRING "CXX compiler launcher" FORCE)
+            set(THEMIS_COMPILER_CACHE_ACTIVE TRUE CACHE BOOL "Whether compiler cache launcher is active for this configure" FORCE)
+            message(STATUS "Compiler cache: enabled (${THEMIS_COMPILER_CACHE_EXECUTABLE}) using ${_themis_cache_root}")
+        else()
+            unset(CMAKE_C_COMPILER_LAUNCHER CACHE)
+            unset(CMAKE_CXX_COMPILER_LAUNCHER CACHE)
+            set(THEMIS_COMPILER_CACHE_ACTIVE FALSE CACHE BOOL "Whether compiler cache launcher is active for this configure" FORCE)
+            message(WARNING
+                "Compiler cache launcher was found but is currently unavailable: ${THEMIS_COMPILER_CACHE_EXECUTABLE} "
+                "(${_themis_cache_launcher_probe_error}). Disabling compiler cache for this build."
+            )
+        endif()
     else()
         unset(CMAKE_C_COMPILER_LAUNCHER CACHE)
         unset(CMAKE_CXX_COMPILER_LAUNCHER CACHE)
+        set(THEMIS_COMPILER_CACHE_ACTIVE FALSE CACHE BOOL "Whether compiler cache launcher is active for this configure" FORCE)
         message(WARNING "Compiler cache found but cache directory is not writable: ${_themis_cache_root}. Disabling compiler cache for this build.")
     endif()
 else()
