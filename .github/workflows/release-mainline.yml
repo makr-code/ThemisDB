@@ -698,7 +698,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build pkg-config \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+            librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
             libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libboost-system-dev \
             libboost-dev libboost-filesystem-dev libpugixml-dev
