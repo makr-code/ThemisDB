@@ -69,6 +69,9 @@ runs:
           local c_fallback="$2"
 
           case "$compiler_bin" in
+            clang|clang-[0-9]*)
+              echo "$compiler_bin"
+              ;;
             clang++)
               if [[ "$c_fallback" =~ ^clang-[0-9]+$ ]]; then
                 echo "$c_fallback"
@@ -76,7 +79,7 @@ runs:
                 echo "clang"
               fi
               ;;
-            clang++-*)
+            clang++-[0-9]*)
               echo "clang-${compiler_bin#clang++-}"
               ;;
             *)
