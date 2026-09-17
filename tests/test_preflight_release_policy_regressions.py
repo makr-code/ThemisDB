@@ -7,6 +7,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
+WORDPRESS_PRESS_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-wordpress-press.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
 DOCS_ROCKSDB_GENERATOR = REPO_ROOT / "scripts" / "generate_docs_rocksdb.py"
 
@@ -90,6 +91,25 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertIn("Status status = DB::Open(options, db_path, &raw_db);", generator_text)
         self.assertIn("std::unique_ptr<DB> db(raw_db);", generator_text)
         self.assertNotIn("Status status = DB::Open(options, db_path, &db);", generator_text)
+
+    def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
+        workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn("async function buildSyntheticDispatchRelease(tagName)", workflow_text)
+        self.assertIn("github.rest.git.getRef({", workflow_text)
+        self.assertIn(
+            "Dispatch tag ${dispatchTag} has no GitHub Release object; using synthetic context.",
+            workflow_text,
+        )
+        self.assertIn("core.setOutput('has_release_object', hasReleaseObject ? 'true' : 'false');", workflow_text)
+
+    def test_wordpress_press_live_publish_requires_real_release_object(self) -> None:
+        workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn(
+            "if: steps.context.outputs.should_publish == 'true' && steps.context.outputs.has_release_object == 'true' && steps.dry-run.outputs.enabled != 'true'",
+            workflow_text,
+        )
 
 
 if __name__ == "__main__":
