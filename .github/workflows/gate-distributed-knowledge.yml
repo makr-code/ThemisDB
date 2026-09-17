@@ -144,6 +144,9 @@ jobs:
     timeout-minutes: 20
     needs: build-distributed-knowledge
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup C++ runtime dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
@@ -172,6 +175,9 @@ jobs:
     timeout-minutes: 25
     needs: build-distributed-knowledge
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup C++ runtime dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
@@ -274,7 +280,7 @@ jobs:
           script: |
             const label = 'ci/failure';
             const gate  = 'Gate: Module Validation [distributed_knowledge]';
-            const runUrl = `https://github.com/${{ context.repo.owner }}/${{ context.repo.repo }}/actions/runs/${{ context.runId }}`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const prNumber = context.payload.pull_request.number;
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
