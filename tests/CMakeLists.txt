@@ -2250,12 +2250,13 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp")
     add_executable(module_build_test_build_info_focused
         test_build_info.cpp
+        ../src/themis/build_info.cpp
     )
 
     target_include_directories(module_build_test_build_info_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
-        ${CMAKE_BINARY_DIR}/proto_generated
+        ${CMAKE_BINARY_DIR}
     )
 
     target_link_libraries(module_build_test_build_info_focused PRIVATE

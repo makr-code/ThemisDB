@@ -275,6 +275,44 @@ runs:
             return `\n\n---\nsource_workflow: ${sourceWorkflow}\nsource_run: ${sourceRunId}${runUrl ? ` (${runUrl})` : ''}\nsource_sha: ${shortSha}`;
           };
 
+          const GITHUB_ISSUE_COMMENT_MAX_CHARS = 65536;
+          const trimCommentForGitHubLimit = (commentBody) => {
+            if (typeof commentBody !== 'string') return '';
+            if (commentBody.length <= GITHUB_ISSUE_COMMENT_MAX_CHARS) return commentBody;
+
+            const stateStart = '<!-- ci-build:error-state:v1 -->';
+            const stateEnd = '<!-- /ci-build:error-state:v1 -->';
+            const stateStartIndex = commentBody.indexOf(stateStart);
+            const stateEndIndex = commentBody.indexOf(stateEnd);
+            const hasStateBlock = stateStartIndex >= 0 && stateEndIndex > stateStartIndex;
+            const stateBlockEnd = hasStateBlock ? stateEndIndex + stateEnd.length : -1;
+
+            const overflowNotice = `\n\n---\n⚠️ Comment truncated to ${GITHUB_ISSUE_COMMENT_MAX_CHARS} characters (original: ${commentBody.length}). Full report remains in workflow artifacts.\n`;
+
+            if (hasStateBlock) {
+              const prefix = commentBody.slice(0, stateStartIndex);
+              const stateBlock = commentBody.slice(stateStartIndex, stateBlockEnd);
+              const suffix = commentBody.slice(stateBlockEnd);
+              if ((stateBlock.length + overflowNotice.length) <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
+                const maxPrefixAndSuffix = GITHUB_ISSUE_COMMENT_MAX_CHARS
+                  - stateBlock.length
+                  - overflowNotice.length;
+                const preferredPrefixBudget = Math.floor(maxPrefixAndSuffix * 0.7);
+                const boundedPrefix = prefix.slice(0, Math.max(0, preferredPrefixBudget));
+                const suffixBudget = maxPrefixAndSuffix - boundedPrefix.length;
+                const boundedSuffix = suffix.slice(0, Math.max(0, suffixBudget));
+                const preservedStateBody = `${boundedPrefix}${stateBlock}${boundedSuffix}${overflowNotice}`;
+                if (preservedStateBody.length <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
+                  return preservedStateBody;
+                }
+                core.warning('status-flags-and-issues: state-preserving truncation exceeded GitHub limit; falling back to plain truncation');
+              }
+            }
+
+            const plainBudget = Math.max(0, GITHUB_ISSUE_COMMENT_MAX_CHARS - overflowNotice.length);
+            return `${commentBody.slice(0, plainBudget)}${overflowNotice}`;
+          };
+
           if (!op) {
             core.setFailed('status-flags-and-issues: operation is required');
             setOutputs();
@@ -360,20 +398,21 @@ runs:
               : null;
 
             const annotatedBody = `Target: ${resolvedTarget}\n\n${body}\n\n---\nsource_workflow: ${sourceWorkflow}\nsource_run: ${sourceRunId}\nsource_sha: ${sourceSha ? sourceSha.slice(0, 7) : ''}`;
+            const boundedBody = trimCommentForGitHubLimit(annotatedBody);
 
             if (existing) {
               await github.rest.issues.updateComment({
                 owner,
                 repo,
                 comment_id: existing.id,
-                body: annotatedBody,
+                body: boundedBody,
               });
               out.action_result = 'commented';
               setOutputs();
               return;
             }
 
-            await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body: annotatedBody });
+            await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body: boundedBody });
             out.action_result = 'commented';
             setOutputs();
             return;
