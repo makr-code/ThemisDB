@@ -90,7 +90,7 @@ runs:
           esac
         }
 
-        CC_PKG="$(normalize_compiler_pkg "${{ inputs.cc }}" "${{ inputs.cc }}")"
+        CC_PKG="$(normalize_compiler_pkg "${{ inputs.cc }}" "")"
         CXX_PKG="$(normalize_compiler_pkg "${{ inputs.cxx }}" "${{ inputs.cc }}")"
         # Base packages required by every C++ CI job. Vulkan/GLSL tooling is
         # required for ThemisDB's GPU backend checks in Linux CI and local
