@@ -78,6 +78,13 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
         "${_src}"
         ${_extra_sources}
     )
+    if(_stem STREQUAL "test_aql_conversation_context")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
+        )
+    endif()
     # Some focused tests require additional implementation units that are
     # not covered by the conditional _extra_sources logic above (edge-cases
     # when modular targets are present or specific helper files live in

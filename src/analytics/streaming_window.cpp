@@ -541,9 +541,6 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    if (record_added) {
-        ++records_ingested_;
-    }
     return record_added;
 }
 
@@ -871,9 +868,6 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
         }
-    }
-    if (record_added) {
-        ++records_ingested_;
     }
     return record_added;
 }

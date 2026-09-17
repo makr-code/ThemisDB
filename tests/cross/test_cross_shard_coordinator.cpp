@@ -1021,7 +1021,7 @@ TEST(CoordinatorIdConfigTest, EmptyCoordinatorIdNoCrash) {
 
 TEST(ShardRpcCompensateTest, CompensateReturnsTrue) {
     themis::sharding::ShardRPCClient::Config cfg;
-    cfg.endpoint = "shard-test:50051";
+    cfg.endpoint = "inproc://shard-test";
     cfg.timeout_ms = 500;
     cfg.max_retries = 1;
     cfg.enable_circuit_breaker = false;
@@ -1034,7 +1034,7 @@ TEST(ShardRpcCompensateTest, CompensateReturnsTrue) {
 
 TEST(ShardRpcCompensateTest, CompensateWithEmptyOperationSucceeds) {
     themis::sharding::ShardRPCClient::Config cfg;
-    cfg.endpoint = "shard-test:50051";
+    cfg.endpoint = "inproc://shard-test";
     cfg.timeout_ms = 500;
     cfg.max_retries = 1;
     cfg.enable_circuit_breaker = false;
@@ -1050,7 +1050,7 @@ TEST(ShardRpcCompensateTest, CompensateWithEmptyOperationSucceeds) {
 
 TEST(ShardRpcInjectHandlerTest, InjectedHandlerCalledInsteadOfHardcoded) {
     themis::sharding::ShardRPCClient::Config cfg;
-    cfg.endpoint     = "shard-inject:50051";
+    cfg.endpoint     = "inproc://shard-inject";
     cfg.timeout_ms   = 500;
     cfg.max_retries  = 1;
     cfg.enable_circuit_breaker = false;
@@ -1073,7 +1073,7 @@ TEST(ShardRpcInjectHandlerTest, InjectedHandlerCalledInsteadOfHardcoded) {
 
 TEST(ShardRpcInjectHandlerTest, InjectedAbortVoteFailsPrepare) {
     themis::sharding::ShardRPCClient::Config cfg;
-    cfg.endpoint     = "shard-abort:50051";
+    cfg.endpoint     = "inproc://shard-abort";
     cfg.timeout_ms   = 500;
     cfg.max_retries  = 1;
     cfg.enable_circuit_breaker = false;
@@ -1094,7 +1094,7 @@ TEST(ShardRpcInjectHandlerTest, InjectedAbortVoteFailsPrepare) {
 
 TEST(ShardRpcInjectHandlerTest, ClearHandlerRestoresHardcodedFallback) {
     themis::sharding::ShardRPCClient::Config cfg;
-    cfg.endpoint     = "shard-clear:50051";
+    cfg.endpoint     = "inproc://shard-clear";
     cfg.timeout_ms   = 500;
     cfg.max_retries  = 1;
     cfg.enable_circuit_breaker = false;
@@ -1176,7 +1176,7 @@ TEST(DISABLED_CrossShard3PCCallbackTest, PreCommitNackAbortsTransaction) {
 // simulation with no injected handler).
 TEST(ShardRpcCollectWaitForEdgesTest, DefaultReturnsEmptyList) {
     themis::sharding::ShardRPCClient::Config cfg;
-    cfg.endpoint           = "shard-wfe-default:50051";
+    cfg.endpoint           = "inproc://shard-wfe-default";
     cfg.timeout_ms         = 500;
     cfg.max_retries        = 1;
     cfg.enable_circuit_breaker = false;
@@ -1190,7 +1190,7 @@ TEST(ShardRpcCollectWaitForEdgesTest, DefaultReturnsEmptyList) {
 // injected handler and ignores malformed entries.
 TEST(ShardRpcCollectWaitForEdgesTest, InjectedHandlerEdgesAreParsed) {
     themis::sharding::ShardRPCClient::Config cfg;
-    cfg.endpoint           = "shard-wfe-inject:50051";
+    cfg.endpoint           = "inproc://shard-wfe-inject";
     cfg.timeout_ms         = 500;
     cfg.max_retries        = 1;
     cfg.enable_circuit_breaker = false;

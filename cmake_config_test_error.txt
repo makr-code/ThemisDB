@@ -1,0 +1,2384 @@
+-- Themis: MSVC selection = vs2022
+-- Applied Visual Studio environment from: C:\Program Files/Microsoft Visual Studio/2022/Professional/Common7/Tools/VsDevCmd.bat
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+-- ThemisDB dependency contract: STRICT mode enabled. Core dependencies must resolve without silent fallback.
+-- Running vcpkg install
+Loading dependency information for 199 packages...
+Detecting compiler hash for triplet x64-windows...
+Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+The following packages are already installed:
+  * abseil:x64-windows@20260107.1#3
+    arrow[core,parquet,json,filesystem,csv]:x64-windows@25.0.1
+    benchmark:x64-windows@1.9.0
+  * blas:x64-windows@2023-04-14#6
+    boost:x64-windows@1.92.0
+  * boost-accumulators:x64-windows@1.92.0
+  * boost-algorithm:x64-windows@1.92.0
+  * boost-align:x64-windows@1.92.0
+  * boost-any:x64-windows@1.92.0
+  * boost-array:x64-windows@1.92.0
+  * boost-asio[core,spawn,deadline-timer]:x64-windows@1.92.0
+  * boost-assert:x64-windows@1.92.0
+  * boost-assign:x64-windows@1.92.0
+  * boost-atomic:x64-windows@1.92.0
+  * boost-beast:x64-windows@1.92.0
+  * boost-bimap:x64-windows@1.92.0
+  * boost-bind:x64-windows@1.92.0
+  * boost-bloom:x64-windows@1.92.0
+  * boost-callable-traits:x64-windows@1.92.0
+  * boost-charconv:x64-windows@1.92.0
+  * boost-chrono:x64-windows@1.92.0
+  * boost-circular-buffer:x64-windows@1.92.0
+  * boost-cmake:x64-windows@1.92.0
+  * boost-cobalt:x64-windows@1.92.0
+  * boost-compat:x64-windows@1.92.0
+  * boost-compute:x64-windows@1.92.0
+  * boost-concept-check:x64-windows@1.92.0
+  * boost-config:x64-windows@1.92.0
+  * boost-container:x64-windows@1.92.0
+  * boost-container-hash:x64-windows@1.92.0
+  * boost-context:x64-windows@1.92.0
+  * boost-contract:x64-windows@1.92.0
+  * boost-conversion:x64-windows@1.92.0
+  * boost-convert:x64-windows@1.92.0
+  * boost-core:x64-windows@1.92.0
+  * boost-coroutine:x64-windows@1.92.0
+  * boost-coroutine2:x64-windows@1.92.0
+  * boost-crc:x64-windows@1.92.0
+  * boost-date-time:x64-windows@1.92.0
+  * boost-decimal:x64-windows@1.92.0
+  * boost-describe:x64-windows@1.92.0
+  * boost-detail:x64-windows@1.92.0
+  * boost-dll:x64-windows@1.92.0
+  * boost-dynamic-bitset:x64-windows@1.92.0
+  * boost-endian:x64-windows@1.92.0
+  * boost-exception:x64-windows@1.92.0
+  * boost-fiber:x64-windows@1.92.0
+  * boost-filesystem:x64-windows@1.92.0
+  * boost-flyweight:x64-windows@1.92.0
+  * boost-foreach:x64-windows@1.92.0
+  * boost-format:x64-windows@1.92.0
+  * boost-function:x64-windows@1.92.0
+  * boost-function-types:x64-windows@1.92.0
+  * boost-functional:x64-windows@1.92.0
+  * boost-fusion:x64-windows@1.92.0
+  * boost-geometry:x64-windows@1.92.0
+  * boost-gil:x64-windows@1.92.0
+  * boost-graph:x64-windows@1.92.0
+  * boost-hana:x64-windows@1.92.0
+  * boost-hash2:x64-windows@1.92.0
+  * boost-headers:x64-windows@1.92.0
+  * boost-heap:x64-windows@1.92.0
+  * boost-histogram:x64-windows@1.92.0
+  * boost-hof:x64-windows@1.92.0
+  * boost-icl:x64-windows@1.92.0
+  * boost-integer:x64-windows@1.92.0
+  * boost-interprocess:x64-windows@1.92.0
+  * boost-interval:x64-windows@1.92.0
+  * boost-intrusive:x64-windows@1.92.0
+  * boost-io:x64-windows@1.92.0
+  * boost-iostreams[core,zstd,zlib,lzma,bzip2]:x64-windows@1.92.0
+  * boost-iterator:x64-windows@1.92.0
+  * boost-json:x64-windows@1.92.0
+  * boost-lambda:x64-windows@1.92.0
+  * boost-lambda2:x64-windows@1.92.0
+  * boost-leaf:x64-windows@1.92.0
+  * boost-lexical-cast:x64-windows@1.92.0
+  * boost-local-function:x64-windows@1.92.0
+  * boost-locale:x64-windows@1.92.0
+  * boost-lockfree:x64-windows@1.92.0
+  * boost-log:x64-windows@1.92.0
+  * boost-logic:x64-windows@1.92.0
+  * boost-math:x64-windows@1.92.0
+  * boost-metaparse:x64-windows@1.92.0
+  * boost-move:x64-windows@1.92.0
+  * boost-mp11:x64-windows@1.92.0
+  * boost-mpl:x64-windows@1.92.0
+  * boost-mqtt5:x64-windows@1.92.0
+  * boost-msm:x64-windows@1.92.0
+  * boost-multi-array:x64-windows@1.92.0
+  * boost-multi-index:x64-windows@1.92.0
+  * boost-multiprecision:x64-windows@1.92.0
+  * boost-mysql:x64-windows@1.92.0
+  * boost-nowide:x64-windows@1.92.0
+  * boost-numeric-conversion:x64-windows@1.92.0
+  * boost-odeint:x64-windows@1.92.0
+  * boost-openmethod:x64-windows@1.92.0
+  * boost-optional:x64-windows@1.92.0
+  * boost-outcome:x64-windows@1.92.0
+  * boost-parameter:x64-windows@1.92.0
+  * boost-parameter-python:x64-windows@1.92.0
+  * boost-parser:x64-windows@1.92.0
+  * boost-pfr:x64-windows@1.92.0
+  * boost-phoenix:x64-windows@1.92.0
+  * boost-poly-collection:x64-windows@1.92.0
+  * boost-polygon:x64-windows@1.92.0
+  * boost-pool:x64-windows@1.92.0
+  * boost-predef:x64-windows@1.92.0
+  * boost-preprocessor:x64-windows@1.92.0
+  * boost-process:x64-windows@1.92.0
+  * boost-program-options:x64-windows@1.92.0
+  * boost-property-map:x64-windows@1.92.0
+  * boost-property-tree:x64-windows@1.92.0
+  * boost-proto:x64-windows@1.92.0
+  * boost-ptr-container:x64-windows@1.92.0
+  * boost-python:x64-windows@1.92.0
+  * boost-qvm:x64-windows@1.92.0
+  * boost-random:x64-windows@1.92.0
+  * boost-range:x64-windows@1.92.0
+  * boost-ratio:x64-windows@1.92.0
+  * boost-rational:x64-windows@1.92.0
+  * boost-redis:x64-windows@1.92.0
+  * boost-regex:x64-windows@1.92.0
+  * boost-safe-numerics:x64-windows@1.92.0
+  * boost-scope:x64-windows@1.92.0
+  * boost-scope-exit:x64-windows@1.92.0
+  * boost-serialization:x64-windows@1.92.0
+  * boost-signals2:x64-windows@1.92.0
+  * boost-smart-ptr:x64-windows@1.92.0
+  * boost-sort:x64-windows@1.92.0
+  * boost-spirit:x64-windows@1.92.0
+  * boost-stacktrace[core,windbg]:x64-windows@1.92.0
+  * boost-statechart:x64-windows@1.92.0
+  * boost-static-assert:x64-windows@1.92.0
+  * boost-static-string:x64-windows@1.92.0
+  * boost-stl-interfaces:x64-windows@1.92.0
+  * boost-system:x64-windows@1.92.0
+  * boost-test:x64-windows@1.92.0
+  * boost-thread:x64-windows@1.92.0
+  * boost-throw-exception:x64-windows@1.92.0
+  * boost-timer:x64-windows@1.92.0
+  * boost-tokenizer:x64-windows@1.92.0
+  * boost-tti:x64-windows@1.92.0
+  * boost-tuple:x64-windows@1.92.0
+  * boost-type-erasure:x64-windows@1.92.0
+  * boost-type-index:x64-windows@1.92.0
+  * boost-type-traits:x64-windows@1.92.0
+  * boost-typeof:x64-windows@1.92.0
+  * boost-ublas:x64-windows@1.92.0
+  * boost-uninstall:x64-windows@1.92.0
+  * boost-units:x64-windows@1.92.0
+  * boost-unordered:x64-windows@1.92.0
+  * boost-url:x64-windows@1.92.0
+  * boost-utility:x64-windows@1.92.0
+  * boost-uuid:x64-windows@1.92.0
+  * boost-variant:x64-windows@1.92.0
+  * boost-variant2:x64-windows@1.92.0
+  * boost-vmd:x64-windows@1.92.0
+  * boost-wave:x64-windows@1.92.0
+  * boost-winapi:x64-windows@1.92.0
+  * boost-xpressive:x64-windows@1.92.0
+  * boost-yap:x64-windows@1.92.0
+  * brotli:x64-windows@1.2.0
+  * bzip2[core,tool]:x64-windows@1.0.8#6
+  * c-ares:x64-windows@1.34.8
+  * clapack:x64-windows@3.2.1#25
+    curl[core,sspi,ssl,non-http]:x64-windows@8.22.0#1
+  * expat:x64-windows@2.8.4
+    faiss:x64-windows@1.13.2
+    fmt:x64-windows@12.2.0#1
+  * gflags:x64-windows@2.3.0
+  * glslang:x64-windows@16.4.0
+    grpc[core,codegen]:x64-windows@1.81.1
+    gtest:x64-windows@1.18.0
+    hwloc:x64-windows@2.11.2
+  * libevent[core,thread]:x64-windows@2.1.12+20230128#1
+  * libffi:x64-windows@3.8.0
+  * liblzma:x64-windows@5.8.3
+  * lz4:x64-windows@1.10.0
+  * mimalloc:x64-windows@3.5.1
+    nlohmann-json:x64-windows@3.12.0#2
+  * openblas:x64-windows@0.3.28
+    openssl:x64-windows@3.6.4
+    opentelemetry-cpp[core,otlp-http]:x64-windows@1.28.0
+  * pkgconf:x64-windows@3.0.3
+    protobuf[core,libprotoc]:x64-windows@6.33.4#2
+    pugixml:x64-windows@1.16
+  * python3[core,extensions]:x64-windows@3.12.13#1
+  * rapidjson:x64-windows@2025-02-26
+  * re2:x64-windows@2025-11-05
+    rocksdb[core,zlib]:x64-windows@11.8.1
+    shaderc:x64-windows@2026.2
+    simdjson[core,utf8-validation,threads,exceptions,deprecated]:x64-windows@4.6.8
+  * snappy:x64-windows@1.2.2#2
+    spdlog[core,tz-offset,fmt]:x64-windows@1.17.0#1
+  * spirv-headers:x64-windows@1.4.357.0
+  * spirv-tools:x64-windows@1.4.357.0
+  * sqlite3[core,json1]:x64-windows@3.53.4
+    tbb[core,hwloc]:x64-windows@2023.1.0
+  * thrift:x64-windows@0.24.0
+  * utf8-range:x64-windows@6.33.4
+  * utf8proc:x64-windows@2.11.3
+  * vcpkg-boost:x64-windows@2026-08-21
+  * vcpkg-cmake:x64-windows@2025-08-07
+  * vcpkg-cmake-config:x64-windows@2026-07-21
+  * vcpkg-cmake-get-vars:x64-windows@2025-05-29
+  * vcpkg-get-python:x64-windows@2025-02-09
+  * vcpkg-make:x64-windows@2026-07-09
+  * vcpkg-msbuild:x64-windows@2023-08-08
+  * vcpkg-pkgconfig-get-modules:x64-windows@2024-04-03
+  * vcpkg-tool-meson:x64-windows@1.9.0#10
+    vulkan:x64-windows@2023-12-17
+  * vulkan-headers:x64-windows@1.4.357.0
+    vulkan-loader:x64-windows@1.4.357.0
+  * xsimd:x64-windows@14.3.0
+    yaml-cpp:x64-windows@0.9.0#1
+    zlib:x64-windows@1.3.2#2
+    zstd:x64-windows@1.5.7
+zstd provides CMake targets:
+
+  find_package(zstd CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE zstd::libzstd)
+
+zlib is compatible with built-in CMake targets:
+
+  find_package(ZLIB REQUIRED)
+  target_link_libraries(main PRIVATE ZLIB::ZLIB)
+
+zlib provides pkg-config modules:
+
+  # zlib compression library
+  zlib
+
+openssl is compatible with built-in CMake targets:
+
+  find_package(OpenSSL REQUIRED)
+  target_link_libraries(main PRIVATE OpenSSL::SSL)
+  target_link_libraries(main PRIVATE OpenSSL::Crypto)
+
+The package arrow provides CMake targets:
+
+    find_package(Arrow CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE "$<IF:$<BOOL:${ARROW_BUILD_STATIC}>,Arrow::arrow_static,Arrow::arrow_shared>")
+
+    find_package(Parquet CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE "$<IF:$<BOOL:${ARROW_BUILD_STATIC}>,Parquet::parquet_static,Parquet::parquet_shared>")
+
+benchmark provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(benchmark CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE benchmark::benchmark benchmark::benchmark_main)
+
+benchmark provides pkg-config modules:
+
+  # Google microbenchmark framework
+  benchmark
+
+  # Google microbenchmark framework (with main() function)
+  benchmark_main
+
+curl is compatible with built-in CMake targets:
+
+    find_package(CURL REQUIRED)
+    target_link_libraries(main PRIVATE CURL::libcurl)
+
+faiss provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(faiss CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE faiss)
+
+The package fmt provides CMake targets:
+
+    find_package(fmt CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE fmt::fmt)
+
+    # Or use the header-only version
+    find_package(fmt CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE fmt::fmt-header-only)
+
+protobuf provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(protobuf CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE protobuf::libupb protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
+
+protobuf provides pkg-config modules:
+
+  # Google's Data Interchange Format
+  protobuf-lite
+
+  # Google's Data Interchange Format
+  protobuf
+
+  # Google's Data Interchange Format
+  upb
+
+grpc provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(gRPC CONFIG REQUIRED)
+  # note: 20 additional targets are not displayed.
+  target_link_libraries(main PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+
+The package gtest is compatible with built-in CMake targets:
+
+    enable_testing()
+    
+    find_package(GTest CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+    
+    add_test(AllTestsInMain main)
+
+hwloc provides pkg-config modules:
+
+  # Hardware locality detection and management library
+  hwloc
+
+The package nlohmann-json provides CMake targets:
+
+    find_package(nlohmann_json CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
+
+The package nlohmann-json can be configured to not provide implicit conversions via a custom triplet file:
+
+    set(nlohmann-json_IMPLICIT_CONVERSIONS OFF)
+
+For more information, see the docs here:
+    
+    https://json.nlohmann.me/api/macros/json_use_implicit_conversions/
+
+opentelemetry-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(opentelemetry-cpp CONFIG REQUIRED)
+  # note: 25 additional targets are not displayed.
+  target_link_libraries(main PRIVATE opentelemetry-cpp::api opentelemetry-cpp::ext opentelemetry-cpp::sdk opentelemetry-cpp::logs)
+
+opentelemetry-cpp provides pkg-config modules:
+
+  # A header-only library to support instrumentation with OpenTelemetry.
+  opentelemetry_api
+
+  # Common components for the OpenTelemetry SDK, a library for exporting telemetry.
+  opentelemetry_common
+
+  # In-memory span exporter for testing and debugging.
+  opentelemetry_exporter_in_memory
+
+  # In-memory metric exporter for testing and debugging.
+  opentelemetry_exporter_in_memory_metric
+
+  # Exports log records to output stream.
+  opentelemetry_exporter_ostream_logs
+
+  # Builder for OStream log record exporter.
+  opentelemetry_exporter_ostream_logs_builder
+
+  # Exports metrics to output stream.
+  opentelemetry_exporter_ostream_metrics
+
+  # Builder for OStream metrics exporter.
+  opentelemetry_exporter_ostream_metrics_builder
+
+  # Exports trace spans to output stream.
+  opentelemetry_exporter_ostream_span
+
+  # Builder for OStream span exporter.
+  opentelemetry_exporter_ostream_span_builder
+
+  # Common utilities for OTLP exporter builders.
+  opentelemetry_exporter_otlp_builder_utils
+
+  # Exports trace spans via OTLP HTTP.
+  opentelemetry_exporter_otlp_http
+
+  # Builder for OTLP HTTP span exporter.
+  opentelemetry_exporter_otlp_http_builder
+
+  # HTTP client for OTLP protocol.
+  opentelemetry_exporter_otlp_http_client
+
+  # Exports log records via OTLP HTTP.
+  opentelemetry_exporter_otlp_http_log
+
+  # Builder for OTLP HTTP log record exporter.
+  opentelemetry_exporter_otlp_http_log_builder
+
+  # Exports metrics via OTLP HTTP.
+  opentelemetry_exporter_otlp_http_metric
+
+  # Builder for OTLP HTTP metric exporter.
+  opentelemetry_exporter_otlp_http_metric_builder
+
+  # Components for exporting logs in the OpenTelemetry SDK.
+  opentelemetry_logs
+
+  # Components for exporting metrics in the OpenTelemetry SDK.
+  opentelemetry_metrics
+
+  # OTLP recordable implementation for spans, metrics, and logs.
+  opentelemetry_otlp_recordable
+
+  # Protocols for spans, metrics, and logs.
+  opentelemetry_proto
+
+  # Components for resource detection in the OpenTelemetry SDK.
+  opentelemetry_resources
+
+  # Components for exporting traces in the OpenTelemetry SDK.
+  opentelemetry_trace
+
+  # A library exporting version information for OpenTelemetry.
+  opentelemetry_version
+
+pugixml provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(pugixml CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE pugixml::shared pugixml::pugixml)
+
+pugixml provides pkg-config modules:
+
+  # Light-weight, simple and fast XML parser for C++ with XPath support.
+  pugixml
+
+rocksdb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(RocksDB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE RocksDB::rocksdb RocksDB::rocksdb-shared)
+
+rocksdb provides pkg-config modules:
+
+  # An embeddable persistent key-value store for fast storage
+  rocksdb
+
+shaderc provides CMake targets:
+
+    find_package(unofficial-shaderc CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE unofficial::shaderc::shaderc)
+
+simdjson provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(simdjson CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE simdjson::simdjson)
+
+simdjson provides pkg-config modules:
+
+  # Parsing gigabytes of JSON per second
+  simdjson
+
+The package spdlog provides CMake targets:
+
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog)
+
+    # Or use the header-only version
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog_header_only)
+
+tbb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(TBB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE TBB::tbb TBB::tbbmalloc TBB::tbbbind_2_5 TBB::tbbmalloc_proxy)
+
+tbb provides pkg-config modules:
+
+  # C++ library for parallel programming on multi-core processors.
+  tbb
+
+The package vulkan-loader provides the vulkan loader.
+Please be aware of https://github.com/KhronosGroup/Vulkan-Loader/blob/main/docs/LoaderApplicationInterface.md#bundling-the-loader-with-an-application
+
+vulkan is compatible with built-in CMake targets:
+
+    # https://cmake.org/cmake/help/latest/module/FindVulkan.html
+    find_package(Vulkan REQUIRED)
+    target_link_libraries(main PRIVATE Vulkan::Vulkan)
+
+yaml-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(yaml-cpp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE yaml-cpp::yaml-cpp)
+
+yaml-cpp provides pkg-config modules:
+
+  # A YAML parser and emitter for C++
+  yaml-cpp
+
+All requested installations completed successfully in: 3.19 ms
+-- Running vcpkg install - done
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+-- MSVC Include Paths Added (EARLY):
+--   - C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/include
+--   - C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/{ucrt,shared,um}
+-- MSVC Library Paths Added:
+--   - C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64
+--   - C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/{ucrt,um}/x64
+-- MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd) [shared triplet]
+-- Added Windows SDK lib path: C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64
+-- Added Windows SDK UCRT lib path: C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64
+-- Added MSVC lib path: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64
+-- MSVC linker environment seeded: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64
+-- Security Hardening (MSVC): /GS /sdl /guard:cf | /GUARD:CF /NXCOMPAT /DYNAMICBASE  [Release]
+-- IPO/LTO disabled by default (set THEMIS_ENABLE_IPO=ON to enable for Release)
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: MSVC 19.44.35228.0
+-- Compiler cache: enabled (C:/Users/mkrueger/AppData/Local/Microsoft/WinGet/Packages/Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe/sccache-v0.10.0-x86_64-pc-windows-msvc/sccache.exe) using C:/Projects/ThemisDB/.cache/sccache
+-- add_definitions() report written to: C:/Projects/ThemisDB/build-msvc-windows-release/logs/add_definitions_report.txt
+-- ==========================================
+-- Platform Detection:
+--   Target Architecture: x86_64
+--   Target Platform: windows
+--   Target Triplet: x64-windows
+--   System: Windows 10.0.26100
+--   Processor: AMD64
+-- ==========================================
+-- Cross-compile validation: skipped (native build)
+-- Applying architecture optimizations for x86_64...
+--   x86_64 optimization: AVX2 + FMA (native, flags set in CompilerOptions.cmake)
+-- Preloaded zstd::zstd target from pkg-config for RocksDB compatibility
+-- ==========================================
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring COMMUNITY edition...
+--   Hardware limits: Up to 16 GB GPU VRAM (1├ù Tesla T4), 5 nodes, 1 GB cache
+--   Features: Core + optional LLM/gRPC/GPU
+-- ==========================================
+-- Feature Configuration:
+-- ==========================================
+--   WikiIndexStore Phase B: Enabled
+--   LLM Judge backend calls: Enabled
+--   LLM: Enabled
+--     Content ingestion: Enabled
+--     Flash Attention v3: Enabled
+--       Paged KV-Cache: Enabled
+--   Network Protocols:
+--     gRPC: Enabled
+--     HTTP Server: Enabled
+--     WebSocket: Enabled
+--     MQTT: Enabled
+--     MCP: Enabled
+--     SSE: Enabled
+--     GraphQL: Enabled
+--     ONNX Runtime: headers not found ÔÇö runtime probe will select CPUExecutionProvider
+--   GPU Acceleration: Disabled
+-- ÔòÉÔòÉ Geospatial (Geo) Module Features ÔòÉÔòÉ
+--   GPU Backend: CPU-only fallback (THEMIS_GEO_CUDA=OFF, THEMIS_GEO_HIP=OFF)
+--     - All geo operations will use CPU dispatch paths
+--   Performance Gates:
+--     - Haversine (GATE-A-06-01): p99 Ôëñ 10ms
+--     - Point-in-Polygon (GATE-A-06-02): p99 Ôëñ 2ms
+--     - GeoJSON Parse (GATE-A-06-03): p99 Ôëñ 500┬Ás
+--   Circuit-breaker threshold: 5 GPU failures
+--   Diagnostics: DETAILED (on)
+--   Geometry Validation: STRICT (on)
+--   Security & Enterprise:
+--     RFC 3161 TSA (OpenSSL): Enabled
+--   Development Tools:
+--     Unit tests: Enabled
+--     mimalloc: Enabled
+--   Performance Optimizations:
+--     AVX2: ON
+--     Phase 1 (active by default):
+--       RCU Index:  ON  (disable: -DTHEMIS_DISABLE_RCU_INDEX=ON)
+--       LIRS Cache: ON  (disable: -DTHEMIS_DISABLE_LIRS_CACHE=ON)
+--       Huge Pages: ON  (runtime-graceful fallback; disable: -DTHEMIS_DISABLE_HUGE_PAGES=ON)
+--       io_uring:   DISABLED (Linux-only or disabled explicitly)
+--   Plugin Features:
+--     Geo Plugin:                        ON (integrated source)
+--     TimeSeries Plugin:                 ON (integrated source)
+--     Plugin System (core):              ON
+--     Ethics AI Plugin:                  OFF
+--     gRPC RPC Plugin:                   ON
+--     Image Analysis (ONNX CLIP):        ON
+--     User Storage Encrypted Plugin:     ON
+--     Importer Plugins (postgres/mysql/sqlite/mongodb/kafka/s3): configured per flag
+--     Blob Storage Plugins (s3/azure):    configured per flag
+--     HuggingFace Ingestion Plugin:      ON
+--     [Edition override] User Storage Encrypted plugin requires ENTERPRISE or higher
+--     Private Plugin Defaults:
+--       Private plugin discovery:         OFF
+--       Compliance-related defaults:      OFF
+--       Connector/blob defaults:          OFF
+--       Acceleration defaults:            OFF
+--       Regulated-intel defaults:         OFF
+--       Enterprise defaults:              OFF
+-- Themis switches (219): THEMIS_ADALORA_FORCE_REBUILD=OFF  THEMIS_ALLOW_MISSING_ROCKSDB=OFF  THEMIS_AUTO_BOOTSTRAP_DEPS=ON  THEMIS_BENCHMARK_MODE=OFF  THEMIS_BUILD_ADMIN_TOOLS=OFF  THEMIS_BUILD_BENCHMARKS=OFF  THEMIS_BUILD_CHIMERA=OFF  THEMIS_BUILD_DOCKER_RAID_BENCHMARK=OFF  THEMIS_BUILD_DOCS_DB=ON  THEMIS_BUILD_ENTERPRISE=OFF  THEMIS_BUILD_ENTERPRISE_PLUGINS=OFF  THEMIS_BUILD_EVALUATION=ON  THEMIS_BUILD_LEGAL_TRAINING_DATA=OFF  THEMIS_BUILD_MODULAR=ON  THEMIS_BUILD_RETRIEVAL=ON  THEMIS_BUILD_TESTS=ON  THEMIS_BUILD_THEMISCTL=ON  THEMIS_BUILD_TOOLS=ON  THEMIS_CHAOS_ADMIN=OFF  THEMIS_CI_MODE=OFF  THEMIS_CORE_SHARED=OFF  THEMIS_DIAGNOSTIC_MODE=OFF  THEMIS_DISABLE_HUGE_PAGES=OFF  THEMIS_DISABLE_IO_URING=OFF  THEMIS_DISABLE_LIRS_CACHE=OFF  THEMIS_DISABLE_ONNX_RUNTIME=OFF  THEMIS_DISABLE_RCU_INDEX=OFF  THEMIS_DISABLE_SECURITY_HARDENING=OFF  THEMIS_DOCKER_BUILDKIT=ON  THEMIS_DOCKER_BUILDX_PUSH=OFF  THEMIS_DOCS_DB_MODE=AUTO  THEMIS_EAGER_SHADER_BUILD=ON  THEMIS_EDITION=COMMUNITY  THEMIS_EMBEDDED=OFF  THEMIS_ENABLE_ASAN=OFF  THEMIS_ENABLE_AVX2=ON  THEMIS_ENABLE_AZURE=OFF  THEMIS_ENABLE_BAO=OFF  THEMIS_ENABLE_BWTREE=OFF  THEMIS_ENABLE_CICADA=OFF  THEMIS_ENABLE_CLOUD_STORAGE=OFF  THEMIS_ENABLE_COMPILER_CACHE=ON  THEMIS_ENABLE_CONTENT=ON  THEMIS_ENABLE_CONTENT_PROCESSORS=OFF  THEMIS_ENABLE_CUDA=OFF  THEMIS_ENABLE_CUVS=OFF  THEMIS_ENABLE_CYCLE_METRICS=OFF  THEMIS_ENABLE_DETAILED_METRICS=OFF  THEMIS_ENABLE_DIRECTX=OFF  THEMIS_ENABLE_DISKANN=OFF  THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF  THEMIS_ENABLE_DOCKER_SYSTEM=ON  THEMIS_ENABLE_DOSTOEVSKY=OFF  THEMIS_ENABLE_ENTERPRISE_PLUGINS=OFF  THEMIS_ENABLE_FIELD_ENCRYPTION=OFF  THEMIS_ENABLE_FLASH_ATTENTION=ON  THEMIS_ENABLE_GCS=OFF  THEMIS_ENABLE_GDAL=OFF  THEMIS_ENABLE_GPU=OFF  THEMIS_ENABLE_GPU_CYCLE_METRICS=OFF  THEMIS_ENABLE_GRAPHQL=ON  THEMIS_ENABLE_GRPC=ON  THEMIS_ENABLE_GUNROCK=OFF  THEMIS_ENABLE_HIP=OFF  THEMIS_ENABLE_HSM=OFF  THEMIS_ENABLE_HSM_REAL=OFF  THEMIS_ENABLE_HTTP2=OFF  THEMIS_ENABLE_HTTP3=OFF  THEMIS_ENABLE_HTTP_SERVER=ON  THEMIS_ENABLE_HUGE_PAGES=ON  THEMIS_ENABLE_IO_URING=OFF  THEMIS_ENABLE_IPO=OFF  THEMIS_ENABLE_JEMALLOC=OFF  THEMIS_ENABLE_KAFKA=OFF  THEMIS_ENABLE_KERBEROS=ON  THEMIS_ENABLE_LDAP=ON  THEMIS_ENABLE_LEGAL_TRAINING=OFF  THEMIS_ENABLE_LIGRA=OFF  THEMIS_ENABLE_LIRS_CACHE=ON  THEMIS_ENABLE_LLM=ON  THEMIS_ENABLE_LLM_JUDGE=ON  THEMIS_ENABLE_LSAN=OFF  THEMIS_ENABLE_MCP=ON  THEMIS_ENABLE_METAL=OFF  THEMIS_ENABLE_METRICS_EXPORT=OFF  THEMIS_ENABLE_MIMALLOC=ON  THEMIS_ENABLE_MQTT=ON  THEMIS_ENABLE_MQTT_TLS=OFF  THEMIS_ENABLE_MULTI_MASTER=OFF  THEMIS_ENABLE_NCCL=OFF  THEMIS_ENABLE_NPU_ARM=OFF  THEMIS_ENABLE_NPU_INTEL=OFF  THEMIS_ENABLE_NPU_QUALCOMM=OFF  THEMIS_ENABLE_OCR=OFF  THEMIS_ENABLE_OFFICE=OFF  THEMIS_ENABLE_OLAP_VARIANT=OFF  THEMIS_ENABLE_ONEAPI=OFF  THEMIS_ENABLE_OPENCL=OFF  THEMIS_ENABLE_OPENGL=OFF  THEMIS_ENABLE_PACKAGE_SYSTEM=ON  THEMIS_ENABLE_PAGED_KV_CACHE=ON  THEMIS_ENABLE_PDF=OFF  THEMIS_ENABLE_PER_QUERY_COST_MODEL=OFF  THEMIS_ENABLE_PIPER_TTS=OFF  THEMIS_ENABLE_PMEM=OFF  THEMIS_ENABLE_PMU_COUNTERS=OFF  THEMIS_ENABLE_POSTGRES_WIRE=OFF  THEMIS_ENABLE_PROCESS_MINING_TESTS=OFF  THEMIS_ENABLE_RABITQ=OFF  THEMIS_ENABLE_RBAC=OFF  THEMIS_ENABLE_RCCL=OFF  THEMIS_ENABLE_RCU_INDEX=ON  THEMIS_ENABLE_REDIS=OFF  THEMIS_ENABLE_RNNOISE=OFF  THEMIS_ENABLE_ROCM=OFF  THEMIS_ENABLE_S3=OFF  THEMIS_ENABLE_SERVICE_MESH=OFF  THEMIS_ENABLE_SPLINTERDB=OFF  THEMIS_ENABLE_SSE=ON  THEMIS_ENABLE_TF_SERVING=OFF  THEMIS_ENABLE_TRACING=OFF  THEMIS_ENABLE_TSAN=OFF  THEMIS_ENABLE_UBSAN=OFF  THEMIS_ENABLE_VECTOR_SEARCH=OFF  THEMIS_ENABLE_VISION=OFF  THEMIS_ENABLE_VOICE_ASSISTANT=OFF  THEMIS_ENABLE_VULKAN=OFF  THEMIS_ENABLE_WEBDAV=OFF  THEMIS_ENABLE_WEBGPU=OFF  THEMIS_ENABLE_WEBSOCKET=ON  THEMIS_ENABLE_WHISPER=OFF  THEMIS_ENABLE_WISCKEY=OFF  THEMIS_ENABLE_ZLUDA=OFF  THEMIS_ENTERPRISE=OFF  THEMIS_EXECUTION_MODULE=ON  THEMIS_EXTERNALIZE_GEO_PLUGIN=OFF  THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN=OFF  THEMIS_GEO=ON  THEMIS_GEO_CIRCUIT_BREAKER_THRESHOLD=5  THEMIS_GEO_CUDA=OFF  THEMIS_GEO_DIAGNOSTICS_DETAILED=ON  THEMIS_GEO_GATE_GEOJSON_PARSE_P99_US=500  THEMIS_GEO_GATE_HAVERSINE_P99_MS=10  THEMIS_GEO_GATE_PIP_P99_MS=2  THEMIS_GEO_GEOS_PLUGIN=OFF  THEMIS_GEO_GPU=OFF  THEMIS_GEO_H3=OFF  THEMIS_GEO_HIP=OFF  THEMIS_GEO_SIMD=OFF  THEMIS_GEO_STRICT_VALIDATION=ON  THEMIS_GPU_AUTO_DETECT=OFF  THEMIS_GPU_MAX_VRAM_GB=16  THEMIS_HAS_GGML=OFF  THEMIS_HAS_HIREDIS=OFF  THEMIS_HAS_IO_URING=OFF  THEMIS_HAS_LORA_CLASSIFIER=OFF  THEMIS_HAS_NLI=OFF  THEMIS_HAS_OQS=OFF  THEMIS_HAS_ROCKSDB_TENSOR=OFF  THEMIS_HAS_YAML_CPP=OFF  THEMIS_LLM_INFERENCE_TESTS=OFF  THEMIS_LLM_STUB_MODE=OFF  THEMIS_MAX_CACHE_SIZE_MB=1024  THEMIS_MODELS_MODE=SKIP  THEMIS_MODULES_DISABLE_IPO_FOR_DLL_EXPORTS=ON  THEMIS_MODULES_ENABLE_UNITY=OFF  THEMIS_MODULES_UNITY_BATCH_SIZE=20  THEMIS_MODULE_CONTENT=ON  THEMIS_MODULE_GEO=ON  THEMIS_MODULE_GRAPH=ON  THEMIS_MODULE_INGESTION=ON  THEMIS_MODULE_LLM=ON  THEMIS_MODULE_LLM_SPLIT=OFF  THEMIS_MODULE_SHARDING=ON  THEMIS_MODULE_TIMESERIES=ON  THEMIS_MODULE_TRANSACTION=ON  THEMIS_PACKAGE_INCLUDE_BENCHMARKS=OFF  THEMIS_PACKAGE_INCLUDE_GEMMA=OFF  THEMIS_PACKAGE_INCLUDE_TESTS=OFF  THEMIS_PACKAGE_INCLUDE_TINYLLAMA=OFF  THEMIS_PERF_AUTO_ENABLE=ON  THEMIS_PLUGIN_BLOB_AZURE=ON  THEMIS_PLUGIN_BLOB_S3=ON  THEMIS_PLUGIN_ETHICS_AI=OFF  THEMIS_PLUGIN_GEO=ON  THEMIS_PLUGIN_HUGGINGFACE=ON  THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX=ON  THEMIS_PLUGIN_IMPORTER_KAFKA=ON  THEMIS_PLUGIN_IMPORTER_MONGODB=ON  THEMIS_PLUGIN_IMPORTER_MYSQL=ON  THEMIS_PLUGIN_IMPORTER_POSTGRES=ON  THEMIS_PLUGIN_IMPORTER_S3=ON  THEMIS_PLUGIN_IMPORTER_SQLITE=ON  THEMIS_PLUGIN_RPC_GRPC=ON  THEMIS_PLUGIN_SAGA_ORCHESTRATOR=ON  THEMIS_PLUGIN_SCRAPER=ON  THEMIS_PLUGIN_SYSTEM=ON  THEMIS_PLUGIN_TIMESERIES=ON  THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED=OFF  THEMIS_QNAP_BUILD=OFF  THEMIS_RELEASE_BUILD=ON  THEMIS_REQUIRE_REPRODUCIBLE_BUILD=OFF  THEMIS_REQUIRE_SHADER_ARTIFACTS=ON  THEMIS_SHARDING_MAX_NODES=5  THEMIS_STATIC_BUILD=OFF  THEMIS_STRICT_BUILD=OFF  THEMIS_USE_OPENSSL_TSA=ON  THEMIS_VCPKG_FAIL_FAST_ON_LOCK=OFF  THEMIS_VCPKG_INSTALL_RETRY_COUNT=2  THEMIS_VCPKG_INSTALL_RETRY_DELAY_SEC=3  THEMIS_VCPKG_INSTALL_TIMEOUT_SEC=900  THEMIS_VCPKG_LOCK_WAIT_POLL_SEC=2  THEMIS_VCPKG_LOCK_WAIT_TIMEOUT_SEC=30  THEMIS_VLLM_COLOCATION=OFF  THEMIS_WIKI_PHASE_B=ON  THEMIS_WITH_AZURE_SDK=OFF  THEMIS_WITH_GCS_SDK=OFF  THEMIS_WITH_S3_SDK=OFF  THEMIS_ZIP_INCLUDE_DEVELOPMENT=OFF
+-- ==========================================
+-- ==========================================
+-- Edition-Feature Matrix Validation
+-- ==========================================
+-- Validating features against COMMUNITY edition matrix:
+--   THEMIS_ENABLE_LLM: ALLOWED (ON)
+--   THEMIS_ENABLE_GPU: ALLOWED (OFF)
+--   THEMIS_ENABLE_CUDA: ALLOWED (OFF)
+--   THEMIS_ENABLE_GRPC: ALLOWED (ON)
+--   THEMIS_ENABLE_TRACING: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP2: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP3: ALLOWED (OFF)
+--   THEMIS_ENABLE_WEBSOCKET: ALLOWED (ON)
+--   THEMIS_ENABLE_MQTT: ALLOWED (ON)
+--   THEMIS_ENABLE_POSTGRES_WIRE: ALLOWED (OFF)
+--   THEMIS_ENABLE_MCP: ALLOWED (ON)
+--   THEMIS_ENABLE_SSE: ALLOWED (ON)
+--   THEMIS_ENABLE_DISKANN: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISTRIBUTED_TRAINING: ALLOWED (OFF)
+-- ==========================================
+-- Edition-Feature Matrix Validation: Complete
+-- ==========================================
+-- ==========================================
+-- vcpkg Configuration
+-- ==========================================
+-- Binary cache tier 1: Project-local
+--   Location: C:/Projects/ThemisDB/.vcpkg-cache
+-- Binary cache tier 2: User-level
+--   Location: C:\Users\mkrueger\AppData\Local/vcpkg/archives
+-- Binary cache: Enabled (multi-tier local cache)
+--   Mode: Read-Write (all tiers)
+--   Strategy: Project-local ÔåÆ User-level ÔåÆ Fallback
+-- vcpkg root: C:/Projects/ThemisDB/vcpkg (local)
+-- CMAKE_TOOLCHAIN_FILE: C:/Projects/ThemisDB/vcpkg/scripts/buildsystems/vcpkg.cmake (matches vcpkg root)
+-- vcpkg feature: llm
+-- vcpkg feature: rpc (gRPC, protobuf)
+-- vcpkg feature: websocket
+-- vcpkg feature: mcp
+-- vcpkg feature: mqtt (paho-mqttpp3)
+-- Active vcpkg features: llm;rpc;websocket;mcp;mqtt
+-- Validating dependency requirements...
+-- ==========================================
+-- vcpkg configuration complete
+-- ==========================================
+-- Using target-scoped vcpkg fallback include directory: C:/Projects/ThemisDB/vcpkg_installed/x64-windows/include
+-- vcpkg root: C:/Projects/ThemisDB/vcpkg
+-- vcpkg package dirs discovered: 221
+-- vcpkg prefix roots: C:/Projects/ThemisDB/vcpkg_installed/x64-windows;C:/Projects/ThemisDB/vcpkg/installed/x64-windows
+-- RELEASE BUILD MODE: Enforcing strict dependency checking. All required dependencies must be available.
+-- OpenSSL found: 3.6.4
+-- Preseed ZLIB_LIBRARY=C:/Projects/ThemisDB/vcpkg/packages/zlib_x64-windows/lib/z.lib ZLIB_INCLUDE_DIR=C:/Projects/ThemisDB/vcpkg/packages/zlib_x64-windows/include
+-- ZLIB found: 1.3.2 | ZLIB_LIBRARY=C:/Projects/ThemisDB/vcpkg/packages/zlib_x64-windows/lib/z.lib | ZLIB_LIBRARY_RELEASE=C:/Projects/ThemisDB/vcpkg_installed/x64-windows/lib/z.lib
+-- zstd found - enabling Zstandard compression
+-- RocksDB found via CONFIG
+-- simdjson found
+-- TBB found
+-- fmt found
+-- spdlog found
+-- nlohmann_json found
+-- Boost found via CONFIG: 1.92.0 (Boost_DIR=C:/Projects/ThemisDB/vcpkg_installed/x64-windows/share/boost)
+-- Threads found
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found
+-- Protobuf found: 33.4.0
+-- gRPC found
+-- GTest found - tests enabled
+-- Benchmarks disabled (THEMIS_BUILD_BENCHMARKS=OFF)
+-- Prometheus C++ client not found - metrics collection disabled
+-- Install with: vcpkg install prometheus-cpp (optional)
+-- CURL found - enabling HTTP client features
+-- cpp-httplib fallback include directory: C:/Projects/ThemisDB/vcpkg/packages/cpp-httplib_x64-windows/include
+-- cpp-httplib found - enabling built-in HTTP server
+-- MessagePack not found - binary buffer protocol disabled
+-- Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF or Windows platform)
+-- LDAP support: using built-in WinLDAP (wldap32)
+-- ONNX Runtime not found - ONNX serving backend disabled (install via vcpkg: onnxruntime)
+-- Arrow found - enabling Parquet export
+-- Arrow Flight not found - using in-process transport only
+-- yaml-cpp found
+-- FFmpeg not found - video processor will use simulation mode
+-- Install with: vcpkg install ffmpeg:x64-windows
+-- hnswlib not found - using fallback vector search
+-- mimalloc found - enabling high-performance memory allocation
+-- Redis distributed cache coordination disabled (THEMIS_ENABLE_REDIS=OFF)
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found for LLM support
+-- Fetching llama.cpp (pinned commit: b7974)
+-- llama.cpp: Applied MSVC char8_t compatibility flags
+-- Flash Attention: ENABLED (Release build)
+-- Continuous Batching: ENABLED (+8x throughput)
+-- llama.cpp: using local vendored source
+-- Applied MSVC includes to project: llama.cpp
+CMAKE_BUILD_TYPE=Release
+-- Applied MSVC includes to project: ggml
+-- CMAKE_SYSTEM_PROCESSOR: AMD64
+-- CMAKE_GENERATOR_PLATFORM: 
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: /arch:AVX2 GGML_AVX2;GGML_FMA;GGML_F16C
+-- ggml version: 0.9.5
+-- ggml commit:  1e8924fd6-dirty
+-- Applied /Zc:char8_t- to llama target for MSVC compatibility
+-- Applied /Zc:char8_t- to ggml target for MSVC compatibility
+-- llama.cpp configured successfully - LLM plugin support enabled
+--   - Version: b7974
+--   - Flash Attention: ON
+--   - Continuous Batching: ON
+-- Cloud storage support disabled (THEMIS_ENABLE_CLOUD_STORAGE=OFF)
+-- Enable with: cmake -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+-- ============================================
+-- ThemisDB Dependencies Summary
+-- ============================================
+-- Required: OpenSSL, RocksDB, gRPC, Protobuf, GTest
+-- Optional: CURL, Arrow, Parquet, mimalloc, OpenTelemetry
+-- Protocols: HTTP/2=OFF, HTTP/3=OFF
+-- Features: LLM=ON, GPU=OFF, CUDA=OFF
+-- Cloud Storage: Enabled=OFF
+-- ============================================
+-- Validating platform requirements...
+--   Building for Windows platform
+--   Huge pages: auto-disabled (Linux-specific, not supported on Windows)
+-- Platform validation: OK
+-- Validating edition constraints...
+-- Edition validation: OK
+-- Validating feature dependencies...
+--   gRPC enabled - inter-shard communication available
+-- Feature validation: OK
+--   Total features enabled: 0 GPU backend(s)
+--   Key features: LLM, gRPC
+-- Shader build policy: eager=ON, required=ON
+-- Geo module: integrated mode (default, THEMIS_EXTERNALIZE_GEO_PLUGIN=OFF)
+-- [MSVC Init] Compiler pre-validated to skip ABI tests
+-- ExternalProject base directory: C:/Projects/ThemisDB/_e
+-- Windows detected: Long path support recommended. To enable:
+--   PowerShell (Admin): Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
+--   Or: Group Policy Editor > Computer Config > Admin Temp > System > Filesystem > Enable Win32 Long Paths
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+-- [BuildInfo] version=2.4.0-alpha (a187bc52-82ca-5d1a-8b54-a61ff5390c06)  type=alpha  channel=community  id=ebcd3b3d15  uuid=a187bc52-82ca-5d1a-8b54-a61ff5390c06  ts=2026-09-17T05:42:46Z  ts_source=git-commit-date  sig=
+-- Modular build enabled (v2.4.0 >= 1.4.0)
+-- Marked to skip Unity inclusion: C:/Projects/ThemisDB/src/server/http_server.cpp
+-- Marked to skip Unity inclusion: C:/Projects/ThemisDB/src/query/query_engine.cpp
+-- Marked to skip Unity inclusion: C:/Projects/ThemisDB/src/query/functions/function_registry.cpp
+-- Marked to skip Unity inclusion: C:/Projects/ThemisDB/src/index/inverted_index.cpp
+-- Marked to skip Unity inclusion: C:/Projects/ThemisDB/src/index/graph_index.cpp
+-- Marked to skip Unity inclusion: C:/Projects/ThemisDB/src/index/product_quantizer.cpp
+-- MessagePack not found: excluding buffer_binary_protocol.cpp from themis_network
+-- libzip not found - Install with: vcpkg install libzip
+-- Archive processing will not be available
+-- FFmpeg not found - attempting to build from submodule or install with: vcpkg install ffmpeg
+-- Auto-enabling Phase 1 performance optimizations for tests/benchmarks
+--   (Disable with: cmake -DTHEMIS_PERF_AUTO_ENABLE=OFF)
+-- Enabling mimalloc allocator optimization (+10-20% performance)
+-- Found mimalloc: C:/Projects/ThemisDB/vcpkg_installed/x64-windows/share/mimalloc
+-- Windows: Disabling mimalloc-redirect DLL to prevent loader crash
+-- Enabling RCU index optimization (+200-500% read performance)
+-- RCU: Read-Copy-Update for lock-free reads in read-heavy workloads
+-- Enabling LIRS cache optimization (+30-40% cache hit rate)
+-- LIRS: Low Inter-reference Recency Set for scan-resistant caching
+-- Server activation profile default: standard
+-- Edition: COMMUNITY - GPU limited to 16GB, up to 5 nodes
+--   GPU Backend: Vulkan=OFF (cross-platform), CUDA=OFF (NVIDIA-only)
+--   LLM Support: ON
+-- Build reproducibility: commit=ebcd3b3d15c927d90b7cf6b98224e0046d5ffc31 branch=develop dirty=1
+-- No license file specified, using default community license: C:/Projects/ThemisDB/config/license_community_default.json
+-- Embedding license data from: C:/Projects/ThemisDB/config/license_community_default.json
+--   Organization:     ThemisDB Community
+--   License Key:      THEMIS-COMMUNITY-OPENSOURCE
+--   Edition:          COMMUNITY
+--   Expiry Date:      9999-12-31
+--   Max Nodes:        5
+--   Build Timestamp:  2026-09-17 05:47:49 UTC
+-- RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage
+-- fmt found
+-- spdlog found
+-- nlohmann_json found
+-- yaml-cpp found via CONFIG
+-- LZ4 found via CONFIG
+-- Snappy found ÔÇô Prometheus remote-write snappy decompression enabled
+-- Could NOT find hnswlib (missing: hnswlib_DIR)
+-- LLM support enabled - integrating llama.cpp
+-- llama.cpp already available as target (from find_package) - skipping add_subdirectory
+-- Execution module enabled (THEMIS_EXECUTION_MODULE=ON): QueryScheduler + WorkStealingThreadPool
+-- Flash Attention v3: Enabled
+-- Legal LoRA Training Pipeline disabled (set THEMIS_ENABLE_LEGAL_TRAINING=ON to enable)
+-- Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)
+-- gRPC found - enabling LLM gRPC service
+-- themis_wire_v1.proto: protobuf generation configured
+-- ==============================================
+-- MODULAR BUILD MODE ENABLED
+-- Building ThemisDB as separate module libraries
+-- ==============================================
+-- themis_shard_proto shared library created for inter-shard communication (protobuf messages always, gRPC optional)
+-- themisdb API proto generation configured for modular build
+-- Building ThemisDB with modular architecture
+-- Module configured: themis_base
+-- Module configured: themis_storage
+-- Module configured: themis_security
+-- Wave-2: THEMIS_USE_OPENSSL_TSA enabled (RFC 3161 via OpenSSL)
+-- Module configured: themis_transaction
+-- Module configured: themis_query
+-- Module configured: themis_network
+-- Module configured: themis_sharding
+-- themis_sharding linked to themis_shard_proto (protobuf messages always, gRPC optional)
+-- Module configured: themis_timeseries
+-- Module configured: themis_llm_api
+-- Module configured: themis_llm
+-- Module configured: themis_training
+-- Module configured: themis_geo
+-- Module configured: themis_graph
+-- Module configured: themis_content
+-- Module configured: themis_ingestion
+-- THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled for themis_network (themis::wire protobuf handlers active)
+-- THEMIS_API_PROTO_AVAILABLE: enabled for themis_network (ThemisDB gRPC API handlers active)
+-- Created themis_core interface library linking: themis_llm_api;themis_sharding;themis_timeseries;themis_llm_api;themis_llm;themis_geo;themis_graph;themis_content;themis_ingestion
+-- Pruned mimalloc libs from themis_server link libraries
+-- Configuring ThemisDB test suite
+-- tests: using Ninja link job pool 'themis_test_link_pool=1' to avoid file-lock link failures
+-- MSVC: compiler warnings will be suppressed per-test target (/W0)
+-- MSVC Runtime: MultiThreaded$<$<CONFIG:Debug>:Debug>DLL
+-- OpenSSL found: 3.6.4
+-- Test suite: linking themis_security into GTest::gtest;GTest::gtest_main;themis_security
+-- Adding BackendRegistry startup focused tests (acceleration, Issue #37, v1.7.0)
+--   BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor, thread-safety
+-- ZLUDA backend bridge tests registered (THEMIS_ENABLE_ZLUDA=1, no GPU required)
+-- module_distributed_knowledge_test_adapter_capability_announcement_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_cross_shard_feedback_sync_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_distributed_knowledge_highcardinality_stress_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_distributed_knowledge_llm_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_dk_contract_hardening_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_dk_diagnostics_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_federated_distillation_coordinator_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_federated_rag_merger_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- module_distributed_knowledge_test_lora_federation_coordinator_focused: themis_distributed_knowledge target missing at configure time; using direct module sources
+-- GPU tests disabled (THEMIS_ENABLE_GPU=OFF) - skipping tests/gpu/CMakeLists.txt
+-- Adding Metadata SchemaManager focused tests
+--   SchemaManager: automatic table discovery, property type detection, adaptive TTL, changefeeds
+-- Adding Metadata StatisticsCollector focused tests
+--   StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh, metrics hook
+-- Adding Metadata StatisticsCollector auto-refresh focused tests
+--   StatisticsCollector auto-refresh: background thread, metrics hook, interval control
+-- Adding Metadata ColumnLineage focused tests
+--   ColumnLineage: derivation DAG, transitive upstream/downstream traversal, provenance JSON export
+-- Adding Metadata CatalogExporter focused tests
+--   CatalogExporter: Apache Atlas entity bulk API, DataHub MCP emission, injected HTTP (no network)
+-- Adding Metadata SchemaAuditLog focused tests
+--   SchemaAuditLog: durable per-table audit trail, JSON export, round-trip persistence
+-- Adding Metadata SchemaConsistencyChecker focused tests
+--   SchemaConsistencyChecker: background health scan, inconsistency detection and reporting
+-- Adding Metadata IndexRecommender focused tests
+--   IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit, RocksDB persistence, cost-model scoring, metric emission
+-- Adding Metadata DistributedMetadataCatalog focused tests
+--   DistributedMetadataCatalog: cross-shard catalog synchronisation, shard metadata lookup
+-- Adding Metadata SchemaVersionManager focused tests
+--   SchemaVersionManager: schema version tracking, change history, rollback, diff, audit log integration
+-- Adding Metadata SchemaVersionManager dry-run focused tests
+--   SchemaVersionManager/validateMigration: dry-run validation, duplicate-column detection, no-persist guarantee
+-- Adding Metadata MigrationScript focused tests
+--   SchemaMigrationScript: ADD/DROP/ALTER COLUMN DDL generation, type mapping, NOT NULL, reverse migration
+-- Adding Metadata MigrationRegression focused tests
+--   SchemaMigrationRegression: forward/rollback across 5 versions, audit log, validateMigration lifecycle
+-- Adding Metadata SchemaConstraints focused tests
+--   SchemaConstraints: NOT NULL, UNIQUE, CHECK, DEFAULT, foreign key enforcement
+-- Adding Metadata SchemaConstraints persistence focused tests
+--   SchemaConstraintsPersistence: RocksDB round-trip for constraint definitions, reload after restart
+-- Adding Metadata SecurityProvider focused tests
+--   MetadataSecurityProvider: NoOp allows all, RBAC grant/revoke/revokeAll, wildcard resource, ADMIN implies all, assertPermission throws, thread-safety
+-- Adding Metadata ChangeListener focused tests
+--   MetadataChangeListener: FIFO ordering, lastEvent, clear, callback dispatch, setCallback, thread-safety, toJSON
+-- Adding Metadata ExportPolicy focused tests
+--   MetadataExportPolicy: Always/Never/Filtered, exclusion list, exportDelay, removeExclusion, thread-safety
+-- Adding Metadata EncryptionProvider focused tests
+--   MetadataEncryptionProvider: NoOp passthrough, FieldSet XOR cipher, wildcard, addField/removeField, thread-safety, round-trip
+-- Adding Metadata SchemaDiff focused tests
+--   SchemaDiff: added/removed/modified columns and indexes, sorted output, isEmpty, toJSON, SchemaDiffEngine
+-- Adding Metadata Snapshot focused tests
+--   MetadataSnapshot: save/load/remove/list, empty-id guard, sorted list, thread-safety, toJSON, polymorphic store
+-- Adding Metadata contract hardening focused tests
+--   MetadataContractHardening: error code uniqueness, range, dispatch (MET-01..MET-08)
+-- Adding Metadata Phase 2/3 hardening focused tests
+--   MetadataHardeningPhase23: ConsistencyIssue JSON, ColumnRef round-trip, diagnostics (MCH-01..MCH-08)
+-- Adding Metadata Phase A schema churn stress focused tests
+--   MetadataSchemaChurnStress: AdaptiveTTLConfig, PropertyInfo/IndexInfo JSON, schema round-trip (MCH-S01..S08)
+-- Adding Metadata Phase A2 SchemaVersionManager lock contract focused tests
+--   SchemaVersionManagerLockContract: VersionResult failure/success paths, VersionErrorCode distinctness (MCH-L01..L04)
+-- Adding Metadata Phase B1 schema consistency edge-case focused tests
+--   SchemaConsistencyEdgeCases: ConsistencyIssue default, empty fields, JSON array, issue types (MCH-C01..C08)
+-- Adding Metadata Phase B2 column lineage traversal edge-case focused tests
+--   ColumnLineageTraversalEdge: ColumnRef equality/toString/JSON, TransformationType round-trip (MCH-LN01..LN04)
+-- Adding Metadata Phase B3 CatalogExporter failure-path focused tests
+--   CatalogExporterFailurePaths: HTTP 500/200, empty list, DataHub (MCH-EX01..EX04)
+-- Adding Metadata Phase C1 distributed catalog diagnostics focused tests
+--   DistributedCatalogDiagnostics: RecordingChangeListener event count/lastEvent/clear (MCH-DC01..DC04)
+-- Adding Metadata Phase C2 RBAC security diagnostics focused tests
+--   MetadataSecurityRbacDiagnostics: ADMIN implies all, revoke/revokeAll, hasPermission post-revoke (MCH-SEC01..SEC04)
+-- Configuring ONNX CLIP focused test suite
+--     Compiling ONNX CLIP plugin sources into test target: module_onnx_clip_test_onnx_clip_golden_embeddings_focused_focused
+--     WARNING: onnxruntime not found for module_onnx_clip_test_onnx_clip_golden_embeddings_focused_focused - some functionality may be disabled
+--     Registered: module_onnx_clip_test_onnx_clip_golden_embeddings_focused_focused
+--     Compiling ONNX CLIP plugin sources into test target: module_onnx_clip_test_onnx_clip_hot_swap_focused_focused
+--     WARNING: onnxruntime not found for module_onnx_clip_test_onnx_clip_hot_swap_focused_focused - some functionality may be disabled
+--     Registered: module_onnx_clip_test_onnx_clip_hot_swap_focused_focused
+--     Compiling ONNX CLIP plugin sources into test target: module_onnx_clip_test_onnx_clip_mmap_focused_focused
+--     WARNING: onnxruntime not found for module_onnx_clip_test_onnx_clip_mmap_focused_focused - some functionality may be disabled
+--     Registered: module_onnx_clip_test_onnx_clip_mmap_focused_focused
+-- ONNX CLIP focused test suite configuration complete
+-- tests/plugin: runtime_test_plugin.cpp not present ÔÇö skipping runtime plugin dependency for module_plugin_test_plugin_runtime_loading_focused
+-- Adding Query: QueryEngine focused tests
+--   QueryEngine: AQL execution, optimizer, multi-model queries
+-- Adding Query: QueryFederation shard-key routing focused tests
+--   QueryFederation: shard-key routing, partition pruning, scatter-gather
+-- Adding Query: QueryFederation Phase 3 Hardness tests (FED-01..08, timeout/retry/memory)
+--   QueryFederation Hardness: timeout/retry, bounded memory, shard routing, fault-injection (FED-01..08)
+-- Adding Query: ContinuousQueryEngine unit tests (CQ-01..CQ-20)
+--   ContinuousQueryEngine: window spec, synopsis, incremental agg, watermark, result modes
+-- Adding Query: ContinuousQuery E2E integration tests (CQI-01..05)
+--   ContinuousQuery E2E: register, inject, stream, fan-out, late events, cancel/resume, drop/re-register
+-- Adding Query: QueryPlanVisualizer focused tests
+--   QueryPlanVisualizer: EXPLAIN, EXPLAIN ANALYZE, JSON/text output
+-- Adding Query Plan Caching focused tests (v1.7.0, Issue #196)
+--   PlanCache: fingerprinting, parameterized reuse, table invalidation, stats drift, LRU eviction, 24h TTL
+-- Adding Query JIT Compilation focused tests (v1.8.0, Issue #89)
+--   QueryCompiler: hot-path detection, result identity, fallback, key determinism, invalidation, stats
+-- Adding QueryFederation shard-key routing focused tests (query, v1.9.0)
+--   QueryFederation: point-lookupÔåÆ1 shard, rangeÔåÆsubset, full-scanÔåÆbroadcast; ShardingManager::GetShardForKey+GetShardsForKeyRange
+-- Adding AQL LLM Integration validation tests (AQL Consolidation Phase 2)
+--   AQL LLM Integration: Parser validation, diagnostic enrichment, error feedback, retry pipeline
+-- Adding AQL Validation Performance tests (AQL Consolidation Phase 4)
+--   AQL Validation Performance: SLA verification (Ôëñ500ms), throughput (ÔëÑ100q/s), error enrichment
+-- Adding AQL DDL Phase 2 focused tests (DDL-01..DDL-32)
+--   AQL DDL Phase 2: CREATE/DROP/ALTER COLLECTION/INDEX/VIEW, IF EXISTS, OPTIONS, thread-safety
+-- Adding Phase 4 Block 1: Query Module Hardening tests (Issue #5184)
+--   Phase4 Hardening: timeout enforcement, federation audit, container pre-alloc, concurrency safety
+-- Adding Query Module Phase 2: Optimizer Regression tests (33 deterministic cases)
+--   QueryOptimizer Regression: cardinality estimation (RC1-10), cost model (CM1-8), plan cache (PC1-8), estimate validation (EV1-4), performance gates (PG1-2), stress tests (STRESS1)
+-- Adding Phase 2 Agent 2: Query Optimizer Scope Bounds tests (25 deterministic cases)
+--   Phase 2 Agent 2: Scope bounds (SB1-6), result boundaries (RB7-13), federation isolation (FS14-17), edge cases (EC18-22), concurrency (C23), integration (I24-25)
+-- Adding Query: Geospatial Optimizer Phase 6C tests (GEO_OPT_01-40)
+--   Geospatial Optimizer: cost model, hints, index selection, query rewrite (GEO_OPT_01-40)
+-- Adding Query: Geospatial Phase 2 Integration tests (INT_GEO_01-10)
+--   Geospatial Phase 2 Integration: end-to-end spatial query optimization (INT_GEO_01-10)
+--   FTS Parser: SEARCH clause tokens, AST nodes, modifiers (FTS-P-01..16)
+-- Adding Replication HA focused tests
+--   ReplicationHA: config validation, WAL checksum, LWW/CRDT, quorum leader election, witness nodes
+-- Adding Replication: Wave A Batch A-9 chaos tests
+-- Adding Replication Fail-Closed Behavior Wave A-8 tests
+--   Fail-Closed Behavior: WAL failures (FCB-01..04), Lag spikes (FCB-05..08), Health degradation (FCB-09..12), Promotion failures (FCB-13..16)
+-- Adding Replication: geo-placement + WAL shipping p95/p99 benchmarks
+--   BENCH-GEO-01..04: selectLeaderCandidate / selectFailoverCandidate p95/p99 latency
+--   BENCH-WAL-01..04: enqueueSegment throughput and lag p95/p99 under load
+-- Adding Sharding: WALLoggingHelper focused tests (Issue #5375)
+--   WALLoggingHelper: buildEntry fields/timestamp, appendEntry null-noop, live WAL write, exception swallowing, sequential LSN ordering
+-- Adding Sharding: TwoPhaseCommit focused tests
+--   TwoPhaseCommit: prepare/commit/abort, coordinator crash recovery
+-- Adding Sharding: ShardingCore focused tests
+--   ShardingCore: Raft consensus, shard routing, rebalancing
+-- Adding Sharding: ReplicationCoordinator focused tests (QW-28)
+--   ReplicationCoordinator: Fail-closed guard tests
+-- Adding Sharding: URNResolver focused tests (QW-29)
+--   URNResolver: Fail-closed guard tests
+-- Adding Sharding: ShardRouter focused tests (QW-30)
+--   ShardRouter: Fail-closed guard tests
+-- Adding Sharding: CrossShardTransaction focused tests (W2-S04)
+--   CrossShardTransaction: Input validation & precondition hardening (W2-S04)
+-- Adding Sharding: ShardRepairEngine focused tests (QW-31)
+--   ShardRepairEngine: Fail-closed guard tests
+-- Adding Sharding: ConsistentHashDistribution focused tests
+--   ConsistentHashDistribution: strict distribution and migration checks
+-- Adding Sharding: RS Repair Engine Parallelisation focused tests
+--   RSRepairParallelisation: parallel scan bands, SLO progress, IOPS throttle, GPU flag
+-- Adding Sharding: Chaos Engineering focused tests
+--   ShardingChaos: network partitions, cascading failures, split-brain, random failure injection
+-- Adding Sharding: Wave A Batch A-9 chaos tests
+-- Adding Sharding: Gossip Protocol focused tests
+--   ShardingGossip: GossipConfig defaults, enabled flag
+-- Adding Sharding: Integration focused tests
+--   ShardingIntegration: URN resolver, consistent hash, shard router, remote executor
+-- Adding Sharding: Public Interfaces focused tests
+--   ShardingInterfaces: IShardRouter, IAdaptiveRebalancer, IDistributedTxCoordinator, IRaftSnapshotManager, IConsistentHashRing, ICrossShardQueryRouter
+-- Adding Sharding: Operational Metrics focused tests
+--   ShardingOperationalMetrics: per-shard metrics, cluster health, network traffic, resource usage
+-- Adding Sharding: Uncovered Components focused tests
+--   ShardingUncovered: OrphanDetector, ShardLoadDetector
+-- Adding Sharding: Epoch Fencing focused tests (Phase 4.1)
+--   EpochFencing: EpochFencingManager, LeaseManager, NullStonithProvider
+-- Adding Sharding: Phase 5 focused tests
+--   SHP5-01..04: Admin API POST /api/v1/shards/{id}/migrate-hardware
+--   SHP5-05..08: RaftConsensus::updatePeerAddress()
+--   SHP5-09..12: HardwareMigrationManager drain-period enforcement
+-- Adding Sharding: Phase 5 LoRA Artifact Distribution tests (#5418)
+--   P5-L01..P5-L03: LoRAPackageRef validation
+--   P5-L04..P5-L10: InMemoryAdapterDistributionStore CRUD
+--   P5-L11..P5-L16: DefaultMerkleProofEngine tree & proof verification
+--   P5-L17..P5-L22: Distribution manager distribute/confirm/fail/recover
+--   P5-L23..P5-L24: ShardDistributionSnapshot & recovery ordering
+--   P5-L25:         End-to-end artifact receipt chain (Send/Confirm/Recover)
+-- Adding Sharding: RAID-Paxos consensus tests
+--   RAID-Paxos: Configuration, quorum calculation, failure tolerance tests
+-- Adding Sharding: Dual-Consensus orchestrator tests
+--   Dual-Consensus: Cross-layer coordination, version tracking, conflict resolution
+-- Adding Sharding: Redundancy consistency tests
+--   RedundancyConsistency: Version-aware merging, conflict resolution, consistency checks
+-- Adding Sharding: Phase 6 Hardening tests (P6-01/P6-02)
+--   P6-01 TXC-01..TXC-32: 2PC/3PC consistency verification (32 tests)
+--   P6-02 FLR-01..FLR-20: failover logic and recovery-path hardening (20 tests)
+-- Adding Sharding: P6-03 Wave-8 Fault Injection tests
+--   P6-03 FI-01..FI-15: network partition scenarios (15 tests)
+--   P6-03 FI-16..FI-25: coordinator failure scenarios (10 tests)
+--   P6-03 FI-26..FI-40: cascade / multi-failure scenarios (15 tests)
+-- Adding Sharding: Contract Hardening tests (SCR-01..SCR-16)
+--   SCR-01..04: Routing contract (consistent hash, fallback)
+--   SCR-05..08: 2PC contract (prepare/commit/abort, IN_DOUBT)
+--   SCR-09..12: WAL contract (ordering, idempotent replay, corruption)
+--   SCR-13..16: Error contract (QUORUM_LOST, MIGRATION_CONFLICT, fail-closed)
+-- Adding Sharding: Multi-shard exact Phase C gate
+--   Phase C gate: exact shortest-path + neighbor fallback under shard failure
+-- Adding Sharding: Wave 1 CRITICAL gap closure regression tests
+--   WV1-BRC-01..04: braces_imbalance ÔÇö all 12 flagged files balanced
+--   WV1-EXD-01..02: exception_in_destructor ÔÇö noexcept contracts
+--   WV1-NTO-01..02: no_timeout ÔÇö timed-lock enforcement
+--   WV1-ITR-01..02: iterator_invalidation ÔÇö bounded iteration
+--   WV1-DBL-01..02: db_connection_leak ÔÇö RAII ownership lifecycle
+--   WV1-CLO-01..03: circular_lock_ordering ÔÇö std::lock canonical order
+--   WV1-UNI-01..02: uninitialized_access ÔÇö value-init at declaration
+--   WV1-TODO-01..02: todo_as_productionlogic ÔÇö no bare TODO in critical paths
+--   WV1-SUM-01: 0 open CRITICAL gaps at Wave 1 closure
+-- Adding Sharding: Thread-Safety / Lock-Order / Consensus tests (TSO/LKO/CCR)
+--   TSO-01..08: Thread-safety correctness (concurrent read/write, atomics)
+--   LKO-01..06: Lock-ordering correctness (no deadlock, ABBA prevention)
+--   CCR-01..06: Consensus coordination robustness (timeout, quorum-loss, retry)
+-- Added temporal_graph.cpp into module_temporal_test_bi_temporal_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_interval_tree_index_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_retention_manager_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_snapshot_manager_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_system_versioned_table_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_aggregation_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_aggregation_property_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_aggregator_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_cdc_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_cold_store_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_compressor_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_conflict_resolver_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_contract_hardening_focused_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_graph_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_highcardinality_stress_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_index_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_migrator_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_query_engine_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_tier_manager_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_v18_v19_focused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_aggregation_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_aggregation_property_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_aggregator_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_cdc_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_cold_store_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_compressor_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_conflict_resolver_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_contract_hardening_focused_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_graph_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_highcardinality_stress_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_index_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_migrator_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_query_engine_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_tier_manager_autofocused (themis_temporal not present)
+-- Added temporal_graph.cpp into module_temporal_test_temporal_v18_v19_autofocused (themis_temporal not present)
+-- Adding Transaction Auditor focused tests (transaction, v1.8.0)
+--   TransactionAuditor: enableAuditing, record, queryAuditLog, size, clear, exportToKafka/S3, concurrent
+-- Adding Transaction Batcher focused tests (transaction, v1.8.0)
+--   TransactionBatcher: BatchConfig, submitAsync, flush, per-table policies, adaptive sizing, FIFO scheduling, stats, concurrent submitters
+-- Adding Transaction Manager focused tests
+--   TransactionManager: ACID commit/rollback, graph/vector ops, isolation, statistics, explain
+-- Adding Adaptive Deadlock Prevention focused tests
+--   AdaptiveDeadlockPrevention: DeadlockPredictor (record/predict/recommend/timeout), TransactionManager integration
+-- Adding Distributed Transaction Coordinator (2PC) focused tests
+--   Distributed2PC: 2PC coordinator, prepare/commit/abort, timeout, recovery, failure detection
+-- Adding Transaction Isolation Levels focused tests
+--   TransactionIsolationLevels: enum correctness, LockManager RC/RR/SZ compliance, 2PL, intent locks
+-- Adding ITransactionCoordinator interface contract tests (Issue #5374)
+--   ITransactionCoordinator: CommitProtocol, capabilities, lifecycle, state, recovery, mockability
+-- Adding Cross-Coordinator WAL Recovery contract tests (Issue #5372)
+--   CrossCoordinatorWALRecovery: WALLoggingHelper null-safety, LSN, JSON payload, DTM recovery
+-- Adding Transaction: Wave A Batch A-9 chaos tests
+-- Adding Transaction: Wave A Batch A-9 stress tests
+-- Adding Phase 1: Lifecycle and Isolation Safety Hardening tests
+--   Phase 1: Lifecycle Invariants: begin/prepare/commit/abort, state machine, isolation levels
+-- Adding Phase 1: Isolation Contention Hardening tests
+--   Phase 1: Isolation Contention: dirty-read prevention, phantom-read prevention, lock contention
+-- Adding Phase 1: Error Path Determinism tests
+--   Phase 1: Error Path Determinism: timeout handling, rollback determinism, error recovery
+-- Adding Phase 2: Distributed Coordination Hardening tests
+--   Phase 2: Distributed Coordination: 2PC/3PC protocol, timeout/retry, in-doubt recovery
+-- Adding Phase 2: SAGA Orchestration and Compensation Reliability tests
+--   Phase 2: SAGA/Compensation: idempotency, orchestration, retry storms, recovery
+-- Adding Phase 3: Fault Injection and Extended Reliability tests
+--   Phase 3: Fault Injection: cross-shard, chaos, cascading recovery
+-- Adding Wave A Closure evidence tests (transaction, Wave A 2026-08-19)
+--   Wave A Closure: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-TIMEOUT-01..03, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02
+-- Adding Wave 4-C T1-T4 hardening tests (transaction, 2026-08-26)
+--   Wave 4-C: T1 STUB note, T2 mutual upgrade deadlock, T3 GTM Phase-2 unlock, T4 predicate drop counter
+-- Adding Wave 9 Block 2 gRPC RPC adapter tests (W9-7..W9-9)
+--   Wave 9 Block 2: GRPC-P1-01..05, GRPC-P2-01..05, GRPC-DTM-01..03, GRPC-CONTENTION-01, GRPC-WAL-01
+-- Adding TimestampUtils focused tests
+--   TimestampUtils: ISO 8601 format/parse round-trip, milliseconds, duration formatting
+-- Adding UtilsRateLimiter focused tests
+--   UtilsRateLimiter: try_acquire, acquire blocking, set_rate, available
+-- Adding UtilsInterfaces focused tests
+--   UtilsInterfaces: IStreamingPIIDetector, IHashChainAuditLog, IHKDFKeyCache, IStructuredLogSampler, ISAGALogCompactor, IUtilsPipeline
+-- Adding RateLimiterV2 focused tests
+--   RateLimiterV2: local bucket, Redis fallback, per-client, priority lanes
+-- Adding RateLimitingImprovements focused tests
+--   RateLimitingImprovements: adaptive limiter, cost-based limiter
+-- Adding UtilsStandalone focused tests
+--   UtilsStandalone: calculateSHA256, calculateMD5, readFileContents, Normalizer, Phase2FeatureFlags
+-- Adding UtilsFutureInterfaces focused tests
+--   UtilsFutureInterfaces: UUID v7, LZ4 codec, streaming ZSTD compressor/decompressor
+-- Adding Privacy and Audit Hardening focused tests
+--   PrivacyAuditHardening: PH-01 Unicode, PH-02 Multibyte, PH-03 BufferOverflow, PH-04 RateLimiting, PH-05 Pseudonymization, PH-06 ConcurrentWrites, PH-07 TimeoutCancellation, PH-08 RegexBacktracking
+--   NERDetectionEngine: model availability, gazetteer degradation, config rollback, corrupt model handling
+--   RegexDetectionEngine: timeout, ReDoS detection, malformed patterns, UTF-8 validation, bounds checking
+--   Serialization: buffer overflow prevention, malformed data, round-trip, oversized claims
+--   TSANConcurrencyStress: audit_logger 128-writer, thread_pool saturation, pii_stream_scanner parallel slots
+--   Phase1ResourceManagement: RAII patterns, thread management, lock contention, destructor ordering
+-- themis_core available for tests; will link after themis_tests target creation
+-- GTest found - building unified test binary
+-- Building 1276 test files after feature gating
+-- themis_tests: EXCLUDE_FROM_ALL enabled for WIN32 modular builds
+-- themis_tests: linked themis_core for full symbol coverage
+-- THEMIS_BUILD_MODULAR=ON: building themis_tests with THEMIS_CORE_SOURCES for full symbol coverage
+-- themis_tests: excluding direct sharding sources (provided by themis_sharding module)
+-- themis_tests: excluding LLM module sources from direct compilation (provided by themis_llm)
+-- themis_tests: excluding direct schema_migration sources (provided by themis_storage module)
+-- themis_tests: excluding direct server/network/maintenance sources (provided by static themis_network module)
+-- themis_tests: dynamic module-dedup applied to core sources
+-- Skipping cuda_operations.cpp for themis_tests (CUDA headers not found)
+-- themis_tests: dynamic module-dedup applied to extra sources
+-- themis_tests: linking static themis_network (server/network/proto sources are pruned from direct compilation)
+-- themis_tests: force-added C:/Projects/ThemisDB/src/utils/logger.cpp (required by THEMIS_BASE_EXPORTS)
+-- themis_tests: force-added C:/Projects/ThemisDB/src/themis/license_info.cpp (required by THEMIS_BASE_EXPORTS)
+-- themis_tests: force-added C:/Projects/ThemisDB/src/themis/build_info.cpp (required by THEMIS_BASE_EXPORTS)
+-- themis_tests: linking monolithic themis_core for full symbol coverage
+CMake Error at vcpkg/scripts/buildsystems/vcpkg.cmake:615 (_add_executable):
+  _add_executable cannot create target "module_build_test_build_info_focused"
+  because another target with the same name already exists.  The existing
+  target is an executable created in source directory
+  "C:/Projects/ThemisDB/tests/build".  See documentation for policy CMP0002
+  for more details.
+Call Stack (most recent call first):
+  tests/CMakeLists.txt:2251 (add_executable)
+
+
+-- Vulkan GLSL Compiler Function tests skipped (THEMIS_ENABLE_VULKAN=OFF)
+-- DelegateEvaluator tests not found at C:/Projects/ThemisDB/tests/delegate/test_delegate_evaluator.cpp
+-- Multi-GPU LoRA Advanced tests not found at C:/Projects/ThemisDB/tests/multi/test_multi_gpu_lora_advanced.cpp
+-- Distributed Coordinator tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_coordinator.cpp
+-- Consensus Module tests not found at C:/Projects/ThemisDB/tests/consensus/test_consensus_module.cpp
+-- Raft Consensus Adapter tests not found at C:/Projects/ThemisDB/tests/raft/test_raft_consensus_adapter.cpp
+-- Raft Configuration tests not found at C:/Projects/ThemisDB/tests/raft/test_raft_configuration.cpp
+-- Property Graph tests not found at C:/Projects/ThemisDB/tests/property/test_property_graph.cpp
+-- Adding Graph Query Optimizer tests
+--   Graph Query Optimizer: BFS/DFS/Dijkstra/A*/Bidirectional, pattern matching, subgraph isomorphism
+-- Adding Graph Query Rewriter tests (Issue #250)
+--   Graph Query Rewriter: predicate pushdown, CSE, join reordering, materialized views, decomposition
+-- Adding Graph Advanced Features tests
+--   Graph Advanced Features: PathConstraints validation, constrained path finding, optimizer integration
+-- Adding Distributed Graph tests
+--   Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation
+-- Adding Parallel Graph Traversal tests
+--   Parallel Graph Traversal: multi-source BFS/DFS, fan-out threshold, depth/result limits
+-- Adding Graph Exact Traversal Phase A tests
+--   Graph Exact Traversal Phase A: invalid input, shard failure, fallback metrics
+-- Adding GPU Graph Traversal tests (CPU fallback)
+--   GPU Graph Traversal: CSR load, BFS/DFS correctness, CPU fallback, stats
+-- Adding Graph Analytics tests (standalone)
+--   GraphAnalytics: degree/betweenness/closeness centrality, PageRank, Louvain community detection
+-- Adding Graph Type Filtering tests (standalone)
+--   GraphTypeFiltering: BFS/Dijkstra with edge-type filters, property graph traversal
+-- Adding Graph Edge Encryption tests (standalone)
+--   GraphEdgeEncryption: field encryption round-trip, multi-user access, BFS traversal with encrypted edges
+-- HTTP Client Pool tests not found at C:/Projects/ThemisDB/tests/http/test_http_client_pool.cpp
+-- gRPC Channel Pool tests not found or gRPC disabled
+-- Adding gRPC API Server tests
+--   gRPC API Server: lifecycle, TLS config, service registration
+-- Batch Operation Manager tests not found
+-- HNSW Parameter Tuner tests not found
+-- HNSW Incremental Re-index tests not found
+-- Enhanced Query Cache tests not found
+-- Adding Cache Admin API Handler tests
+--   Cache Admin API Handler: health endpoint, per-tier status, circuit breaker state
+-- SSE Connection Manager tests not found
+-- Changefeed SSE Writer Bridge tests not found
+-- Adding W1-S06 LLM exception boundary tests (issue #5359)
+--   W1-S06: LLMApiHandler EX-01..06 (routing, 401, fail-closed JWT, OpenAI list-models)
+-- Adding Cache Warmup tests
+--   Cache Warmup: warmupFromLog, exportSnapshot, tenant isolation, metrics
+-- Adding Cache Replication tests
+--   Cache Replication: listener callbacks, snapshot, graceful degradation, replica health
+-- Adding Cache Replication Coordinator tests (network-backed peer discovery)
+--   Cache Replication Coordinator: IRemoteCachePeer, IClusterView, async fanout, retry queue
+-- Distributed Cache Coordinator tests not found
+-- Adding Multi-Region Active-Active tests
+--   Multi-Region Active-Active: bounded staleness, session tokens, consistency levels, metrics
+-- Adding Geo-Replication Consistency tests
+--   Geo-Replication: STRONG/BOUNDED_STALENESS/SESSION/EVENTUAL, routing, session tokens
+-- Adding Multi-Tier Replication focused tests (v1.8.0)
+--   MultiTierReplication: tier assignment, default configs, per-collection override, auto-tiering promotion/demotion, statistics
+-- Adding Replication New Features focused tests
+--   ReplicationNewFeatures: observer, 3-way merge, field merge, event stream, policy, slot manager
+-- Adding Replication HA tests
+--   Replication HA: config validation, WAL checksum, LWW/CRDT resolvers, quorum, witness nodes
+-- Adding Replication New Features tests
+--   Replication New Features: observer lag/topology, ThreeWayMerge, FieldLevelMerge, EventStream, slots
+-- Adding Geo Placement & WAL Shipping focused tests
+--   Geo Placement & WAL Shipping: leader election constraints, failover, lag alerts, throughput
+-- Logical Replication tests not found
+-- Adding Replication Topology API Handler tests
+--   Replication Topology API: 503 on no coordinator, JSON topology, health summary, HTML visualizer
+-- Adding Replication Raft v2 tests
+--   Replication Raft v2: joint consensus, quorum, add/remove member, MCManager lifecycle
+-- Adding Replication CRDT Types tests
+--   Replication CRDT Types: GCounter, PNCounter, LWWRegister, MVRegister, GSet, 2PSet, ORSet, LWWMap, RGA, EW/DW-Flag
+-- RPC Geo Query tests not found at C:/Projects/ThemisDB/tests/rpc/test_rpc_geo_query.cpp
+-- Adding RPC Batch Operations tests
+--   RPC Batch Operations: batch_get, batch_put, batch_delete, batch_update + perf benchmarks
+-- Adding Index Maintenance tests
+--   Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics
+-- Adding AQL-GraphQL integration tests
+--   AQL-GraphQL: complexity scoring, resolver wiring, GRAPHQL() function, schema fields
+-- GraphQL Parser tests not found at C:/Projects/ThemisDB/tests/graphql/test_graphql.cpp
+-- GraphQL Performance tests not found at C:/Projects/ThemisDB/tests/graphql/test_graphql_performance.cpp
+-- GraphQL Limits tests not found at C:/Projects/ThemisDB/tests/graphql/test_graphql_limits.cpp
+-- OTLP exporter tests not found at C:/Projects/ThemisDB/tests/otlp/test_otlp_exporter.cpp
+-- TracingMiddleware tests not found at C:/Projects/ThemisDB/tests/tracing/test_tracing_middleware.cpp
+-- Adding API interface header tests
+--   API Interfaces: IHttpHandler, CorrelationId, WebSocketCloseCode, VersionDescriptor, GRPCMetadata
+-- GraphQL Error Masking tests not found at C:/Projects/ThemisDB/tests/graphql/test_graphql_error_masking.cpp
+-- GraphQL P1 Feature tests not found at C:/Projects/ThemisDB/tests/graphql/test_graphql_p1_features.cpp
+-- GraphQL Multi-Model tests not found at C:/Projects/ThemisDB/tests/graphql/test_graphql_multimodel.cpp
+-- GraphQL Cache Security tests not found at C:/Projects/ThemisDB/tests/graphql/test_graphql_cache_security.cpp
+-- Serverless Function API Handler tests not found
+-- Feedback API Handler tests not found
+-- Prompt Engineering API Handler tests not found
+-- WebAssembly Handler Registry tests not found
+-- gRPC-Web Proxy Handler tests not found
+-- Service Mesh API Handler tests not found
+-- Hot Reload API Handler tests not found
+-- Profiling API Handler tests not found
+-- UDF API Handler tests not found
+-- InvertedIndex tests not found at C:/Projects/ThemisDB/tests/inverted/test_inverted_index.cpp
+-- Adding IndexManager DI unit tests (incl. exportIndexStats Issue #1866)
+--   IndexManagerDI: create/drop, partial index, exportIndexStats
+-- Fulltext Phrase and Fuzzy Search tests not found at C:/Projects/ThemisDB/tests/fulltext/test_fulltext_phrase_fuzzy.cpp
+-- Adding RocksDBWrapper comprehensive tests
+--   RocksDBWrapper Comprehensive: CRUD, transactions, MVCC, backup/restore, iterators, column families
+-- PITR Manager comprehensive tests not found at C:/Projects/ThemisDB/tests/pitr/test_pitr_manager_comprehensive.cpp
+-- Vector Index comprehensive tests not found at C:/Projects/ThemisDB/tests/vector/test_vector_index_comprehensive.cpp
+-- Lossless vector compression tests not found at C:/Projects/ThemisDB/tests/vector/test_vector_compression_lossless.cpp
+-- Transaction Savepoint tests not found at C:/Projects/ThemisDB/tests/savepoints/test_savepoints.cpp
+-- Adding Transaction Manager comprehensive tests
+--   Transaction Manager Comprehensive: ACID, isolation levels, deadlock detection, 2PC, savepoints
+-- Adding Transaction OCC tests
+--   Transaction OCC: getEntityVersion, optimisticPut, optimisticErase, retry pattern
+-- Adding Transaction Bulk API tests
+--   Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete
+-- Adding Transaction Retry Manager tests
+--   Transaction Retry: executeWithRetry, backoff, circuit breaker, error classification
+-- Tenant Transaction Namespace tests not found at C:/Projects/ThemisDB/tests/tenant/test_tenant_transaction_namespace.cpp
+-- Adding Transaction Timeout tests
+--   Transaction Timeout: setTimeout, isTimedOut, auto-rollback, setDefaultTransactionTimeout
+-- Transaction Isolation tests not found at C:/Projects/ThemisDB/tests/db/test_transaction_isolation.cpp
+-- Adding Serializable Snapshot Isolation (SSI) tests
+--   SSI: predicate locking, read-write conflict, write-write conflict, serialization failure, retry
+-- SAGA Concurrent Execution tests not found at C:/Projects/ThemisDB/tests/saga/test_saga_concurrent_execution.cpp
+-- Distributed SAGA tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_saga.cpp
+-- SagaOperation tests not found at C:/Projects/ThemisDB/tests/saga/test_saga_operation.cpp
+-- SAGA Orchestrator focused tests not found at C:/Projects/ThemisDB/tests/saga/test_saga_orchestrator.cpp
+-- SAGA Logger focused tests not found at C:/Projects/ThemisDB/tests/saga/test_saga_logger.cpp
+-- SAGA Compactor focused tests not found at C:/Projects/ThemisDB/tests/saga/test_saga_compactor.cpp
+-- HashChainAudit focused tests not found at C:/Projects/ThemisDB/tests/hash/test_hash_chain_audit.cpp
+-- PIIStreamScanner focused tests not found at C:/Projects/ThemisDB/tests/pii/test_pii_stream_scanner.cpp
+-- SampledLogger focused tests not found at C:/Projects/ThemisDB/tests/sampled/test_sampled_logger.cpp
+-- Adding Sharding Transaction WAL focused tests
+--   ShardingTransactionWAL: initialize, logBegin/Prepare/Commit/Abort/Compensate LSNs, config defaults, protocol values
+-- Multi-Shard Transaction focused tests not found at C:/Projects/ThemisDB/tests/multi/test_multi_shard_transactions.cpp
+-- Distributed Transactions focused tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_transactions.cpp
+-- Adding Percolator Coordinator focused tests
+--   PercolatorCoordinator: PercolatorCoordinator class, TrueTime::now_with_uncertainty, OrphanDetector::cleanPercolatorLocks, protocol selection (2PC vs Percolator)
+-- Postgres Transaction focused tests not found at C:/Projects/ThemisDB/tests/postgres/test_postgres_transactions.cpp
+-- Adding AQL Multi-Statement Transaction focused tests
+--   AQLMultiStatementTransaction: BEGIN/COMMIT/ROLLBACK parse, multi-statement batching, query engine integration
+-- DB Transaction Isolation focused tests not found at C:/Projects/ThemisDB/tests/db/test_transaction_isolation.cpp
+-- Utilities comprehensive tests not found at C:/Projects/ThemisDB/tests/utilities/test_utilities_comprehensive.cpp
+-- Adding Wave-C audit production-backed focused tests
+--   Audit Wave-C: production-backed integrity, persistence, export, recovery
+-- Adding Governance Policy Hot-Reload tests (Phase 3 - Issue #1774)
+--   Governance Hot-Reload: PolicyFileWatcher start/stop, file-change detection, Prometheus counter, audit entry
+-- Adding Governance OPA Adapter focused tests (Issue #1768 / #1778)
+--   Governance OPA Adapter: construction, URL building, response parsing, fallback counter, CCPA enforcement on top of OPA
+-- Adding Governance Policy Simulation focused tests (Issue #1766 / #1778)
+--   Governance Policy Simulation: simulateDecision, YAML-loaded profiles, heuristic fallback, header overrides
+-- Adding Governance Compliance Time-Window focused tests (Issue #1781 / #1778)
+--   Governance Compliance Time-Window: generateReport, CCPA report, time-range filtering
+-- Adding Governance Review Scheduler focused tests (Issue #1778)
+--   Governance Review Scheduler: schedule, create/approve/reject review, overdue detection, history, export/import
+-- Adding LLMJudgeIntegration is_mock flag tests (Gap 7)
+--   LLMJudgeIsMock: JGI_MOCK_01..05 is_mock flag in ParsedResponse
+-- Adding stub remediation regression tests (#297 #298 #280 #302)
+--   StubRemediation: #297 MODIFY apply, #298 RAII buffer, #280 RBAC, #302 JWT auth
+-- Adding LLMAQLEmbeddingBridge focused tests (AQL ┬º8 / B-07)
+--   LLMAQLEmbeddingBridge: EMB_01..05 bridge->embed() delegation and library wiring
+-- Adding LlmQueryRewriter semantic output validator tests (Gap 2 / search)
+--   LlmQueryRewriterValidator: LQR_VAL_01..06 overlap filter, RewriteQuality enum
+-- Adding Data Lineage focused tests (Issue #1765 / #1778)
+--   Data Lineage: record/query lineage events, MODEL_TRAINING events, DataLineageTracker
+-- Adding Data Masker focused tests (Issue #1773 / #1778)
+--   Data Masker: REDACT/TOKENIZE/TRUNCATE/HASH strategies, FieldMaskingPolicy, HMAC pseudonym stability, Prometheus counter
+-- Adding Scheduler integration focused tests
+--   SchedulerIntegration: task persistence, retention lifecycle, end-to-end scheduling
+-- Adding Graph Index comprehensive tests
+--   Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs
+-- Adding Learned Index tests (Issue #1990)
+--   LearnedIndex: training, point lookup, range query, serialisation, security, edge cases
+--   DistributedVectorIndex tests are built via cmake/CMakeLists.txt
+-- Adding Cold/Warm Tier Index Migration tests (Issue #2407)
+--   TieredIndexMigration: register, access tracking, demotion, promotion, auto-pass
+-- Adding HNSW recall@10 integration tests
+--   HnswRecall: recall@10 >= 0.90 for L2, Cosine, Dot Product; ef sensitivity; brute-force baseline
+-- Adding Spatial correctness integration tests
+--   SpatialCorrectness: intersects, within, contains, nearby, KNN, Z-range, precision, recall
+-- Cloud Storage Backup comprehensive tests not found at C:/Projects/ThemisDB/tests/cloud/test_cloud_storage_backup_comprehensive.cpp
+-- Adding focused streaming window tests
+-- Adding focused ExpertSystemEngine + KnowledgeBase tests
+--   ExpertSystem: KB CRUD, YAML parser bridge injection (STUB #272), forward/backward chaining
+-- Adding focused anomaly detection tests
+--   AnomalyDetection: Z-Score, MAD, IQR, IsolationForest, LOF, Ensemble, streaming, serialize
+-- Adding focused LLMProcessAnalyzer LRU cache tests
+--   LLMProcessAnalyzer: O(1) LRU eviction, SHA256 cache key, max_cache_entries, LRU ordering
+-- Adding focused AutoML tests
+--   AutoML: classification, regression, feature engineering, ensemble, SHAP, serialize
+-- Adding focused distributed analytics tests
+--   DistributedAnalytics: shard management, scatter-gather, merge, partial failure
+-- Adding focused process pattern matcher tests
+--   ProcessPatternMatcher: graph, vector, behavioral, hybrid similarity, conformance
+-- Adding focused forecasting tests
+--   Forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters, ARIMA, ENSEMBLE, serialize
+-- Adding focused SARIMA+Prophet forecasting tests
+--   SARIMA+Prophet: FSP-01..08 + FPR-01..04
+-- Adding focused AutoML ONNX export tests
+--   AutoML ONNX: AOE-01..06 (LogReg/LinReg/DT/RF/GB/KNN export)
+-- Adding focused incremental view tests
+--   IncrementalView: delta maintenance, 10 aggregation functions, Welford STDDEV, COUNT_DISTINCT
+-- Adding focused columnar execution tests
+--   ColumnarExecution: vectorized pipeline, SIMD aggregations, filter+project operators
+-- Adding StreamingJoin focused tests
+--   StreamingJoin: HashJoin + IntervalJoin, inner/left-outer, LRU pruning, SJ-01..SJ-15
+-- Adding focused JIT aggregation tests
+--   JITAggregation: hot-path detection, template dispatch, LLVM-MCJIT backend guard
+-- Adding focused ML serving tests
+--   MLServing: ONNX/TF-Serving unified client, DataPoint integration, graceful degradation
+-- Adding focused model serving tests
+--   ModelServing: named+versioned registry, online/batch inference, health metrics, serialize
+-- Adding focused Arrow Flight tests
+--   Arrow Flight focused test: Arrow Flight library not detected, build may fail if analytics/arrow_flight.cpp requires native symbols
+--   ArrowFlight: in-process registry, FlightDescriptor, put/get, client round-trip
+-- Adding focused CEP engine tests
+--   CEPEngine: NFA patterns, EPL parser, window+aggregation, alerts, checkpoint I/O
+-- Adding focused analytics memory pool tests
+--   AnalyticsMemoryPool: arena allocator, MPMC ring buffer, OLAP/columnar/CEP integration
+-- Adding focused Arrow export tests
+--   ArrowExport: RecordBatch, JSON/CSV export, optional Parquet/Feather/IPC, sanitization
+-- Adding focused OLAP LRU cache tests
+--   OLAPLRUCache: cache hit, LRU eviction, TTL invalidation, key normalisation, background cleanup
+-- Adding focused process mining pattern tests
+--   ProcessMiningPattern: conformance, compliance, fraud detection, activity prediction
+-- Adding focused process discovery and conformance checking tests
+--   ProcessDiscoveryConformance: Inductive Miner, alignment conformance checking
+-- Adding focused graph query EXPLAIN tests (Issue #1816)
+--   GraphQueryExplain: explainPlan, explainConstrainedPath, dry-run, structural reuse, all query types
+-- Adding focused Scheduled Graph Edge Refresh tests
+--   ScheduledEdgeRefresh: policy validation, similarity, temporal decay, safety gates, audit trail, anomaly detection, ChangeFeed integration, large-graph integration, regression
+-- Adding OntologyManager focused tests (OM-01..OM-12)
+--   OntologyManager: loadFromJson, isA transitive, allowedEdgeTypes, unknown concepts, thread-safety, round-trip
+-- Adding PathConstraints semantic focused tests (SC-01..SC-10)
+--   PathConstraintsSemantic: addSemanticConstraint, validateSemanticPath, STRICT/WARN modes, isEdgeTypeAllowed, graceful degradation
+-- Adding KnowledgeGraphReasoner focused tests (KGR-01..KGR-20)
+--   KnowledgeGraphReasoner: addRule, infer, explain, onCDCEvent, applyLoRAScore, InferenceStore TTL/eviction
+-- Adding OntologyAwareRetriever focused tests (OAR-01..OAR-08)
+--   OntologyAwareRetriever: config/factory, entity expansion, edge filtering, graceful degradation
+-- Adding KGRetriever+Reasoner focused tests (KGR-RAG-01..KGR-RAG-06)
+--   KGRetriever+Reasoner: setReasoner, inference chains, metadata, hop limit
+-- Adding LoRAEnhancedRetriever focused tests (LER-01..LER-06)
+--   LoRAEnhancedRetriever: ILoRAScorer, HeuristicLoRAScorer, rerank, factory helpers
+-- Importer Plugin API tests not found at C:/Projects/ThemisDB/tests/importer/test_importer_plugin_api.cpp
+-- Wikipedia Ingestion Plugin tests not found at C:/Projects/ThemisDB/tests/importer/test_wikipedia_ingestion_plugin.cpp
+-- Importer Interfaces tests not found at C:/Projects/ThemisDB/tests/importer/test_importer_interfaces.cpp
+-- FlatfileImporter focused tests not found at C:/Projects/ThemisDB/tests/flatfile/test_flatfile_importer.cpp
+-- SchemaValidatorImporter focused tests not found at C:/Projects/ThemisDB/tests/schema/test_schema_validator.cpp
+-- ImporterConflictResolver focused tests not found at C:/Projects/ThemisDB/tests/importer/test_importer_conflict_resolver.cpp
+-- ImporterAsyncApi focused tests not found at C:/Projects/ThemisDB/tests/importer/test_importer_async_api.cpp
+-- MySQLImporter focused tests not found at C:/Projects/ThemisDB/tests/mysql/test_mysql_importer.cpp
+-- MySQLImporter registry tests not found at C:/Projects/ThemisDB/tests/mysql/test_mysql_importer_registry.cpp
+-- MongoImporter focused tests not found at C:/Projects/ThemisDB/tests/mongo/test_mongo_importer.cpp
+-- Adding SQLiteImporter focused tests (standalone binary)
+--   SQLiteImporter: table discovery, type mapping, incremental import, attached databases, streaming
+-- KafkaImporter focused tests not found at C:/Projects/ThemisDB/tests/kafka/test_kafka_importer.cpp
+-- Adding OracleImporter focused tests (standalone binary)
+--   OracleImporter: OCI config, type mapping (NUMBER/DATE/CLOB/BLOB), schema filtering, incremental import
+-- S3Importer focused tests not found at C:/Projects/ThemisDB/tests/s3/test_s3_importer.cpp
+-- Adding PostgresImporter focused tests (postgres/test_postgres_importer_fk.cpp;postgres/test_postgres_importer_security_audit.cpp;postgres/test_postgres_importer_streaming.cpp)
+--   PostgresImporter: advanced mapping, chaos/retry, complex DDL, data types, FK preservation, integration, robustness, security audit, streaming
+-- PostgresImporterV2 focused tests not found at C:/Projects/ThemisDB/tests/postgres/test_postgres_importer_v2.cpp
+-- ImportWizard focused tests not found at C:/Projects/ThemisDB/tests/import/test_import_wizard.cpp
+-- MDM entity matching focused test sources not found
+-- MDM engine focused test sources not found
+-- PostgresImporterMDM focused test sources not found
+-- Plugin Capability Negotiation tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_capability_negotiation.cpp
+-- Plugin Capability Escalation tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_capability_escalation.cpp
+-- Plugin Manager focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_manager.cpp
+-- Plugin Lifecycle focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_lifecycle.cpp
+-- Generic PluginRegistry focused tests not found at C:/Projects/ThemisDB/tests/generic/test_generic_plugin_registry.cpp
+-- Plugin Health Monitor focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_health_monitor.cpp
+-- Adding Plugin Hot-Plug Monitor focused tests
+--   PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger
+-- Adding Plugin Hot-Reload Enhanced focused tests
+--   PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback
+-- Plugin Dependency Graph focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_dependency_graph.cpp
+-- Plugin Dependency Resolver focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_dependency_resolver.cpp
+-- Plugin Metrics focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_metrics.cpp
+-- Plugin Metrics Integration focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_metrics_integration.cpp
+-- Plugin Security Audit focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_security_audit.cpp
+-- Plugin Security Implementation focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_security_implementation.cpp
+-- Plugin Security CRL/OCSP tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_security_crl_ocsp.cpp
+-- Plugin Security PE Cert Extraction tests not found
+-- Plugin Marketplace Manifest focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_marketplace_manifest.cpp
+-- Plugin Manager Comprehensive focused tests not found at C:/Projects/ThemisDB/tests/plugin/test_plugin_manager_comprehensive.cpp
+-- Adding LLM Timeout and Cancellation tests (Issue #1931, standalone binary)
+--   LLMTimeoutCancellation: per-request timeout propagation, cancel(), streaming stop, DROP_OLDEST, dedup cache
+-- Per-Operation Circuit Breakers tests not found at C:/Projects/ThemisDB/tests/per/test_per_operation_circuit_breakers.cpp
+-- Accurate Token-Count Estimation tests not found at C:/Projects/ThemisDB/tests/accurate/test_accurate_token_count_estimation.cpp
+-- Global Transaction Manager tests not found at C:/Projects/ThemisDB/tests/global/test_global_transaction_manager.cpp
+-- Adding Parallel Full-Table Scan tests
+--   Parallel Scan: sequential path, morsel-driven parallel path, predicate correctness
+-- Parallel Executor tests not found at C:/Projects/ThemisDB/tests/parallel/test_parallel_executor.cpp
+-- CDN Cache Middleware tests not found at C:/Projects/ThemisDB/tests/cdn/test_cdn_cache_middleware.cpp
+-- Adding Content Metrics focused tests (Phase 4, Issue #1698)
+--   ContentMetrics: ingestion counters, error rates, embedding failures, Prometheus export
+-- Adding Content Security focused tests (Phase 4, Issue #1698)
+--   ContentSecurity: malware signature scan, archive-bomb detection, path traversal rejection, abuse detection
+-- Adding Content LanguageDetector focused tests (Phase 4, Issue #1698)
+--   LanguageDetector: per-script detection, confidence scores, unknown-language fallback
+-- Adding Content AudioProcessor focused tests (Phase 4, Issue #1698)
+--   AudioProcessor: WAV/FLAC/MP3/Ogg parsing, ID3v2 tags, STT transcription init, error handling
+-- Adding Content ProcessorChain focused tests (Phase 4, Issue #1698)
+--   ProcessorChainConfig: per-ContentCategory chain, runtime enable/disable, fallback policy
+-- Adding Content DeduplicationChecker focused tests (Phase 4, Issue #1698)
+--   DeduplicationChecker: pHash Hamming distance, MinHash band-LSH, SHA-256 exact dedup, ContentMetrics counters
+-- Adding ContentPolicy OCR routing focused tests
+--   ContentPolicy: ocrEnabled(), shouldTriggerOcr() for PNG/JPEG/TIFF, ValidationResult::ocr_recommended
+-- OcrProcessor DPI pre-processing focused tests not found at C:/Projects/ThemisDB/tests/ocr/test_ocr_processor.cpp
+-- OcrProcessor focused tests not found at C:/Projects/ThemisDB/tests/ocr/test_ocr_processor.cpp
+-- AsyncIngestionWorker back-pressure focused tests not found at C:/Projects/ThemisDB/tests/async/test_async_ingestion_backpressure.cpp
+-- AsyncIngestionWorker YAML config focused tests not found at C:/Projects/ThemisDB/tests/async/test_async_ingestion_yaml_config.cpp
+-- LegacyOfficeExtraction focused tests not found at C:/Projects/ThemisDB/tests/office/test_office_processor.cpp
+-- LibreOffice security focused tests not found at C:/Projects/ThemisDB/tests/office/test_office_processor.cpp
+-- Adding CON-007/CON-012 remediation regression tests (Phase 4)
+--   CON-007: VideoProcessor::healthCheck() simulation-mode returns false
+--   CON-012: AsyncIngestionWorker dtor is_nothrow_destructible compile-time check
+-- Adding CDC Admin tests (Issue #1623, standalone binary)
+--   CDCAdmin: CDCAdmin, purgeOlderThan, compactLog, retentionPolicy, subscriptionManagement
+-- Tenant Buffer Manager tests not found at C:/Projects/ThemisDB/tests/tenant/test_tenant_buffer_manager.cpp
+-- Adding CDC Retention focused tests (runtime TTL + size-based retention)
+--   CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus
+-- Adding CDC Changefeed Sequence Counter focused tests (v1.8.0 roadmap:160)
+--   CDCSequenceCounter: SequenceIncrementOperator, atomic counter, crash recovery, concurrent uniqueness, >=200K/s throughput
+-- Adding ChangefeedCore focused tests (Issue #9, v1.8.0 stampede fix)
+--   ChangefeedCore: subscriptions, to_sequence upper-bound, JSON roundtrip, watermarks, concurrent safety
+-- DiffEngine focused tests not found at C:/Projects/ThemisDB/tests/diff/test_diff_engine.cpp
+-- Adding CDC WebSocket handler focused tests (v1.7.0 roadmap:55)
+--   CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery
+-- Adding CDC Consumer Group focused tests (v1.8.0 roadmap:56)
+--   ConsumerGroup: createGroup/deleteGroup, commitOffset/getCommittedOffset, partitionForKey, fetchEvents, fetchEventsAtLeastOnce, acknowledgeEvents
+-- Adding CDC Kafka Producer focused tests (v1.9.0 roadmap:161)
+--   CDCKafkaProducer: config defaults, no-op stub, ICDCTransport compliance, Prometheus counters (cdc_kafka_delivered_total/cdc_kafka_error_total), Debezium format
+-- Adding CDC Pause Control focused tests
+--   CDCPauseControl: pause/resume transitions, PauseReason, bufferEvent/drainBuffer, overflow, waitForResume, thread-safety
+-- Adding CDC Backpressure Signal focused tests
+--   CDCBackpressureSignal: signal/clear/currentLevel, level-change callback, setCallback, thread-safety
+-- Adding CDC Fan-In focused tests
+--   CDCFanIn: addSource/removeSource/sourceIds, listEvents merge, cursor, limit, collection filter, custom merge policy, thread-safety
+-- Adding CDC Event Schema focused tests
+--   CDCEventSchema: registerSchema/getSchema/currentVersion, triggerEvolution compatible/incompatible, callback replacement, thread-safety
+-- Adding CDC Delivery Guarantee Config focused tests
+--   CDCDeliveryGuaranteeConfig: DeliveryMode, ackTimeout, deduplicationWindow; InMemoryIdempotentListener: markProcessed/isDuplicate, FIFO eviction, thread-safety
+-- Adding ConfigPathResolver focused tests
+--   ConfigPathResolver: path mapping, LRU cache, legacy fallback, metrics, audit trail
+-- Adding ConfigFileWatcher focused tests (v1.8.0 inotify/kqueue hot-reload)
+--   ConfigFileWatcher: inotify/kqueue/ReadDirectoryChangesW, debounce, startHotReload/stopHotReload
+-- Adding ConfigSchemaValidator focused tests
+--   ConfigSchemaValidator: JSON Schema Draft-7 subset, YAML/JSON loading, error reporting
+-- Adding ConfigMigrationScanner focused tests
+--   ConfigMigrationScanner: file scanning, dry-run, fix mode, output formats (text/json/csv)
+-- Adding Config coverage-gap focused tests
+--   Config coverage: LRUCacheWithTTL, ConfigAuditLog, exception hierarchy, schema edge-cases
+-- Adding Config metrics scrape latency focused tests
+--   Config metrics scrape: Prometheus text format, scrape latency < 1 ms, counter accuracy
+-- Adding ConfigEncryptedStore focused tests
+--   ConfigEncryptedStore: AES-256-GCM encryption, key rotation, serialisation, thread safety
+-- Adding ConfigHardeningResolverValidator focused tests
+--   ConfigHardeningResolverValidator: CFG-01..16 edge-case tests for resolver/validator
+-- Adding ConfigHardeningWatcherStore focused tests
+--   ConfigHardeningWatcherStore: CFG-17..32 edge-case tests for watcher/encrypted-store
+-- PathMappingMetadata focused tests not found at C:/Projects/ThemisDB/tests/path/test_path_mapping_metadata.cpp
+-- JWT Validator tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_validator.cpp
+-- JWT EdDSA Comprehensive tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_eddsa_comprehensive.cpp
+-- JWT ES256 Comprehensive tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_es256_comprehensive.cpp
+-- JWT EC Curves Comprehensive tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_ec_curves_comprehensive.cpp
+-- JWT Integration tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_integration.cpp
+-- JWT Key Rotation Comprehensive tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_key_rotation_comprehensive.cpp
+-- JWT Management Comprehensive tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_management_comprehensive.cpp
+-- JWT Rotation Unit tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_rotation_unit.cpp
+-- JWT Token Revocation Integration tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_token_revocation_integration.cpp
+-- JWT Validation Hardening tests not found at C:/Projects/ThemisDB/tests/jwt/test_jwt_validation_hardening.cpp
+-- Adding API Key Authenticator tests
+--   API Key Authenticator: key creation, HMAC validation, expiry, revocation, scopes
+-- Adding Auth Anomaly Detection tests
+--   Auth Anomaly Detection: brute-force detection, IP ban, concurrent attack simulation
+-- Adding Auth Audit Logger tests
+--   Auth Audit Logger: success/failure events, JWT/Kerberos/SAML/MFA audit trails
+-- Adding Auth Error tests
+--   Auth Error: error codes, messages, JSON serialization, exception hierarchy
+-- Adding Auth Input Validation tests
+--   Auth Input Validation: oversized tokens, null bytes, injection strings, boundary checks
+-- Adding Auth Metrics tests
+--   Auth Metrics: success/failure counters, latency histograms, Prometheus export
+-- Adding Auth Rate Limiter tests
+--   Auth Rate Limiter: sliding window, per-IP, per-user, concurrent access, decay
+-- Adding Auth Rate Limiter Distributed tests
+--   Auth Rate Limiter Distributed: IRateLimiterBackend, InMemory, Redis, shared state
+-- Adding Auth Middleware focused tests
+--   Auth Middleware: JWT + API-key pipeline, scope enforcement, tenant isolation
+-- GSSAPI Authenticator tests not found at C:/Projects/ThemisDB/tests/gssapi/test_gssapi_authenticator.cpp
+-- LDAP Authenticator tests not found at C:/Projects/ThemisDB/tests/ldap/test_ldap_authenticator.cpp
+-- LDAP Connection Pool tests not found at C:/Projects/ThemisDB/tests/ldap/test_ldap_connection_pool.cpp
+-- Adding Async HTTP Authentication tests
+--   HTTP async tests enabled
+-- Adding Distributed Token Blacklist tests
+--   Distributed token blacklist tests enabled
+-- MFA Authenticator tests not found at C:/Projects/ThemisDB/tests/mfa/test_mfa_authenticator.cpp
+-- mTLS Authenticator focused tests not found at C:/Projects/ThemisDB/tests/mtls/test_mtls_authenticator.cpp
+-- OAuth Device Flow tests not found at C:/Projects/ThemisDB/tests/oauth/test_oauth_device_flow.cpp
+-- OAuth PKCE Flow tests not found at C:/Projects/ThemisDB/tests/oauth/test_oauth_pkce_flow.cpp
+-- SAML Authenticator tests not found at C:/Projects/ThemisDB/tests/saml/test_saml_authenticator.cpp
+-- SAML Auth Provider tests not found at C:/Projects/ThemisDB/tests/saml/test_saml_auth_provider.cpp
+-- OAuth2/OIDC Provider tests not found at C:/Projects/ThemisDB/tests/oauth2/test_oauth2_provider.cpp
+-- Adding Session Manager focused tests (standalone binary)
+--   Session Manager: creation, validation, idle/absolute timeout, concurrent session limits, revocation
+-- TOTP Replay Cache tests not found at C:/Projects/ThemisDB/tests/totp/test_totp_replay_cache.cpp
+-- TOTP Secret Encryption tests not found at C:/Projects/ThemisDB/tests/totp/test_totp_secret_encryption.cpp
+-- WebAuthn/FIDO2 Authenticator tests not found at C:/Projects/ThemisDB/tests/webauthn/test_webauthn_authenticator.cpp
+-- Zero-Trust Auth Verifier tests not found at C:/Projects/ThemisDB/tests/zero/test_zero_trust_auth_verifier.cpp
+-- Zero-Trust Policy Enforcer focused tests not found at C:/Projects/ThemisDB/tests/zero/test_zero_trust_policy_enforcer.cpp
+-- ConcernsContext focused tests not found at C:/Projects/ThemisDB/tests/concerns/test_concerns_context.cpp
+-- Core Fuzz tests not found at C:/Projects/ThemisDB/tests/fuzz/test_fuzz_core.cpp
+-- LockFree Metrics focused tests not found at C:/Projects/ThemisDB/tests/lockfree/test_lockfree_metrics.cpp
+-- Zero-Copy Logging focused tests not found at C:/Projects/ThemisDB/tests/zero/test_zero_copy_logging.cpp
+-- Zero-Copy Blob Transfers focused tests not found at C:/Projects/ThemisDB/tests/zero/test_zero_copy_blob_transfers.cpp
+-- Adding Security Evidence Collector focused tests
+--   SecurityEvidenceCollector: audit-log export, key-rotation records, RBAC report, retention enforcement
+-- Adding FIPS Crypto Mode focused tests
+--   FipsCryptoMode: FIPS activation, approved cipher suites, non-approved rejection
+-- Adding Access Control Manager focused tests
+--   AccessControlManager: RBAC enforcement, middleware integration, role hierarchy
+-- Adding Row Level Security focused tests
+--   RowLevelSecurity: policy evaluation, predicate injection, AQL filter integration
+-- Adding ArrowUserRegistrationPlugin focused tests
+--   ArrowUserRegistrationPlugin: bulkSyncFromArrow, authenticateFromArrow, 1000-user batch
+-- Adding AIPluginGenerator focused tests
+--   AIPluginGeneratorFocusedTests: APG-01..06 (validatePrompt, generatePlugin)
+-- Adding Crypto Attack Vector tests
+--   CryptoAttackVectors: IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery
+-- Adding Injection Attack Vector tests
+--   InjectionAttackVectors: AQL injection (comment, dangerous ops, boolean-blind, union, stacked, case bypass, oversized)
+-- Adding Authentication Attack Vector tests
+--   AuthenticationAttackVectors: privilege escalation, permission boundary, lateral movement, role injection
+-- Adding Security Negative Integration focused tests
+--   SecurityNegativeIntegration: JWT (expired/tampered/alg-confusion/revoked-kid), RBAC (deny/cycle/wildcard), Vault (HTTP 403/404/malformed)
+-- Adding Input Validation Security focused tests
+--   InputValidationSecurity: AQL/path-traversal/XSS/command-injection prevention (legacy API disabled; DISABLED placeholder)
+-- Adding AdaptiveFlushController focused tests
+--   AdaptiveFlushController: buffer, async flush, watermark/timeout triggers, backpressure, overdue alerting
+-- TSStore Out-of-Order focused tests not found at C:/Projects/ThemisDB/tests/tsstore/test_tsstore_out_of_order.cpp
+-- Timeseries Future Interfaces focused tests not found at C:/Projects/ThemisDB/tests/ts/test_ts_future_interfaces.cpp
+-- TSStore putBatch focused tests not found
+-- StreamingIngestManager focused tests not found
+-- Adding IndexAnalyzer focused tests (IA-01ÔÇªIA-15)
+--   IndexAnalyzer: tier thresholds, YAML config, classify(), cron scheduling, AI advisor
+-- TsStreamCursor focused tests not found
+-- IoUringBatchedSender focused tests not found
+-- Kernel Bypass focused tests not found
+-- RequestCoalescer focused tests not found
+-- LockFreeHistogram focused tests not found
+-- Adding Geo focused test: test_geo_rtree_focused
+--   GeoRTree: insert, nearest-neighbor, range query, bulk insert, memory footprint
+-- Adding Geo focused test: test_geo_clustering_focused
+--   GeoClustering: DBSCAN cluster detection, k-means convergence, noise point handling
+-- Adding Geo focused test: test_geo_raster_focused
+--   GeoRaster: elevation sampling, bbox extraction, Gaussian KDE heatmap generation
+-- Adding Geo focused test: test_temporal_spatial_query_focused
+--   TemporalSpatialQuery: location at time T, entities within distance at time T
+-- Adding Geo focused test: test_geo_tile_server_focused
+--   GeoTileServer: tile request handling, MVT encoding, zoom level routing
+-- Adding Geo focused test: test_geo_spatial_join_focused
+--   GeoSpatialJoin: point-pair distance threshold, join result correctness
+-- Adding Geo focused test: test_geo_device_detector_focused
+--   GeoDeviceDetector: GPU discovery, compute-capability check, VRAM threshold
+-- Adding Geo focused test: test_geo_ewkb_focused
+--   GeoEWKB: WKB/EWKB encode and decode round-trips for all geometry types
+-- Adding Geo focused test: test_geo_precision_mode_focused
+--   GeoPrecisionMode: GeoPrecisionMode enum, getBackendForPrecision factory
+-- Adding Geo focused test: test_geo_st_buffer_focused
+--   GeoSTBuffer: ST_BUFFER expand by fixed distance on CPU-exact and Boost backends
+-- Adding Geo focused test: test_geo_st_union_difference_focused
+--   GeoSTUnionDifference: ST_UNION and ST_DIFFERENCE operations, degenerate inputs
+-- Adding Geo focused test: test_rtree_cpu_integration_focused
+--   RtreeCpuIntegration: R-tree backed CPU backend end-to-end spatial queries
+-- Adding Geo focused test: test_spatial_index_focused
+--   SpatialIndex: S2 cell lookup, H3 hexagonal grid binning, index consistency
+-- Adding Geo focused test: test_aql_st_functions_focused
+--   AqlStFunctions: ST_DISTANCE, ST_CONTAINS, ST_INTERSECTS, ST_BUFFER AQL integration
+-- Adding Geo focused test: test_aql_st_queryengine_focused
+--   AqlStQueryengine: full AQL query execution with spatial predicates and geo index
+-- Adding Geo focused test: test_geo_3d_functions_focused
+--   Geo3dFunctions: 3D containment, distance, intersection for point/polygon/polyhedron
+-- Adding Geo focused test: test_geo_wgs84_spherical_focused
+--   GeoWgs84Spherical: spherical WGS-84 distance calculations, ellipsoid approximation
+-- Adding Geo focused test: test_rtree_cursor_focused
+--   RTreeCursor: pull-based range cursor, k-NN cursor, STALE detection, estimatedResultCount
+-- Adding Geo focused test: test_temporal_spatial_query_builder_focused
+--   TemporalSpatialQueryBuilder: POINT_IN_TIME / INTERVAL / SLIDING_WINDOW, build() validation
+-- Adding Geo focused test: test_raster_query_interface_focused
+--   RasterQueryInterface: NoOp stub, factory, queryTile, queryBBox, size guard, INVALID_KEY
+-- Adding Geo focused test: test_geo_json_geometry_focused
+--   GeoJsonGeometry: CRS-aware GeoPoint/LineString/Polygon/MultiPolygon/GeometryCollection, ValidationResult, right-hand-rule winding
+-- Adding Geo focused test: test_spatial_join_filter_focused
+--   SpatialJoinFilter: Intersects/Contains/Within/Touches/DWithin predicates + And/Or/Not composable
+-- Adding Geo focused test: test_gpu_backend_production_focused
+--   GpuBackendProduction: production GPU backend dispatch, CPU fallback, circuit breaker
+-- Adding Geo focused test: test_gpu_kernel_dispatcher_focused
+--   GpuKernelDispatcher: kernel dispatch table, CPU fallback path, dispatch correctness
+-- Adding Geo focused test: test_category_b_parity_geo
+--   Category-B parity: Haversine, ST_CONTAINS, ST_UNION, ST_DIFFERENCE CUDA vs CPU parity for rollout gate
+-- Adding exporters focused test: test_jsonl_llm_exporter_focused
+--   JsonlLlmExporter: JSONL export, instruction-tuning formats, PII redaction, toxicity filtering, deduplication
+-- Adding exporters focused test: test_huggingface_exporter_focused
+--   HuggingFaceExporter: JSONL shards, dataset_card.md, dataset_info.json, field selection
+-- Adding exporters focused test: test_parquet_exporter_focused
+--   ParquetExporter: columnar export, configurable Arrow schema, fallback writer
+-- Adding exporters focused test: test_arrow_ipc_exporter_focused
+--   ArrowIpcExporter: Arrow IPC file and stream format export
+-- Adding exporters focused test: test_streaming_exporter_focused
+--   StreamingExporter: large-collection streaming, progress callbacks, resumable export
+-- Adding exporters focused test: test_incremental_exporter_focused
+--   IncrementalExporter: watermark-based delta export, checkpoint tracking
+-- Adding exporters focused test: test_aql_predicate_filter_focused
+--   AqlPredicateFilter: AQL-based record filtering before export
+-- Adding exporters focused test: test_format_template_focused
+--   FormatTemplate: Alpaca, ShareGPT, ChatML, OpenAI instruction-tuning transforms
+-- Adding exporters focused test: test_export_encryption_focused
+--   ExportEncryption: AES-256-GCM encryption and decryption of export files
+-- Adding exporters focused test: test_data_augmentation_focused
+--   DataAugmentation: synthetic training data augmentation pipeline
+-- Adding exporters focused test: test_export_format_registry_focused
+--   ExportFormatRegistry: singleton registry, registerBuiltins, createExporter, hasFormat, registeredFormats
+-- Adding exporters focused test: test_huggingface_hub_client_focused
+--   HuggingFaceHubClient: token resolution, repo create, retry logic, error surfacing
+-- Adding exporters focused test: test_join_exporter_focused
+--   JoinExporter: cross-collection hash-join, output-field aliasing, PII redaction, memory budget, throughput
+-- Adding Cache Interfaces tests (Issue #1596)
+--   CacheInterfaces: IEvictionPolicy, ICacheAdminOps, ICacheWarmup, IGDPRPurgeHook, ITTLAdapter
+-- Adding Cache Phase 6 Interface tests
+--   CachePhase6: IDistributedEviction, ICachePartition, IAdaptiveTTLPolicy
+-- Adding LLM focused test: test_llm_ai_orchestrator
+--   AiOrchestrator: YAML pipeline modes (ask/edit/rag/agentic/ethics/multi_agent), ToolRegistry, mode dispatch
+-- Adding LLM focused test: test_llm_streaming_handler
+--   StreamingHandler: SSE token delivery, cancel mid-stream, is_final sentinel, backpressure
+-- Adding LLM focused test: test_llm_openai_compat_adapter
+--   OpenAICompatAdapter: /v1/chat/completions mapping, stream=true SSE, tool_calls, 401 on denied
+-- Adding LLM focused test: test_llm_lora_hot_loading
+--   LoRA hot-loading: loadLoRAAdapter, unloadLoRAAdapter, zero dropped requests during swap
+-- Adding LLM focused test: test_llm_model_loader_async
+--   ModelLoader async: lazy loading, concurrent requests, cancellation, timeout
+-- Adding LLM focused test: test_llm_audit_logger
+--   LlmModelAuditLogger: structured audit events, hash-chain integrity, PII redaction
+-- Adding LLM focused test: test_llm_model_path_traversal
+--   GAP-009: loadModel() path containment check against THEMIS_MODEL_ROOT
+-- Adding LLM focused test: test_llm_json_schema_binding
+--   JSON schema binding: schema├ö├Ñ├åGBNF conversion, tool-call output validation, nested schemas
+-- Adding LLM focused test: test_llm_grammar_integration
+--   Grammar-constrained generation: EBNF compilation, runtime API detection, graceful degradation
+-- Adding LLM focused test: test_llm_validator
+--   ProductionValidator: model health checks, benchmark thresholds, validation report
+-- Adding LLM focused test: test_llm_deployment_plugin
+--   LlmDeploymentPlugin: model lifecycle, caching, audit, hot-swap
+-- Adding LLM focused test: test_llm_lora_adapters
+--   LoRA adapters: load/unload, metadata, versioning, VRAM footprint
+-- Adding LLM focused test: test_llm_lora_auto_binding
+--   LoRA auto-binding: rule matching, priority ordering, fallback to base model
+-- Adding LLM focused test: test_llm_lora_adapter_application
+--   LoRA adapter application: weight injection, rank/alpha params, output delta
+-- Adding LLM focused test: test_llm_mcp_orchestrator_bridge
+--   MCP├ö├Ñ├ÂOrchestrator bridge: tool registration, call routing, result marshalling
+-- Adding LLM focused test: test_llm_extended_context
+--   Extended context: RoPE scaling, context window extension, cache coherency
+-- Adding LLM focused test: test_llm_inference_performance
+--   Inference performance: tokens/sec baseline, latency p99, batching throughput
+-- Adding LLM focused test: test_llm_inference_quality
+--   Inference quality: output determinism, grammar compliance, tool-call correctness
+-- Adding LLM focused test: test_llm_kernel_fusion_cpu_fallback
+--   Kernel fusion CPU fallback: correctness vs reference, no CUDA dependency
+-- Adding LLM focused test: test_llm_kernel_fusion_cuda
+--   Kernel fusion CUDA: Flash Attention parity, FP16/BF16 kernels, skip when no CUDA
+-- Adding LLM focused test: test_llm_llama_cpp_tokenizer
+--   llama.cpp tokenizer: encode/decode round-trip, special tokens, BPE merges
+-- Adding LLM focused test: test_llm_llama_wrapper_state
+--   LlamaWrapper state: model load/unload, context lifecycle, thread safety
+-- Adding LLM focused test: test_llm_gpu_lora_integration
+--   GPU LoRA integration: multi-LoRA on GPU, VRAM tracking, adapter switch latency
+-- Adding LLM focused test: test_llm_real_embeddings
+--   Real embeddings: embedding generation via llamacpp, similarity search, dimension check
+-- Adding LLM focused test: test_llm_model_loader_error_handling
+--   ModelLoader error handling: missing file, corrupted GGUF, OOM, permission denied
+-- Adding LLM focused test: test_llm_model_loading_best_practices
+--   Model loading best practices: lazy init, memory budget enforcement, eviction policies
+-- Adding LLM focused test: test_llm_model_loading_from_themisdb
+--   Model loading from ThemisDB: store, retrieve, checksum verify, hot-reload
+-- Adding LLM focused test: test_llm_inference_roles
+--   Role-aware Llama/OpenAI inference formatting: system/user/assistant preservation and request mapping
+-- Adding LLM focused test: bench_llm_continuous_batch_scheduler
+--   Continuous batch scheduler benchmark: throughput at varying concurrency levels
+-- Adding LLM focused test: test_llm_active_vram_allocator
+--   ActiveVRAMAllocator: allocation/free, OOM recovery (eviction/defrag/spill), thread safety, AdaptiveVRAMAllocator delegation
+-- Adding LLM focused test: test_llm_metrics_server_wiring
+--   MetricsServer admin callback wiring (MSW-01..10): reload/simulate/session-delete endpoints wired to LLMPluginManager
+-- Adding LLM focused test: test_llm_gossip_adapter_publisher
+--   GossipAdapterPublisher wired in LLMPluginManager: announce on loadLoRA, withdrawal on unloadLoRA, no-op without publisher (GAP-01..05)
+-- LLM focused test not found: C:/Projects/ThemisDB/tests/decision/test_decision_record_integration.cpp
+-- LLM focused test not found: C:/Projects/ThemisDB/tests/decision/test_decision_record_yaml_processor.cpp
+-- LLM focused test not found: C:/Projects/ThemisDB/tests/decision/test_decision_record_e2e.cpp
+-- Adding ingestion focused test: test_ingestion_builder_focused
+--   IngestionBuilder: fluent API, RateLimitConfig, correlation_id, IngestionMetricsExporter
+-- Adding ingestion focused test: test_ingestion_features_focused
+--   IngestionFeatures: filesystem ingestion, checkpointing, parallel sources, dry-run
+-- Adding ingestion focused test: test_ingestion_errors_focused
+--   IngestionErrors: error codes, retry logic, quarantine queue, error propagation
+-- Adding ingestion focused test: test_ingestion_checkpoint_focused
+--   IngestionCheckpoint: incremental progress, resume-from-checkpoint, cursor/offset pagination
+-- Adding ingestion focused test: test_ingestion_resilience_focused
+--   IngestionResilience: exponential back-off, transient failures, partial-batch recovery
+-- Adding ingestion focused test: test_ingestion_reconfig_focused
+--   IngestionReconfig: dynamic source reconfiguration without restart
+-- Adding ingestion focused test: test_ingestion_plugin_api_focused
+--   IngestionPluginApi: ConnectorPluginRegistry CRUD, concurrent isolation, IngestionBuilder plugin sources
+-- Adding ingestion focused test: test_ingestion_schema_validation_focused
+--   IngestionSchemaValidation: field-existence/type/pattern rules, reject_invalid flag, schema_violations metric
+-- Adding ingestion focused test: test_ingestion_security_focused
+--   IngestionSecurity: path-traversal guard, credential masking, SSRF prevention
+-- Adding ingestion focused test: test_ingestion_oauth_focused
+--   IngestionOauth: OAuth 2.0 token refresh, expired token handling, connector retry
+-- Adding ingestion focused test: test_ingestion_kafka_focused
+--   IngestionKafka: KafkaConnector consumer group, offset commit, topic filtering, async ingestion
+-- Adding ingestion focused test: test_ingestion_object_storage_focused
+--   IngestionObjectStorage: S3/GCS/Azure mock-injection, prefix filter, path-traversal rejection, 28 tests
+-- Ingestion test not found: C:/Projects/ThemisDB/tests/s3/test_s3_connector.cpp
+-- Adding ingestion focused test: test_ingestion_database_focused
+--   IngestionDatabase: ODBC mock-injection, JDBC URL parsing, text_columns extraction, credential masking
+-- Adding ingestion focused test: test_ingestion_web_crawler_focused
+--   IngestionWebCrawler: BFS crawl, sitemap parsing, robots.txt, SSRF prevention
+-- Adding ingestion focused test: test_ingestion_coordinator_focused
+--   IngestionCoordinator: distributed work-stealing thread pool, progress aggregation, node coordination
+-- Adding ingestion focused test: test_ingestion_cdc_focused
+--   IngestionCdc: CdcConnector mock-injection, LSN tracking, WAL poll loop, table_filter
+-- Adding ingestion focused test: test_ingestion_integration_focused
+--   IngestionIntegration: end-to-end filesystem/API/HuggingFace integration tests
+-- Adding ingestion focused test: test_ingestion_pipeline_focused
+--   IngestionPipeline: key-value ingestion pipeline, RocksDB write path, batch throughput
+-- Adding ingestion focused test: test_ingestion_lineage_focused
+--   IngestionLineage: IngestionLineageRecord struct, IngestionLineageStore, IngestionManager lineage API (Issue #1901)
+-- Ingestion test not found: C:/Projects/ThemisDB/tests/legal/test_legal_extraction.cpp
+-- Adding ingestion focused test: test_ingestion_llm_adapter_focused
+--   IngestionLlmAdapter: LegalLlmAdapter config, Phase 1 regex fallback, JSON response parsing, Phase 2 health-check (THEMIS_ENABLE_LLM), integration skip-if-no-model
+-- Ingestion test not found: C:/Projects/ThemisDB/tests/workflow/test_workflow_engine.cpp
+-- Adding ingestion focused test: test_ingestion_base_entity_focused
+--   Ingestion BaseEntity: FileManifest (FM-01..FM-03), ExtractionContext (EC-01..EC-07), BaseEntity/EntityRelation/VectorRecord/BaseEntitySet (BA-01..BA-10)
+-- Adding ingestion focused test: test_ingestion_ner_llm_focused
+--   Ingestion Phase 3: builtin.ner_de (NE-01..NE-08), builtin.llm_extract (LE-01..LE-06)
+-- Adding ingestion focused test: test_ingestion_assembler_sinks_focused
+--   Ingestion Phase 4: EntityNormalizer (EN-01..EN-08), RelationBuilder (RB-01..RB-06), InMemoryGraphWriter (GW-01..GW-05), InMemoryVectorWriter (VW-01..VW-05), InMemoryDocWriter (DW-01..DW-03), IngestionSinkBundle (SB-01..SB-03)
+-- Adding ingestion focused test: test_ingestion_legal_domain_focused
+--   Ingestion Phase 5+6: DocumentStoreSinkAdapter (DS-01..DS-05), GesetzParser (LD-01..LD-04), TemporalExtractor (LD-05..LD-07), BehoerdenMapper (LD-08..LD-09), BescheidExtractor (LD-10..LD-11), CrossDocumentLinker (LD-12..LD-13), LegalEntityExport (LD-14..LD-15)
+-- Adding Network focused test: test_wire_protocol_v1_handlers_focused
+--   WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract
+-- Adding Network focused test: test_wire_protocol_backpressure_focused
+--   WireProtocolBackpressure: tcp_backlog default/custom, max_connections enforcement, overloaded_ state transitions, recovery logging, rejected_connections stats
+-- Adding Network focused test: test_wire_protocol_ipv6_focused
+--   WireProtocolIPv6: Config defaults (enable_ipv6, ipv6_dual_stack), address promotion logic, IPv6 address parsing/string, dual-stack semantics, connection-tracking keys
+-- Network focused test not found: C:/Projects/ThemisDB/tests/qos/test_qos_manager.cpp
+-- Network focused test not found: C:/Projects/ThemisDB/tests/bandwidth/test_bandwidth_management_qos.cpp
+-- Adding Network focused test: test_network_timeout_focused
+--   SocketTimeoutManager: construction/destruction, timeout recording, circuit breaker, health state transitions
+-- Adding Network focused test: test_network_circuit_breaker_focused
+--   AdaptiveCircuitBreaker: CLOSED/OPEN/HALF_OPEN state machine, error threshold trigger, recovery scenarios, adaptive threshold, stats, callback, thread-safety
+-- Adding Network focused test: test_wire_protocol_connection_pool_focused
+--   WireProtocolConnectionPool: config defaults, acquire/release, health tracking, RAII handles
+-- Adding Network focused test: test_wire_protocol_performance_focused
+--   WireProtocolPerformanceMonitor: latency tracking, throughput counters, percentile computation
+-- Adding Network focused test: test_wire_protocol_optimizations_focused
+--   WireProtocolOptimizations: ZeroCopyFrameBuilder, MemoryMappedPayload, WireProtocolBatcher, NagleController, ZstdDictionaryCompressor
+-- Adding Network focused test: test_udp_fast_path_focused
+--   UDPFastPath: config defaults, packet format validation, opcode filter, response builder
+-- Adding Network focused test: test_udp_server_focused
+--   UDPServer: config defaults, packet constants (TM magic/opcodes/flags), validatePacket, buildAck, stats init, isRunning, seq-num encoding, ACK flag
+-- Adding Network focused test: test_wire_protocol_dataflow_focused
+--   WireProtocolDataflow: QueryEngine DI, CursorEntry struct, BATCH_GET multiGet shape, BATCH_PUT putBatch shape, cursor-next/close contracts, dispatched-opcode constants, RocksDBWrapper::KeyValuePair API (WPD-01..10, KB-01..05)
+-- Adding Network focused test: test_wire_protocol_retry_focused
+--   WireProtocolRetry: RetryPolicy defaults/custom, computeDelay (attempt 0-3), jitter bounds, max-delay cap, isTransient (ECONNRESET/ETIMEDOUT/EAGAIN), IdempotencyCache store/lookup/eviction/concurrency
+-- Adding Network focused test: test_http_timeout_patterns_focused
+--   HttpTimeoutPatterns: per-request timeout config (408 on fire), graceful shutdown drain, in-flight counter RAII, zero-in-flight instant drain, concurrent request timeouts
+-- Adding Network focused test: test_geo_topology_router_focused
+--   GeoTopologyRouter: PREFER_LOCAL/LOWEST_LATENCY/ROUND_ROBIN strategies, zone/datacenter affinity, fallback, stats
+-- Adding Network focused test: test_wire_protocol_v2_focused
+--   WireProtocolV2: frame types, stream state machine, flow control, server push, session cleanup
+-- Adding Network focused test: test_wire_protocol_websocket_focused
+--   WireProtocolWebSocket: protocol detection, upgrade handshake, connection accounting, text-frame dispatch
+-- Adding CDC WebSocket focused tests (WsTransportTest + WebSocketCDCTest)
+--   WebSocketCdc: WsTransport session lifecycle, subscription management, back-pressure, CDCMetrics, event frame format
+-- Network focused test not found: C:/Projects/ThemisDB/tests/grpc/test_grpc_transport.cpp
+-- gRPC Plugin focused test not found: C:/Projects/ThemisDB/tests/grpc/test_grpc_plugin_lifecycle.cpp
+-- gRPC Observability test not found: C:/Projects/ThemisDB/tests/grpc/test_grpc_observability.cpp
+-- Adding Ethics AI focused test: test_ethics_ai_pipeline_focused
+--   Ethics AI: full pipeline (loader/store/discourse/rag/evaluator) + edge-case validation
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_manager.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_version_control.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/feedback/test_feedback_collector.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_optimizer.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/meta/test_meta_prompt_generator.cpp
+-- Adding Index focused test: test_ann_index_focused
+--   AnnIndex: DiskANN and ScaNN alternative ANN algorithms, on-disk vector search
+-- Adding Index focused test: test_distributed_vector_index_focused
+--   DistributedVectorIndex: vector search across shards, fan-out/merge, partition correctness
+-- Adding Index focused test: test_gpu_memory_oversubscription_focused
+--   GPUMemoryOversubscription: partition management, LRU eviction, streaming, prefetch strategies, multi-GPU config (v1.7.0)
+-- Adding Index focused test: test_index_compression_focused
+--   IndexCompression: delta encoding, prefix compression, bloom filters, dictionary encoding, RLE (v1.7.0)
+-- Adding Index focused test: test_matryoshka_truncation_focused
+--   MatryoshkaTruncation: MRL prefix truncation, L2 normalisation, MatryoshkaTruncatedIndex IAnnIndex wrapper (v1.8.0)
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_performance_tracker.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_engineering_metrics.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/self/test_self_improvement_orchestrator.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_injection_detector.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/chain/test_chain_of_thought.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/cot/test_cot_tracer.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_regression_runner.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_ab_experiment.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_library_io.cpp
+-- Adding Prompt Engineering focused test: test_rag_prompt_builder_focused
+--   RAGPromptBuilderFocusedTests: RAGPromptBuilder: budget-aware chunk selection, source citations, template injection
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/system/test_system_prompt_manager.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_evaluator_ttest.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_engineering_integration.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/context/test_context_window_manager.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/reflection/test_reflection_tuner.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/reflection/test_reflection_integration.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/protegi/test_protegi_optimizer.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/dspy/test_dspy_module.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_template_compiler.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_engineering_v190.cpp
+-- Prompt Engineering focused test not found: C:/Projects/ThemisDB/tests/prompt/test_prompt_engineering_phase6.cpp
+-- Ingestion Integration focused tests already registered: test_ingestion_integration_focused
+-- Ingestion Coordinator focused tests already registered: test_ingestion_coordinator_focused
+-- MetricsCollector focused tests not found at C:/Projects/ThemisDB/tests/metrics/test_metrics_collector.cpp
+-- MetricsExemplar focused tests not found at C:/Projects/ThemisDB/tests/metrics/test_metrics_exemplar.cpp
+-- MetricsAggregation focused tests not found at C:/Projects/ThemisDB/tests/metrics/test_metrics_aggregation.cpp
+-- AlertRules focused tests not found at C:/Projects/ThemisDB/tests/alert/test_alert_rules.cpp
+-- AlertingEngine focused tests not found at C:/Projects/ThemisDB/tests/alerting/test_alerting_engine.cpp
+-- MetricsStreamServer focused tests not found at C:/Projects/ThemisDB/tests/metrics/test_metrics_stream_server.cpp
+-- ContinuousProfiler focused tests not found at C:/Projects/ThemisDB/tests/continuous/test_continuous_profiler.cpp
+-- ObservabilityTracer focused tests not found at C:/Projects/ThemisDB/tests/tracer/test_tracer.cpp
+-- Adding Observability: LogAggregator focused tests (OBS-MISSING-001)
+--   LogAggregator: level filtering, structured fields, trace context, ring buffer, callback, shutdown, thread-safety
+-- MLAnomalyDetector focused tests not found at C:/Projects/ThemisDB/tests/ml/test_ml_anomaly_detector.cpp
+-- RootCauseAnalyzer focused tests not found at C:/Projects/ThemisDB/tests/root/test_root_cause_analyzer.cpp
+-- TenantMetricsNamespace focused tests not found at C:/Projects/ThemisDB/tests/tenant/test_tenant_metrics_namespace.cpp
+-- LogSearchEngine focused tests not found at C:/Projects/ThemisDB/tests/log/test_log_search_engine.cpp
+-- Adding ModalityParser focused tests (Phase 3)
+--   ModalityParser: ModalityDetector heuristics, TextClause/Table/Citation/OCR extractors, ConfidenceCalibrator PAV, batch parse
+--   TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category
+-- Adding ProvenanceAqlIntegration focused tests
+--   ProvenanceAqlIntegration: provenance write + lineage round-trip (offline + QueryEngine paths)
+-- Adding AutoLabelerDbFetch focused tests
+--   AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats
+-- KgeVectorSearch focused tests not found at C:/Projects/ThemisDB/tests/kge/test_kge_vector_search.cpp
+-- Adding LoRAAdapter focused tests (lora_adapter.cpp)
+--   LoRAAdapter: addLayer/removeLayer, Kaiming init, setWeights, applyUpdate, applyBatchUpdate, forward pass, export/import
+-- AdvancedTrainingFeatures focused tests not found
+-- Adding TrainingDiagnosticsConsistency focused tests (TDC-01..TDC-10)
+--   TrainingDiagnosticsConsistency: LabelingStats, DeployResult, ProvenanceWriteStats, CheckpointManifestEntry baseline assertions
+-- AdaLoRA focused tests not found at C:/Projects/ThemisDB/tests/ada/test_ada_lora_adapter.cpp
+-- LoRAMerger focused tests not found at C:/Projects/ThemisDB/tests/lora/test_lora_adapter_merger.cpp
+-- Adding TrainingPhase2 focused tests
+--   TrainingPhase2: DeployResult, deployVersionEx/rollbackVersionEx, ILLMRouter wiring, DomainType LEGAL/MEDICAL/FINANCIAL, integrity bypass
+-- Skipping Voice Production focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)
+-- Blue/Green Deployment focused tests not found at C:/Projects/ThemisDB/tests/blue/test_blue_green_deployment.cpp
+-- HuggingFace Exporter focused tests already registered: test_huggingface_exporter_focused
+-- Adding Voice API Handler tests
+--   Voice API Handler: rejects invalid path IDs before assistant access
+-- Canary Rollout focused tests not found at C:/Projects/ThemisDB/tests/canary/test_canary_rollout.cpp
+-- Binary Delta Patches focused tests not found at C:/Projects/ThemisDB/tests/binary/test_binary_delta_patches.cpp
+-- Automatic Schema Migration focused tests not found at C:/Projects/ThemisDB/tests/automatic/test_automatic_schema_migration.cpp
+-- Distributed Cluster Updates focused tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_cluster_updates.cpp
+-- ManifestDatabase file deletion focused tests not found at C:/Projects/ThemisDB/tests/manifest/test_manifest_database_file_deletion.cpp
+-- CapabilityAutoGenerator persist-state focused tests not found at C:/Projects/ThemisDB/tests/capabilityautogenerator/test_capabilityautogenerator_persist_state.cpp
+-- Skipping Voice Assistant focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)
+-- Skipping Voice Browser Streaming focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)
+-- Skipping Voice Security Features focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)
+-- Data Augmentation focused tests already registered: test_data_augmentation_focused
+-- Preflight Health Check focused tests not found at C:/Projects/ThemisDB/tests/preflight/test_preflight_health_check.cpp
+-- Schema Migration Tester focused tests not found at C:/Projects/ThemisDB/tests/schema/test_schema_migration_tester.cpp
+-- Parallel File Downloads focused tests not found at C:/Projects/ThemisDB/tests/parallel/test_parallel_file_downloads.cpp
+-- Dependency Resolution Engine focused tests not found at C:/Projects/ThemisDB/tests/dependency/test_dependency_resolution_engine.cpp
+-- Adding Content Embedding Pipeline focused tests (content, Issue #62, v1.8.0)
+--   ContentEmbeddingPipeline: config clamping, enable/disable, batch shape, failure counter, Prometheus export, ContentPolicy::embedding_model
+-- Multi-Tenant Update Scheduling focused tests not found at C:/Projects/ThemisDB/tests/multi/test_multi_tenant_update_scheduling.cpp
+-- Network focused test not found: C:/Projects/ThemisDB/tests/raft/test_raft_load_balancer.cpp
+-- Distributed Gateway focused tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_gateway.cpp
+-- Adding API Gateway Enhancements focused tests
+--   APIGatewayEnhancements: RequestCoalescingManager (dedup in-flight requests), SmartRouter (cache prediction, tail-latency avoidance, least-loaded)
+-- Adding Database Maintenance Orchestrator focused tests
+--   DatabaseMaintenanceOrchestrator: schedule CRUD, job management, health reporting
+-- ReplicaValidationHandler focused tests not found at C:/Projects/ThemisDB/tests/replica/test_replica_validation_handler.cpp
+-- Vectorized Execution tests not found at C:/Projects/ThemisDB/tests/vectorized/test_vectorized_execution.cpp
+-- Materialized View tests not found at C:/Projects/ThemisDB/tests/materialized/test_materialized_view.cpp
+-- gRPC Plugin tests not found at C:/Projects/ThemisDB/tests/grpc/test_grpc_plugin.cpp
+-- BidiStreamAdapter tests not found at C:/Projects/ThemisDB/tests/bidi/test_bidi_stream_adapter.cpp
+-- Discourse Engine tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- Philosophy Loader tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- Ethics AI Integration tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- Ethics AI Benchmark tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- Ethics AI Chain Visualizer tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- Ethics AI v0.3.0 tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- ONNX CLIP Plugin tests not found at C:/Projects/ThemisDB/tests/onnx/test_onnx_clip_plugin.cpp
+-- Adding Storage: BaseEntity::setField fail-closed guard tests
+--   BaseEntity::setField: empty field_name rejection, map corruption prevention
+-- Adding Base: HotReloadManager reload-race regression tests
+--   HotReloadManager: rollback/reload edge cases, callback race scenarios, dependency conflict regressions
+-- Adding Replication: ReplicationManager::addReplica fail-closed guard tests (QW-33)
+--   ReplicationManager::addReplica: empty node_id/endpoint rejection, guard independence
+-- Adding Voice: VoiceAssistant::generateLLMResponse fail-closed guard tests (QW-37)
+--   VoiceAssistant::generateLLMResponse: empty user_input rejection, session integrity
+-- Adding Voice: VoiceAssistant::verify/identify audit logging tests (QW-38)
+--   VoiceAssistant::verifyVoiceSpeaker/identifyVoiceProfiles: audit logging on verify/identify
+-- Adding Training: TrainingPipeline prompt injection guard tests (QW-40)
+--   TrainingPipeline: injection guards at task_description, drift_threshold, selection_criteria
+-- Adding Graph Index: Edge empty fields validation tests (QW-45)
+--   Graph Index: edge _from/_to field validation, topology corruption prevention
+-- Adding Query API Handler: Collection name injection guard tests (QW-46)
+--   Query API Handler: table name validation, path traversal prevention
+-- Adding Storage: StorageAuditLogger focused tests
+--   StorageAuditLogger: write, read, rotate, tamper detection
+-- Adding Storage: StorageEngineDI focused tests
+--   StorageEngine DI: constructor injection, encryption, evaluator
+-- Adding Storage: StorageEngineProd focused tests
+--   StorageEngine prod: PRODUCTION_MODE safety flag, encryption defaults
+-- Adding Storage: ErasureCodingBackend focused tests (Issue #207)
+--   ErasureCodingBackend: RS(10,4)/RS(6,3)/RS(4,2) encode/decode, multi-shard fault tolerance, BlobRedundancyManager PARITY mode integration
+-- Adding Sharding: PagedKVCache focused tests
+--   PagedKVCache: payload persistence, prefix reuse, shared-block cleanup
+-- Adding Voice: VoiceSessionManager focused tests (QW-32)
+--   VoiceSessionManager: Fail-closed guard tests
+-- Adding Voice: VoiceSessionManager::createSession focused tests (QW-34)
+--   VoiceSessionManager::createSession: Fail-closed guard tests
+-- Adding Voice: VoiceSessionManager::createSession focused tests (QW-34)
+--   VoiceCreateSession: Fail-closed guard tests
+-- Adding Chaos: ChaosFramework focused tests (Phase 4.3)
+--   ChaosFramework: FaultInjector lifecycle, fault inject/recover/expiry, ChaosScheduler, event callbacks
+-- Adding Chaos: Stress / jitter focused tests (Phase 4)
+--   ChaosStress: configurable tick, CONDVAR/FIXED_TICK, jitter, burst, concurrency
+-- Adding Ingestion v1.4.0 builtin step tests (ING-01..12)
+--   ING-01..04: builtin.decompress - name/version, MIME types, empty path, unknown MIME
+--   ING-05..08: builtin.legal_reference_extractor - name/version, empty text, extraction, dangling refs
+--   ING-09..12: builtin.chunk_embed - name/version, skip unavailable, error unavailable, produces VectorRecords
+-- Adding Distributed Knowledge Federation unit tests (DK-A..D, 37 tests)
+--   themis_distributed_knowledge target missing; building focused test with direct module sources
+--   DK-A-01..06: AdapterCapabilityAnnouncement / GossipAdapterPublisher
+--   DK-B-01..13: LoRAFederationCoordinator (FedAvg, median, DP noise, round mgmt)
+--   DK-C-01..10: FederatedRAGMerger (RRF, score-weighted, round-robin, dedup)
+--   DK-D-01..08: CrossShardFeedbackSync (publish, inbound, dedup, stats)
+-- Adding Distributed Knowledge Session 2: GossipProtocol custom handler tests (3 tests)
+--   GP-CUSTOM-01..03: registerCustomHandler dispatch, unknown type, duplicate overwrite
+-- Adding Distributed Knowledge Session 3: AdaptiveShardRouter domain routing tests
+--   ASR-DOM-01..04: updateAdapterCapability+routeByDomain (best delta, fallback, overwrite, unknown)
+-- Adding Chaos: Network chaos focused tests (Phase 4.3)
+--   ChaosNetwork: oversized body/headers, malformed JSON, connection counters, health endpoint concurrency
+-- Adding Chaos: Scheduler chaos focused tests (Phase 4.3)
+--   ChaosScheduler: rapid register/unregister, timeout tasks, exception injection, stop-under-load
+-- Adding Failover: Chaos + failover end-to-end scenario matrix (Phase 4/5)
+--   FailoverChaos: queue saturation, pressure telemetry, retry tracking, concurrent triggers, config hot-update
+-- Adding Process Module focused tests
+--   ProcessModule: BPMN/EPK/VCC-VPB import-export, ProcessModelManager CRUD,
+--                  ProcessLinker attach/detach/required-docs, ProcessGraphRag
+-- Adding Process ARIS-XML + AgenticRAG focused tests
+--   ProcessArisXml: EAX-01..10 ARIS-XML import, PAR-01..06 AgenticRAG fa├ºade
+-- Adding Process Graph visit-timestamp focused tests
+--   ProcessGraph: visit_timestamps, getVisitTimestamp, multi-hop ordering
+-- Adding Process Mining v2 focused tests (PM2-01..16)
+--   ProcessMiningV2: PM2-01..16 DFG/discovery/variants/conformance/export
+-- Adding Temporal: TemporalConflictResolver + TemporalConflictDetector focused tests
+--   TemporalConflictResolver: LWW, FWW, NODE_PRIORITY, MANUAL, CRDT_MERGE policies, audit log
+--   TemporalConflictDetector: CONCURRENT_UPDATE, OVERLAPPING_PERIODS, REFERENTIAL_INTEGRITY, UNIQUENESS_VIOLATION
+-- Adding Temporal: RetentionManager focused tests (time-based, storage-based, compliance, incremental, retry)
+--   RetentionManager: TIME_BASED, VERSION_COUNT_BASED, STORAGE_BASED, CUSTOM policies, archiving, compliance, incremental batch, retry
+-- Adding Temporal: BiTemporalTable focused tests (bi-temporal, gap detection, FK)
+--   BiTemporalTable: insert/update/delete, bi-temporal queries, gap detection, uniqueness constraints, temporal foreign keys
+-- Adding Temporal: TemporalColdStore focused tests (InMemory + FileSystem backends, concurrent reads)
+--   TemporalColdStore: InMemoryBackend, FileSystemBackend, RAM index rebuild, special-char keys, concurrent reads
+-- Adding Temporal: TemporalTierManager focused tests (LSM hot/warm/cold, Bloom filter, LoRA hook)
+--   TemporalTierManager: BloomFilter, TierPolicy (thresholds + LoRA hook), hot/warm/cold flush, three-tier getAsOf/getHistory, concurrent reads
+-- Adding Storage: MVCCChainPruner focused tests (MCP-01..08)
+--   MVCCChainPruner: migrate, min_keep, no-op, sys_time, binary fallback, pruneAll, safe-horizon
+-- Adding Temporal: v1.8.0+v1.9.0 focused tests (CDCPersistentLog, SnapshotDiff, BiTemporal::merge)
+--   CDCPersistentLog: CDCPL-01..08 (open, round-trip, filter table, filter time, bytes, segment count, rotation, error)
+--   SnapshotDiff: SD2-01..06 (identical, added, removed, modified, invalid handle, toJson)
+--   BiTemporalTable::merge: BTM-01..06 (empty remote, LWW remote wins, LWW local wins, new key, table mismatch, stats)
+-- Adding Temporal: TemporalQueryEngine + TemporalQuerySpec focused tests (v1.9.0)
+--   TemporalQueryEngine: AS_OF, FROM_TO, BETWEEN_AND, CONTAINED_IN, ALL clauses; system-versioned + bi-temporal dispatch; deleted-row filter; TemporalQuerySpec factories
+-- Adding Timeseries: ContinuousAggMaterializationEngine focused tests (v1.9.0)
+--   ContinuousAggMaterializationEngine: create/drop/list/get aggregates, refreshAggregate, refreshAll, queryMaterialized, getAggregateStatus, getAllStatus, incremental watermark, inactive/auto_refresh flags
+-- Distributed Cache Integration tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_cache_integration.cpp
+-- Online schema migration tests not found at C:/Projects/ThemisDB/tests/online/test_online_schema_migration.cpp
+-- Adaptive Compaction focused tests not found at C:/Projects/ThemisDB/tests/adaptive/test_adaptive_compaction.cpp
+-- AdaptiveJoinStrategies focused tests not found at C:/Projects/ThemisDB/tests/adaptive/test_adaptive_join_strategies.cpp
+-- Adding DeviceManager focused tests (acceleration, Issue #37, v1.7.0)
+--   DeviceManager: probeDevices, cache TTL, refresh, getBestDevice, hasGPU, bestBackendType, logDeviceInfo, BackendRegistry::deviceInfo
+-- Adding BackendRegistry thread-safety focused tests (acceleration, Issue #133, v1.8.0)
+--   BackendRegistry: 16-thread getBestVectorBackend + registerBackend writer (stub), isRuntimeInitialized concurrency, getSelectedXBackend concurrency
+-- Adding VecKnnInsert focused tests (acceleration, PERF-D3, v1.0.0)
+--   VecKnnInsert: simd_l2_sq, simd_batch_l2_sq, DistanceCache, VecKnnInsertPipeline (25 tests)
+-- Adding AiHardwareDispatcher focused tests (AI hardware, v1.0.0)
+--   AiHardwareDispatcher: BackendType/PrecisionMode enums, probeCapabilities, run() fallback, runOn() per-backend, DeviceCapabilityInfo (30 tests)
+-- Adding NCCLMergeTopK focused tests (acceleration, Issue #222, v1.9.0)
+--   NCCLMergeTopK: CPU merge simulation (worldSize 2/4/8, k 10/100/256), tie-breaking, NCCL/RCCL single-rank copy (25 tests)
+-- Adding VLLMResourceManager stats focused tests
+--   VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard, multi-GPU mock-provider tests
+-- BlobRedundancy EventListener tests not found at C:/Projects/ThemisDB/tests/raid/test_raid_redundancy.cpp
+-- Adding RemoteRegistryClient async retry focused tests (base module, Issue #3986)
+--   RemoteRegistryClient: sync/async list/fetch/download, RequestStats, retry budget, shared_ptr lifetime
+-- AdaptiveQueryCompiler focused tests not found at C:/Projects/ThemisDB/tests/adaptive/test_adaptive_query_compilation.cpp
+-- Adding HardwareAccelerator focused tests (performance module, Issue #85)
+--   HardwareAccelerator: GPU join dispatch, SIMD aggregate/filter/sort, pattern match, vector ops, statistics
+-- themisctl focused tests not found at C:/Projects/ThemisDB/tests/themisctl/test_themisctl.cpp
+-- LoRA Certificate Store focused tests not found at C:/Projects/ThemisDB/tests/lora/test_lora_security.cpp
+-- IntelligentPrefetcher focused tests not found at C:/Projects/ThemisDB/tests/intelligent/test_intelligent_prefetcher.cpp
+-- Adding NUMAMemoryManager focused tests (performance module, Issue #228)
+--   NUMAMemoryManager: topology, allocate_local/on_node, migrate, stats, thread-safety
+-- Adding AdvancedCacheManager focused tests (performance module, Issue #229)
+--   AdvancedCacheManager: partitions, get/put, bloom-filter, LRU eviction, stats, flush, thread-safety
+-- Adding WorkloadAdaptiveOptimizer focused tests (performance module, Issue #230)
+--   WorkloadAdaptiveOptimizer: classification, strategy, auto-adapt, callback, stats, thread-safety
+-- OrphanDetector wired focused tests not found at C:/Projects/ThemisDB/tests/orphan/test_orphan_detector_wired.cpp
+-- Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)
+--   SecuritySignatureManager: RocksDB range scan, listAllSignatures, verifyAll
+-- Adding RocksDBWrapper Size Calculation focused tests (storage module, Issue #205)
+--   RocksDBWrapper: getApproximateSize, getStats total_sst_files_size_bytes, DiskSpaceMonitor::setRocksDBSize
+-- Shard RPC Integration focused tests not found at C:/Projects/ThemisDB/tests/shard/test_shard_rpc_integration.cpp
+-- Paxos Persistence Recovery focused tests not found
+-- TSStore Gorilla Buffer focused tests not found at C:/Projects/ThemisDB/tests/tsstore/test_tsstore_gorilla_buffer.cpp
+-- PredictivePrefetcher Markov focused tests not found at C:/Projects/ThemisDB/tests/predictive/test_predictive_prefetcher_markov.cpp
+-- Versioned API Routing focused tests not found at C:/Projects/ThemisDB/tests/versioned/test_versioned_api_routing.cpp
+-- CUDA HNSW Large-k focused tests not found at C:/Projects/ThemisDB/tests/cuda/test_cuda_hnsw_large_k.cpp
+-- Compute interface focused tests not found at C:/Projects/ThemisDB/tests/compute/test_compute_interfaces.cpp
+-- OZG Service Registry focused tests not found at C:/Projects/ThemisDB/tests/ozg/test_ozg_service_registry.cpp
+-- X├ûV Importer focused tests not found at C:/Projects/ThemisDB/tests/xoev/test_xoev_importer.cpp
+-- XDOMEA Connector focused tests not found at C:/Projects/ThemisDB/tests/xdomea/test_xdomea_connector.cpp
+-- Adding Document Store focused tests (v1.3.0)
+--   DocumentStore: IDocumentStore, IDocumentManager, IDocumentLifecycleHook, IDocumentSchemaEvolution, IDocumentDiffMerge, IEncryptedDocumentEntity
+-- eID Authenticator focused tests not found at C:/Projects/ThemisDB/tests/eid/test_eid_authenticator.cpp
+-- Beh├Ârden-Genehmigungsverfahren E2E focused tests not found at C:/Projects/ThemisDB/tests/behoerden/test_behoerden_genehmigungsverfahren_e2e.cpp
+-- 9. BImSchV Genehmigungsverfahren E2E focused tests not found at C:/Projects/ThemisDB/tests/bimschv/test_bimschv_genehmigungsverfahren_e2e.cpp
+-- E-Gov data-driven tests not found at C:/Projects/ThemisDB/tests/egov/test_egov_data_driven.cpp
+-- Adding ReplugRetriever focused tests (RAG module, REPLUG-LSR, v2.0.0)
+--   ReplugRetriever: ILLMScorer, HeuristicLLMScorer, fuse(), updateRetrieverWeights(), ReplugRetrieverFactory
+-- Adding RLAIFTrainer focused tests (RAG module, Constitutional AI / RLAIF, v2.0.0)
+--   RLAIFTrainer: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), RLAIFTrainerFactory
+-- Cypher parser focused tests not found at C:/Projects/ThemisDB/tests/cypher/test_cypher_parser.cpp
+-- Gremlin parser focused tests not found at C:/Projects/ThemisDB/tests/gremlin/test_gremlin_parser.cpp
+-- MQTT Client Service focused tests not found at C:/Projects/ThemisDB/tests/mqtt/test_mqtt_client_service.cpp
+-- Cross-Module Timeseries+Forecasting tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_timeseries_forecasting.cpp
+-- Cross-Module Temporal+BiTemporal tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_temporal_bitemporal.cpp
+-- Cross-Module German e-Gov tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_german_egov.cpp
+-- Cross-Module Index+Matryoshka tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_index_matryoshka.cpp
+-- Cross-Module Security+Governance tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_security_governance.cpp
+-- Cross-Module Cache+Anomaly tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_cache_anomaly.cpp
+-- Cross-Module Training+Governance tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_training_governance.cpp
+-- Cross-Module Query+Sharding tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_query_sharding.cpp
+-- Cross-Module Graph+Lineage tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_graph_lineage.cpp
+-- Cross-Module Geo+Spatial tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_geo_spatial.cpp
+-- Cross-Module Acceleration+Index tests not found at C:/Projects/ThemisDB/tests/cross/test_cross_module_acceleration_index.cpp
+-- Adding Scraper Plugin focused tests
+--   ScraperPlugin: UrlPolicy(A1-A6), Config(B1-B5), GovCatalog(C1-C5), SearchEngine(D1-D5), ApiClient(E1-E4), LLMEvaluator(F1-F4), MetadataWriter(G1-G4), Plugin(H1-H7), Provenance(I1-I6), KnowledgeSources(J1-J5), Pipeline(K1-K5), Immutability(L1-L4)
+-- ConnectorMode API tests not found at C:/Projects/ThemisDB/tests/connector/test_connector_mode_api.cpp
+-- Tests configured successfully
+--   WhisperPlugin: 68 tests (A-U)
+--   SDPlugin: 62 tests (A-Q)
+--   SDPluginRegistrar: 12 tests (A-D)
+--   SDPlugin real-backend E2E not enabled (set THEMIS_ENABLE_STABLE_DIFFUSION=ON)
+--   LlamaCppPlugin: 56 tests (A-O + P1-P3 concurrency)
+-- ContextWindowBudget focused tests not found - skipped
+-- Adding RagContextAssembler focused tests (RAG budget-aware assembly, v1.0.0)
+--   RagContextAssembler: 30 tests (A-F) - greedy fill, truncation, response-guard, computeMaxTokens
+-- MultiStepRAG focused tests not found - skipped
+-- Adding MultiHopReasoner focused tests (multi-hop reasoning, v1.0.0)
+--   MultiHopReasoner: 15 tests (A-C) - config, decomposition, pipeline
+-- Adding AdaptiveRetrieval focused tests (adaptive depth, v1.0.0)
+--   AdaptiveRetrieval: 15 tests (A-C) - config, complexity analysis, params
+-- ArgumentStore standalone tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- ArgumentStore RocksDB integration tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- RAGContextEngine tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- EthicsAI Plugin lifecycle tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- EthicsProfileRegistry tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- EthicsSelectionRouter tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- ThesisBudgetManagement tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)
+-- Adding StorageParquetExporter focused tests (ROADMAP v2.0.0)
+--   StorageParquetExporter: PAR1 magic, INT32/INT64/FLOAT32/FLOAT64/BOOL, multi-column, stats, file export, error paths (15 tests)
+-- Adding Projects module tests (Issue #3491)
+--   Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08), ProjectMetrics (PM-01..PM-06)
+-- Projects concurrent tests not found at C:/Projects/ThemisDB/tests/project/test_project_collaboration_concurrent.cpp
+--   RAGIngestionBridge: RI-01..RI-27 (construction, indexDocument, extractEntities, buildEntityContext, enrichRetrievedDocuments, move semantics)
+--   ContentToolboxBridge: FE-01..FE-03, TB-01..TB-12, CTB-01..CTB-05, FM-01..FM-08
+-- Adding Toolbox Phase 5 tests (ITM-01..06, VEC-01..03, REG-01..08)
+--   Toolbox Phase 5: ITM-01..06 (metrics), VEC-01..03 (vectors), REG-01..08 (registry)
+-- Adding DatabaseDomainAutoLabeler tests (IMPL-A1)
+--   DatabaseOptimizer IMPL-A1: DBO-01..DBO-08 (label, confidence, JSONL export, dedup, golden dataset)
+-- Adding IncrementalLoRATrainer federation bridge tests (IMPL-A3)
+--   IncrementalLoRATrainer IMPL-A3: ILT-EG-01..03 (exportGradient), ILT-AG-01..02 (applyGlobalDelta)
+-- DK-6 integration tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_knowledge_integration.cpp
+-- DK-7 federation admin tests not found at C:/Projects/ThemisDB/tests/federation/test_federation_admin.cpp
+-- DK-OR tests not found at C:/Projects/ThemisDB/tests/distributed/test_distributed_knowledge_or.cpp
+-- FPD tests not found at C:/Projects/ThemisDB/tests/federated/test_federated_poisoning_detection.cpp
+-- FDF tests not found at C:/Projects/ThemisDB/tests/federated/test_federated_distillation_coordinator.cpp
+-- EncryptedBlobBackend tests not found at C:/Projects/ThemisDB/tests/encrypted/test_encrypted_blob_backend.cpp
+-- VectorIndexBackend tests not found at C:/Projects/ThemisDB/tests/vector/test_vector_index_comprehensive.cpp
+-- Adding LLM+RAID routing unit tests
+--   LLM+RAID: DLR-01..06 (domain routing + LEAST_LOADED tie-breaking)
+-- Adding LLM+RAID Phase 4 integration tests (LRIR-01..05)
+--   LLM+RAID Phase 4: LRIR-01..05 (3-shard routing, batch fan-out, circuit breaker, speculation, embed locality)
+-- SD-REAL tests not found at C:/Projects/ThemisDB/tests/speculative/test_speculative_decoder_real_logits.cpp
+-- SD-DFT/SPEC-TL tests not found at C:/Projects/ThemisDB/tests/speculative/test_speculative_draft_fn_bridge.cpp
+--   WST: WhisperStubTranscriber TranscribeFn bridge (WST-01..03)
+-- VKC tests not found at C:/Projects/ThemisDB/tests/vulkan/test_vulkan_compile_glsl_bridge.cpp
+-- CLO loop tests not found at C:/Projects/ThemisDB/tests/clo/test_clo_loops.cpp
+-- Adding Toolbox Primitives tests (TXC/TXN/CFP/TQS/LDT/CMP/TCS)
+--   Toolbox Primitives: TXC/TXN/CFP/TQS/LDT/CMP/TCS test groups
+-- SerializationAdvisor tests not found at C:/Projects/ThemisDB/tests/serialization/test_serialization_advisor.cpp
+-- HotReloadManager tests not found at C:/Projects/ThemisDB/tests/hot/test_hot_reload_manager.cpp
+-- ModuleSandbox tests not found at C:/Projects/ThemisDB/tests/module/test_module_sandbox.cpp
+-- Adding ModuleSandbox WASM injection tests (base module, ROADMAP #1573/#1574)
+--   ModuleSandboxWasmInjection: WasmConfig defaults, launch w/o runtime, launch+isolation with injected runtime
+-- ProjectCollaborationConcurrent tests not found at C:/Projects/ThemisDB/tests/project/test_project_collaboration_concurrent.cpp
+-- Adding AiOperationGuard tests (ASL-4 ÔÇö AOG-01..AOG-20)
+--   AiOperationGuard: AOG-01..AOG-20 (READ_ONLY, WRITE_SAFE, DESTRUCTIVE, CRITICAL, environment guard, hard-block, approval shape)
+-- Adding AiSnapshotCleanup tests (ASL-11 ÔÇö POS-01..POS-15)
+--   AiSnapshotCleanup: POS-01..POS-15 (retention, size cap, listing, edge cases)
+-- Adding AiSafetyChaos tests (ASL-14 ÔÇö CHAOS-01..CHAOS-12)
+--   AiSafetyChaos: CHAOS-01..CHAOS-12 (DOG, HILG, IntentClassifier, AqlSafetyValidator, SnapshotCleanup, LoRA hook)
+-- Adding ProcessCommunityDetector focused tests (LCD-01..LCD-10)
+--   ProcessCommunityDetector: LCD-01..LCD-10
+-- Adding ProcessLightRetriever focused tests (PLR-01..PLR-08)
+--   ProcessLightRetriever: PLR-01..PLR-08
+-- Adding ObjectCentricTracer focused tests (OCT-01..OCT-10)
+--   ObjectCentricTracer: OCT-01..OCT-10
+-- Adding SLA Monitoring focused tests (SLA-01..SLA-08)
+--   SlaMonitoring: SLA-01..SLA-08
+-- Adding Bottleneck Analytics focused tests (BOT-01..BOT-08)
+--   BottleneckAnalytics: BOT-01..BOT-08
+--   Voice Phase 5.6: Endurance and stress testing (multi-session load, resource growth, memory leaks)
+-- Integration tests configured in: C:/Projects/ThemisDB/tests/integration
+--   - Test infrastructure: test_fixture.h, test_data_generator.h
+--   - Pipeline suite label: pipeline_integration
+--   - Release-critical label: release_critical
+--   - To enable tests: uncomment sections in CMakeLists.txt as implementations complete
+--   - Run with: ctest -R integration
+--   TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation
+--   IntervalTreeIndex: augmented interval tree, O(log n + k) overlap queries
+--   TemporalCompressor: delta/ZSTD/Gorilla/dictionary compression
+--   TemporalCDC: subscribe/publish/replay change data capture
+--   TemporalMigrator: analyze/migrate/backfill/verify system-versioned table migration
+--   RetentionManager: retention policies, RetentionRule operators
+--   TemporalConflictResolver: LWW/FWW/node-priority/CRDT/MergeResolver
+--   TemporalAggregator: tumbling/sliding/session windows, FIRST_VALUE/LAST_VALUE
+--   TemporalQueryEngine: AS-OF/FROM-TO/BETWEEN/CONTAINED-IN/SEQUENCED-DISTINCT
+-- test_api_grpc_server: removed logger.cpp (Logger dllimport via themis_base)
+-- test_cache_replication: removed logger.cpp (Logger dllimport via themis_base)
+-- test_cache_replication_coordinator: removed logger.cpp (Logger dllimport via themis_base)
+-- test_index_manager_di: removed logger.cpp (Logger dllimport via themis_base)
+-- test_llm_query_rewriter_validator_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_spatial_correctness_integration: removed logger.cpp (Logger dllimport via themis_base)
+-- test_distributed_analytics_focused: added themis_core link (required by olap.cpp GPU deps)
+-- test_process_pattern_matcher_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_analytics_memory_pool_focused: added themis_core link (required by olap.cpp GPU deps)
+-- test_olap_lru_cache_focused: added themis_core link (required by olap.cpp GPU deps)
+-- test_ontology_aware_retriever_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_kg_retriever_reasoning_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_postgres_importer_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_auth_rate_limiter_distributed: removed logger.cpp (Logger dllimport via themis_base)
+-- test_arrow_user_registration_plugin_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_jsonl_llm_exporter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_huggingface_exporter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_parquet_exporter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_arrow_ipc_exporter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_streaming_exporter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_incremental_exporter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_aql_predicate_filter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_format_template_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_export_encryption_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_data_augmentation_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_export_format_registry_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_huggingface_hub_client_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_join_exporter_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_udp_server_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_modality_parser_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_training_diagnostics_consistency: removed logger.cpp (Logger dllimport via themis_base)
+-- test_training_phase2_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_process_module_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_process_aris_xml_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_process_graph_visit_timestamp_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_temporal_conflict_resolver_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_rag_replug_retriever_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_rag_rlaif_trainer_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_toolbox_phase5_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_training_database_optimizer_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_incremental_lora_trainer_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_llm_raid_integration_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- test_whisper_stub_transcribe_bridge_focused: removed logger.cpp (Logger dllimport via themis_base)
+-- ProcessCommunityDetectorTests: removed logger.cpp (Logger dllimport via themis_base)
+-- ProcessLightRetrieverTests: removed logger.cpp (Logger dllimport via themis_base)
+-- ObjectCentricTracerTests: removed logger.cpp (Logger dllimport via themis_base)
+-- SlaMonitoringTests: removed logger.cpp (Logger dllimport via themis_base)
+-- BottleneckAnalyticsTests: removed logger.cpp (Logger dllimport via themis_base)
+-- Adding TensorFingerprintGraph focused tests (TFG-01..TFG-28, TDM-01..TDM-25)
+--   TensorFingerprintGraph: TFG-01..28 + TDM-01..25 (insert, findSimilar, snapshot/restore, journal)
+-- Adding GPUGraphTraversal focused tests (GPU-01..GPU-19)
+--   GPUGraphTraversal: GPU-01..19 (BFS/DFS: load, distances, depth, forbidden, truncation, cycles, disconnected)
+-- Adding Category-B BFS parity focused test
+--   Category-B BFS parity: CUDA vs CPU traversal parity and depth cutoff checks
+-- Adding Category-B Dijkstra parity focused test
+--   Category-B Dijkstra parity: CUDA vs CPU shortest-path parity checks
+-- Adding RotatE KGC focused tests (KGC-01..KGC-15)
+--   RotatEKGC: KGC-01..15 (entity/relation registration, training, scoring, rank, link-prediction, reasoner injection)
+-- Adding RotatE acceptance-gate tests (KGC-ACC-01..03)
+--   RotatEAcceptance: KGC-ACC-01..03 (TransE baseline, MRR/Hits@10, top-20 latency)
+-- Adding Self-RAG ALCE benchmark tests (ALCE-01..ALCE-05)
+--   SelfRAGALCE: ALCE-01..05 (latency ratio, Precision@K, perfect-critic, noise filtering, exhaustion)
+-- Adding Multi-Task LoRA acceptance-gate tests (MTL-01..13)
+--   MultiTaskLoRAAcceptance: MTL-01..13 (routing, convergence, performance gain, overhead, ablation)
+-- Including EPIC 1 Retrieval contract test scaffold
+-- Including EPIC 2 Evaluation contract test scaffold
+-- benchmark_matrix_test: GTest or themis_evaluation not available ÔÇô skipped
+-- retrieval_metrics_test: GTest or themis_evaluation not available ÔÇô skipped
+-- artifact_lifecycle_test: GTest or themis_evaluation not available ÔÇô skipped
+-- ablation_framework_test: GTest or themis_evaluation not available ÔÇô skipped
+-- Including EPIC 3 Distributed Tensor contract test scaffold
+-- Adding EPIC3: Distributed Planner contract tests
+--   DistributedPlanner: artifact placement, shard assignment, planner contract
+-- Adding EPIC3: Phase A ManifestStore tests (MS-01..12)
+--   ManifestStore: store/get/list/evict, freshness, metrics, concurrency (MS-01..12)
+-- Adding EPIC3: Lifecycle & Staleness Management tests (LSM-01..31)
+--   Lifecycle: state machine, staleness, invalidation, advisory-only (LSM-01..31)
+-- Adding EPIC3: Phase A Tensor Delta Log tests (TDL-01..18)
+--   TensorDeltaLog: append, window extraction, serialization, GC, retention (TDL-01..18)
+-- Adding EPIC3: Phase B Tensor Rebuild Fallback tests (RFB-01..10)
+--   SnapshotUpdateWorker: patch/refit/rebuild decisions, fallback, metrics (RFB-01..10)
+-- Adding EPIC3: Phase C Tensor Shard Summary tests (TSS-01..41)
+--   Phase C Shard Summary: refresh, routing, consensus, exact fetch (TSS-01..41)
+-- EPIC3 Integrity Verification Benchmark not found at C:/Projects/ThemisDB/tests/epic3_distributed_tensor/integrity_verification_bench.cc
+-- Adding EPIC3: Phase B Edge Case Tests
+--   PhaseBEdgeCaseTests: Delta window bounds, overflow detection, instability heuristics, state transitions (PBE-01..24)
+-- Adding G003 error-handling & thread-safety tests (EHS-01..08, TSF-01..08, RVC-01..04)
+--   G003: EHS-01..08 (exception safety), TSF-01..08 (thread safety), RVC-01..04 (return value checks)
+-- Adding Phase 4 Security & Compliance Hardening tests
+--   Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)
+-- Adding gRPC Core Service tests (GCS-01..GCS-29)
+--   GrpcCoreService: GCS-01..GCS-16 (always-on) + GCS-17..GCS-29 (THEMIS_HAS_CORE_GRPC)
+-- themis_release_critical_tests aggregate target covers: module_ethics_ai_test_ethics_ai_community_separability_focused;module_ethics_ai_test_ethics_ai_discourse_hardening_focused_focused;module_ethics_ai_test_ethics_ai_eu_artifact_norms_focused_focused;module_ethics_ai_test_ethics_ai_eu_compliance_focused;module_ethics_ai_test_ethics_ai_euai_compliance_focused_focused;module_ethics_ai_test_ethics_ai_ldm6_clustering_focused_focused;module_ethics_ai_test_ethics_ai_ldm7_focused_focused;module_ethics_ai_test_ethics_ai_ldm8_focused_focused;module_ethics_ai_test_ethics_ai_ldm_contract_focused_focused;module_ethics_ai_test_ethics_ai_profile_reload_focused_focused;module_failover_test_failover_chaos_scenarios_focused;module_failover_test_failover_contract_hardening_focused_focused;module_failover_test_failover_dr_edge_scenarios_focused;module_failover_test_failover_phase2_phase3_focused_focused;module_failover_test_failover_wave_a_fencing_focused;module_failover_test_failover_wave_a_health_timeout_focused;module_failover_test_failover_wave_a_quorum_persistence_focused;module_failover_test_failover_wave_a_topology_versioning_focused;module_failover_test_failover_wave_b_adaptive_health_focused;module_failover_test_failover_wave_b_consensus_focused;module_failover_test_failover_wave_c_fencing_security_focused;module_failover_test_failover_wave_d_observability_focused;module_index_test_distributed_vector_index_focused;module_index_test_wave5_index_hardening_focused;module_llm_test_llm_memory_safety_hardening_focused;module_llm_test_llm_phase1_hardening_focused;module_llm_wiki_test_llm_wiki_core_focused_focused;module_llm_wiki_test_llm_wiki_llm_integration_focused_focused;module_process_test_bottleneck_analytics_focused;module_process_test_bpmn_s_focused;module_process_test_cmmn_serializer_focused;module_process_test_critical_batch1_fixes_focused;module_process_test_fim_importer_focused;module_process_test_object_centric_tracer_focused;module_process_test_process_aris_xml_focused;module_process_test_process_community_detector_focused;module_process_test_process_concurrency_churn_focused_focused;module_process_test_process_contract_hardening_focused_focused;module_process_test_process_determinism_conflict_focused_focused;module_process_test_process_diagnostics_incident_focused_focused;module_process_test_process_graph_focused;module_process_test_process_high_batch_2a_focused;module_process_test_process_highcardinality_stress_focused;module_process_test_process_light_retriever_focused;module_process_test_process_linker_edge_focused_focused;module_process_test_process_mining_extended_focused;module_process_test_process_mining_v2_focused;module_process_test_process_module_focused;module_process_test_process_parser_edge_focused_focused;module_process_test_process_retriever_edge_focused_focused;module_process_test_process_retriever_resilience_focused_focused;module_process_test_process_stress_churn_focused_focused;module_process_test_sla_monitoring_focused;module_process_test_process_aris_xml_autofocused;module_process_test_process_community_detector_autofocused;module_process_test_process_concurrency_churn_focused_autofocused;module_process_test_process_contract_hardening_focused_autofocused;module_process_test_process_determinism_conflict_focused_autofocused;module_process_test_process_diagnostics_incident_focused_autofocused;module_process_test_process_graph_autofocused;module_process_test_process_high_batch_2a_autofocused;module_process_test_process_highcardinality_stress_autofocused;module_process_test_process_light_retriever_autofocused;module_process_test_process_linker_edge_focused_autofocused;module_process_test_process_mining_extended_autofocused;module_process_test_process_mining_v2_autofocused;module_process_test_process_module_autofocused;module_process_test_process_parser_edge_focused_autofocused;module_process_test_process_retriever_edge_focused_autofocused;module_process_test_process_retriever_resilience_focused_autofocused;module_process_test_process_stress_churn_focused_autofocused;test_query_engine_focused;test_continuous_query_engine_focused;test_continuous_query_e2e;module_replication_test_replication_chaos_failover_focused_autofocused;module_replication_test_replication_geo_placement_wal_shipping_focused_autofocused;module_replication_test_replication_fail_closed_behavior_autofocused;module_search_test_layered_retrieval_integration_phase4_focused;module_search_test_search_integration_phase4_focused;module_server_test_mcp_kg_tools_focused;module_server_test_mcp_search_tools_focused;module_server_test_server_compat_contract_focused_focused;module_server_test_server_gateway_resilience_focused_focused;module_server_test_server_http3_stress_focused_focused;module_server_test_server_openapi_drift_focused_focused;module_server_test_server_phase1_hardening_focused;module_server_test_server_phase2_focused_focused;module_server_test_wave4a_server_hardening2_focused;module_server_test_wave7_server_llm_hardening_focused;test_sharding_phase6_hardening;test_sharding_p6_fault_injection;test_sharding_contract_hardening_focused;test_sharding_multishard_exact;test_sharding_wave1_critical_closure;test_sharding_thread_safety_lock_order_focused;module_storage_test_mvcc_chain_pruner_focused;module_storage_test_storage_contract_hardening_focused_focused;module_storage_test_storage_phase3_error_handling_focused_focused;module_storage_test_storage_phase3_error_handling_focused_autofocused;test_transaction_distributed_phase2_focused;test_transaction_saga_compensation_phase2_focused;test_transaction_fault_injection_phase3_focused;test_transaction_wave_a_closure;test_wave4c_t1t4_hardening;test_grpc_rpc_adapter;module_updates_test_updates_batch5_finalization_focused;module_updates_test_updates_cluster_scheduling_stress_focused_focused;module_updates_test_updates_contract_hardening_focused_focused;module_updates_test_updates_determinism_edge_cases_focused_focused;module_updates_test_updates_diagnostics_focused_focused;module_updates_test_updates_highcardinality_stress_focused;module_updates_test_updates_operator_diagnostics_focused_focused;module_updates_test_updates_performance_batch4_focused;module_updates_test_updates_phase2_phase3_hardening_focused_focused;module_updates_test_updates_production_focused;module_updates_test_updates_rollback_hardening_focused_focused;module_voice_test_voice_backend_degradation_focused_focused;module_voice_test_voice_session_chaos_isolation_focused;module_voice_test_voice_stream_validation_focused;module_voice_test_voice_wave_a_chaos_bundle_focused;module_voice_test_voice_wave_a_noisy_wakeword_focused;query_execution_pipeline_test;ingestion_pipeline_test;rag_ai_pipeline_test;transaction_replication_pipeline_test;security_pipeline_test;application_profile_pipeline_test;w5a_e2e_critical_journeys_test;w5b_failure_injection_recovery_test;w7a_final_journey_signoff_test;w7b_recovery_resilience_test;w8a_incident_regression_shielding_test;w8b_contract_compatibility_reliability_test;w8c_determinism_flake_ci_signal_test;w9a_security_hardening_audit_test;w9b_sla_compliance_uptime_test;w9c_chaos_fault_tolerance_test;test_g003_error_handling_thread_safety_focused;test_phase4_security_hardening_focused
+-- themis_wave_a_server_llm_tests aggregate target covers: module_llm_test_llm_memory_safety_hardening_focused;module_llm_test_llm_multi_model_integration_focused;module_llm_test_llm_phase1_hardening_focused;module_llm_wiki_test_llm_wiki_llm_integration_focused_focused;module_server_test_server_gateway_resilience_focused_focused;module_server_test_wave7_server_llm_hardening_focused;rag_ai_pipeline_test
+-- themis_wave_a_server_query_storage_transaction_tests aggregate target covers: test_query_engine_focused;test_continuous_query_engine_focused;test_continuous_query_e2e;module_server_test_server_gateway_resilience_focused_focused;module_storage_test_mvcc_chain_pruner_focused;module_storage_test_storage_contract_hardening_focused_focused;module_storage_test_storage_phase3_error_handling_focused_focused;module_storage_test_storage_phase3_error_handling_focused_autofocused;test_transaction_saga_compensation_phase2_focused;test_transaction_fault_injection_phase3_focused;test_transaction_wave_a_closure;storage_pipeline_e2e_test;query_execution_pipeline_test;w5a_e2e_critical_journeys_test;w9c_chaos_fault_tolerance_test
+-- themis_wave_a_sharding_transaction_tests aggregate target covers: test_sharding_phase6_hardening;test_sharding_p6_fault_injection;test_sharding_contract_hardening_focused;test_sharding_wave1_critical_closure;test_transaction_distributed_phase2_focused;test_transaction_fault_injection_phase3_focused;test_transaction_wave_a_closure;transaction_replication_pipeline_test;w9c_chaos_fault_tolerance_test
+-- themis_wave_a_server_query_storage_transaction_longrun_tests aggregate target covers: w6b_stress_soak_stability_test;w7c_endurance_stability_test
+-- themis_wave_a_sharding_transaction_longrun_tests aggregate target covers: test_replication_soak_60min;test_sharding_distributed_write_soak
+-- themis_wave_a_server_llm_longrun_tests aggregate target covers: test_voice_endurance_stress
+-- themis_wave_a_search_index_tensor_graph_llm_longrun_tests aggregate target covers: module_search_test_search_distributed_merge_stress_focused;module_tensor_test_tensor_stress_suite_focused_focused;test_graph_distributed_shared_mutex_focused
+-- themis_wave_b_boundary_tests aggregate target covers: module_api_test_api_contracts_focused;module_api_test_api_grpc_server_focused;module_api_test_api_llm_grpc_focused_focused;module_content_test_content_contract_hardening_focused_focused;module_content_test_content_policy_focused;module_content_test_content_streaming_ingestion_focused;module_exporters_test_export_encryption_focused;module_exporters_test_exporters_contract_hardening_focused_focused;module_exporters_test_exporters_phase23_hardening_focused_focused;module_governance_test_compliance_framework_focused;module_governance_test_governance_contract_hardening_focused_focused;module_governance_test_governance_llm_policy_focused_focused;module_importers_test_importers_contract_hardening_focused_focused;module_importers_test_importers_new_connectors_focused_focused;module_importers_test_phase4_importer_hardening_focused;module_network_test_network_contract_hardening_focused_focused;module_network_test_network_transport_resilience_focused_focused;module_network_test_wire_protocol_integration_focused;module_observability_test_observability_contract_hardening_focused_focused;module_observability_test_tracing_integration_sharding_focused;module_observability_test_tracing_integration_transaction_focused;module_plugins_test_plugin_boundary_enforcement_focused_focused;module_plugins_test_plugin_manifest_edition_gates_focused_focused;module_plugins_test_plugins_contract_hardening_focused_focused;module_rpc_grpc_test_rpc_grpc_contract_hardening_focused_focused;module_rpc_grpc_test_rpc_grpc_integration_focused_focused;module_scheduler_test_scheduler_contract_hardening_focused_focused;module_scheduler_test_scheduler_integration_focused;module_scheduler_test_scheduler_stress_burst_retention_focused;module_server_test_mcp_kg_tools_focused;module_server_test_mcp_search_tools_focused
+-- themis_wave_b_api_transport_tests aggregate target covers: module_api_test_api_contracts_focused;module_api_test_api_grpc_server_focused;module_api_test_api_llm_grpc_focused_focused;module_network_test_network_contract_hardening_focused_focused;module_network_test_network_transport_resilience_focused_focused;module_network_test_wire_protocol_integration_focused;module_rpc_grpc_test_rpc_grpc_contract_hardening_focused_focused;module_rpc_grpc_test_rpc_grpc_integration_focused_focused
+-- themis_wave_b_policy_control_tests aggregate target covers: module_governance_test_compliance_framework_focused;module_governance_test_governance_contract_hardening_focused_focused;module_governance_test_governance_llm_policy_focused_focused;module_plugins_test_plugin_boundary_enforcement_focused_focused;module_plugins_test_plugin_manifest_edition_gates_focused_focused;module_plugins_test_plugins_contract_hardening_focused_focused
+-- themis_wave_b_content_io_tests aggregate target covers: module_content_test_content_contract_hardening_focused_focused;module_content_test_content_policy_focused;module_content_test_content_streaming_ingestion_focused;module_exporters_test_export_encryption_focused;module_exporters_test_exporters_contract_hardening_focused_focused;module_exporters_test_exporters_phase23_hardening_focused_focused;module_importers_test_importers_contract_hardening_focused_focused;module_importers_test_importers_new_connectors_focused_focused;module_importers_test_phase4_importer_hardening_focused
+-- themis_wave_b_runtime_ops_tests aggregate target covers: module_observability_test_observability_contract_hardening_focused_focused;module_observability_test_tracing_integration_sharding_focused;module_observability_test_tracing_integration_transaction_focused;module_scheduler_test_scheduler_contract_hardening_focused_focused;module_scheduler_test_scheduler_integration_focused;module_scheduler_test_scheduler_stress_burst_retention_focused
+-- Config Migration Scanner: Enabled (config_migration_scanner)
+-- themisctl: cpp-httplib not found ÔÇö skipping themisctl build
+-- THEMIS_BUILD_TOOLS is ON, but themis_config_wx dependencies are missing (wxWidgets and/or yaml-cpp); target is skipped
+-- Export CLI Tool: Enabled (themis-export)
+-- LLM Model CLI Tool: Enabled (themis-model)
+-- LLM Model CLI Tool: Enabled (themis-model)
+-- Applied MSVC includes to project: saga_orchestrator_plugin
+-- saga_orchestrator_plugin v1.0.0 configured
+-- CPack extension hook loaded (cmake/CPackConfig.cmake)
+-- CPack configuration included from cmake/CPackConfig.cmake
+-- docs.db mode AUTO -> BUILD
+-- Documentation database generation enabled
+--   Output: C:/Projects/ThemisDB/build-msvc-windows-release/data/docs.db
+--   Size: ~2-3 MB (1151 documents)
+--   Cache: C:/Projects/ThemisDB/build-msvc-windows-release/cache/docs.db
+-- AdaLoRA cache-gate target 'adalora_cache_check' registered
+--   Cache dir: C:/Projects/ThemisDB/build-msvc-windows-release/cache/adalora
+--   Force rebuild: OFF
+-- Runtime model packaging disabled (THEMIS_MODELS_MODE=SKIP)
+-- Legal training data ingestion skipped (THEMIS_BUILD_LEGAL_TRAINING_DATA=OFF)
+-- To enable: cmake -DTHEMIS_BUILD_LEGAL_TRAINING_DATA=ON
+-- ==========================================
+-- Multi-Platform Package System
+-- ==========================================
+-- Package store: C:/Projects/ThemisDB/releases
+-- Build configuration: release
+-- 
+-- Available package targets:
+--   package-deps            - Dependency package build (vcpkg)
+--   package-zip             - ZIP package
+--   package-msi             - MSI package (Windows)
+--   package-installer       - Installer package (NSIS/WiX)
+--   package-tgz             - tar.gz package
+--   package-all             - Aggregate package target
+--   package-tools-report    - Packaging tool availability
+-- 
+-- Compatibility aliases:
+--   build-all-packages
+--   build-packages-windows-debug
+--   build-packages-windows-release
+--   build-packages-linux-debug
+--   build-packages-linux-release
+-- ==========================================
+-- Multi-platform package system: ENABLED
+-- Docker found: C:/Program Files/Docker/Docker/resources/bin/docker.exe
+-- Added Docker build target: docker-build-community-release ÔåÆ themisdb:community-release
+-- Added Docker build target: docker-build-community ÔåÆ themisdb:community
+-- Added Docker buildx target: docker-buildx-community ÔåÆ themisdb:community
+-- Skipping docker-build-community-debug (no pre-built packages)
+-- Added Docker build target: docker-build-minimal-release ÔåÆ themisdb:minimal-release
+-- Added Docker build target: docker-build-enterprise-release ÔåÆ themisdb:enterprise-release
+-- Docker Compose found: C:/Program Files/Docker/Docker/resources/bin/docker-compose.exe
+-- ==========================================
+-- Docker Build System
+-- ==========================================
+-- Docker: C:/Program Files/Docker/Docker/resources/bin/docker.exe
+-- Docker Compose: C:/Program Files/Docker/Docker/resources/bin/docker-compose.exe
+-- BuildKit: ON
+-- 
+-- Available Docker targets:
+--   docker-build-community          - COMMUNITY Release (standard)
+--   docker-buildx-community         - COMMUNITY Release (buildx)
+--   docker-buildx-community-push    - COMMUNITY Release (buildx push)
+--   docker-build-community-release  - COMMUNITY Release (pre-built packages)
+--   docker-build-minimal-release    - MINIMAL Release
+--   docker-build-enterprise-release - ENTERPRISE Release (pre-built packages)
+--   docker-compose-up               - Start services
+--   docker-compose-down             - Stop services
+--   docker-compose-logs             - Follow logs
+-- ==========================================
+-- Docker build system: ENABLED
+-- ==========================================
+-- ThemisDB 2.4.0
+-- Build UUID: a187bc52-82ca-5d1a-8b54-a61ff5390c06
+-- Build channel: community
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring incomplete, errors occurred!

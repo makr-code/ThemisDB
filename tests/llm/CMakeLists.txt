@@ -11,6 +11,29 @@ set(_llm_wiki_private_orchestrator_header
 set(_llm_wiki_private_orchestrator_source
     "${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp")
 
+if(WIN32)
+    function(themis_llm_sync_runtime_dlls target_name)
+        if(NOT TARGET ${target_name})
+            return()
+        endif()
+
+        if(DEFINED _themis_vcpkg_bin_dir AND NOT "${_themis_vcpkg_bin_dir}" STREQUAL "")
+            set(_llm_vcpkg_runtime_bin_dir "${_themis_vcpkg_bin_dir}")
+        else()
+            set(_llm_vcpkg_runtime_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+        endif()
+
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
+                -DVCPKG_BIN_DIR=${_llm_vcpkg_runtime_bin_dir}
+                -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
+                -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
+            COMMENT "Syncing runtime DLLs for ${target_name}"
+        )
+    endfunction()
+endif()
+
 foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_llm_${_stem}_focused")
@@ -131,6 +154,13 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         # wiring direct providers for symbols referenced by InferenceEngineEnhanced.
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_w1s06_exception_boundaries")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
     endif()
     if(_stem STREQUAL "test_llm_query_rewriter")
@@ -324,7 +354,16 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             target_link_libraries(${_target} PRIVATE pugixml)
         endif()
     endif()
+    if(_stem STREQUAL "test_llm_w1s06_exception_boundaries")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(WIN32)
+        themis_llm_sync_runtime_dlls(${_target})
+    endif()
 
     # Phase-specific label overrides
     if(_stem STREQUAL "test_llm_phase5_hardening")
@@ -539,6 +578,9 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(WIN32)
+        themis_llm_sync_runtime_dlls(${_target})
+    endif()
 
     themis_register_module_focused_test(
         MODULE llm
@@ -612,6 +654,9 @@ if(THEMIS_LLM_INFERENCE_TESTS)
             Threads::Threads
         )
         target_compile_definitions(${_tgt} PRIVATE THEMIS_TEST_BUILD=1)
+        if(WIN32)
+            themis_llm_sync_runtime_dlls(${_tgt})
+        endif()
 
         themis_register_module_focused_test(
             MODULE  llm

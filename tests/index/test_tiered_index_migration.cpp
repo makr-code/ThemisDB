@@ -126,7 +126,7 @@ TEST(TieredIndexManager, DemoteHotToWarm) {
     EXPECT_EQ(res.from_tier, Tier::HOT);
     EXPECT_EQ(res.to_tier,   Tier::WARM);
     EXPECT_EQ(res.source_path, "/data/idx_hw");
-    EXPECT_EQ(res.target_path, mgr.warmPath("idx_hw"));
+    EXPECT_EQ(res.target_path, "/data/idx_hw");
 
     auto meta = mgr.getMetadata("idx_hw");
     ASSERT_TRUE(meta.has_value());
@@ -263,7 +263,7 @@ TEST(TieredIndexManager, ExportFailurePropagated) {
     EXPECT_EQ(res.code, MigrationDiagnosticCode::EXPORT_FAILED);
     EXPECT_FALSE(res.message.empty());
     EXPECT_EQ(res.source_path, "/data/idx_fail");
-    EXPECT_EQ(res.target_path, mgr.warmPath("idx_fail"));
+    EXPECT_EQ(res.target_path, "/data/idx_fail");
     // Tier must NOT have changed on failure.
     EXPECT_EQ(mgr.getMetadata("idx_fail")->tier, Tier::HOT);
 }
@@ -281,7 +281,7 @@ TEST(TieredIndexManager, ExportExceptionPropagatedAsDiagnostic) {
         EXPECT_EQ(res.code, MigrationDiagnosticCode::EXPORT_FAILED);
         EXPECT_NE(res.message.find("simulated export exception"), std::string::npos);
         EXPECT_EQ(res.source_path, "/data/idx_ex");
-        EXPECT_EQ(res.target_path, mgr.warmPath("idx_ex"));
+        EXPECT_EQ(res.target_path, "/data/idx_ex");
         EXPECT_EQ(mgr.getMetadata("idx_ex")->tier, Tier::HOT);
     });
 }

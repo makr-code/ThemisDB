@@ -523,12 +523,16 @@ TEST(GrpcRemoteCachePeerTest, ConfigDefaults) {
 }
 
 TEST(GrpcRemoteCachePeerTest, AddressAccessor) {
-    GrpcRemoteCachePeer peer("node2:8771");
+    GrpcRemoteCachePeer::Config cfg("node2:8771");
+    cfg.allow_insecure = true;
+    GrpcRemoteCachePeer peer(cfg);
     EXPECT_EQ(peer.address(), "node2:8771");
 }
 
 TEST(GrpcRemoteCachePeerTest, InitiallyHealthy) {
-    GrpcRemoteCachePeer peer("node3:8771");
+    GrpcRemoteCachePeer::Config cfg("node3:8771");
+    cfg.allow_insecure = true;
+    GrpcRemoteCachePeer peer(cfg);
     EXPECT_TRUE(peer.isHealthy());
 }
 

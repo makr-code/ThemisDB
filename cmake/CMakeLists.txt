@@ -648,22 +648,24 @@ option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Be
 
 # Performance Optimization Dependencies
 if(THEMIS_ENABLE_MIMALLOC)
-    message(STATUS "Enabling mimalloc allocator optimization (+10-20% performance)")
-    find_package(mimalloc CONFIG)
-    if(NOT mimalloc_FOUND)
-        message(WARNING "mimalloc not found via vcpkg. Install with: vcpkg install mimalloc")
-        message(WARNING "Building without mimalloc. Performance optimization disabled.")
-        set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
+    if(WIN32)
+        # The vcpkg Windows mimalloc package still links its DLL to
+        # mimalloc-redirect.dll even when MI_DISABLE_REDIRECT is defined,
+        # which causes the loader to abort before GTest runs.  Keep the fast
+        # allocator enabled elsewhere, but disable it on Windows until a static
+        # or redirect-safe package is available.
+        message(WARNING "Disabling mimalloc on Windows: vcpkg mimalloc redirection is not loader-safe in this environment")
+        set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Windows mimalloc redirection is unstable; disabled" FORCE)
     else()
-        message(STATUS "Found mimalloc: ${mimalloc_DIR}")
-        add_compile_definitions(THEMIS_ENABLE_MIMALLOC)
-        
-        # On Windows: exclude mimalloc-redirect.dll to prevent DLL-injection crash
-        # Use only mimalloc.dll (static override is safer)
-        if(WIN32)
-            message(STATUS "Windows: Disabling mimalloc-redirect DLL to prevent loader crash")
-            # Tell mimalloc to use static override instead of DLL redirection
-            add_compile_definitions(MI_DISABLE_REDIRECT=1)
+        message(STATUS "Enabling mimalloc allocator optimization (+10-20% performance)")
+        find_package(mimalloc CONFIG)
+        if(NOT mimalloc_FOUND)
+            message(WARNING "mimalloc not found via vcpkg. Install with: vcpkg install mimalloc")
+            message(WARNING "Building without mimalloc. Performance optimization disabled.")
+            set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
+        else()
+            message(STATUS "Found mimalloc: ${mimalloc_DIR}")
+            add_compile_definitions(THEMIS_ENABLE_MIMALLOC)
         endif()
     endif()
 endif()

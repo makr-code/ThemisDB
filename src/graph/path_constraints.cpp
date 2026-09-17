@@ -348,283 +348,297 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
 
 Result<std::vector<PathConstraints::PathResult>>
 PathConstraints::findConstrainedPaths(std::string_view start_node, std::string_view end_node, int max_results) const {
-    // Check if GraphIndexManager is set
-    if (!graph_mgr_) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_STATE,
-                         "GraphIndexManager not set. Call setGraphManager() first.");
-    }
+    try {
+        // Check if GraphIndexManager is set
+        if (!graph_mgr_) {
+            return makeError(ErrorRegistry::ErrorCode::INVALID_STATE,
+                             "GraphIndexManager not set. Call setGraphManager() first.");
+        }
 
-    // Refresh the topology once before traversal so path search does not rely on
-    // a stale in-memory adjacency cache when the persisted graph has already changed.
-    (void)graph_mgr_->rebuildTopology();
+        // Refresh the topology once before traversal so path search does not rely on
+        // a stale in-memory adjacency cache when the persisted graph has already changed.
+        (void)graph_mgr_->rebuildTopology();
 
-    auto loadAdjacency = [&](std::string_view node) {
-        auto [status, adjacency] = graph_mgr_->outAdjacency(node);
-        if (status.ok && !adjacency.empty()) {
+        auto loadAdjacency = [&](std::string_view node) {
+            auto [status, adjacency] = graph_mgr_->outAdjacency(node);
+            if (status.ok && !adjacency.empty()) {
+                return std::pair{status, std::move(adjacency)};
+            }
+
+            const auto rebuild = graph_mgr_->rebuildTopology();
+            if (rebuild.ok) {
+                return graph_mgr_->outAdjacency(node);
+            }
+
             return std::pair{status, std::move(adjacency)};
+        };
+
+        // Validate start/end node identifiers
+        if (!isValidIdentifier(start_node)) {
+            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "Invalid start node identifier");
         }
 
-        const auto rebuild = graph_mgr_->rebuildTopology();
-        if (rebuild.ok) {
-            return graph_mgr_->outAdjacency(node);
+        auto initial_adj = loadAdjacency(start_node);
+        (void)initial_adj;
+
+        if (!isValidIdentifier(end_node)) {
+            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "Invalid end node identifier");
         }
 
-        return std::pair{status, std::move(adjacency)};
-    };
-
-    // Validate start/end node identifiers
-    if (!isValidIdentifier(start_node)) {
-        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "Invalid start node identifier");
-    }
-
-    auto initial_adj = loadAdjacency(start_node);
-    if (!isValidIdentifier(end_node)) {
-        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "Invalid end node identifier");
-    }
-
-    // Clamp max_results to a safe upper bound to prevent memory exhaustion.
-    if (max_results <= 0) {
-        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "max_results must be positive");
-    }
-    if (max_results > MAX_RESULTS_LIMIT) {
-        max_results = MAX_RESULTS_LIMIT;
-    }
-
-    // Extract constraint values for efficient access
-    int min_length            = 0;
-    int max_length            = -1; // -1 means unlimited
-    bool require_unique_nodes = false;
-    bool require_unique_edges = false;
-    bool require_acyclic      = false;
-    double max_weight         = -1.0; // -1 means unlimited
-    double min_weight         = -1.0; // -1 means no minimum
-
-    for (const auto &constraint : constraints_) {
-        switch (constraint.type) {
-            case ConstraintType::MIN_LENGTH:
-                if (constraint.int_value) {
-                    min_length = *constraint.int_value;
-                }
-                break;
-            case ConstraintType::MAX_LENGTH:
-                if (constraint.int_value) {
-                    max_length = *constraint.int_value;
-                }
-                break;
-            case ConstraintType::UNIQUE_NODES:
-                require_unique_nodes = true;
-                break;
-            case ConstraintType::UNIQUE_EDGES:
-                require_unique_edges = true;
-                break;
-            case ConstraintType::NO_CYCLES:
-                require_acyclic = true;
-                break;
-            case ConstraintType::MAX_WEIGHT:
-                if (constraint.double_value) {
-                    max_weight = *constraint.double_value;
-                }
-                break;
-            case ConstraintType::MIN_WEIGHT:
-                if (constraint.double_value) {
-                    min_weight = *constraint.double_value;
-                }
-                break;
-            default:
-                break;
+        // Clamp max_results to a safe upper bound to prevent memory exhaustion.
+        if (max_results <= 0) {
+            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "max_results must be positive");
         }
-    }
-
-    // Validate constraint compatibility
-    if (min_length > 0 && max_length > 0 && min_length > max_length) {
-        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "MIN_LENGTH (" + std::to_string(min_length)
-                                                                          + ") cannot be greater than MAX_LENGTH ("
-                                                                          + std::to_string(max_length) + ")");
-    }
-
-    // Check for contradictory constraints
-    for (const auto &node : required_nodes_) {
-        if (forbidden_nodes_.count(node) > 0) {
-            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
-                             "Node '" + node + "' is both required and forbidden");
+        if (max_results > MAX_RESULTS_LIMIT) {
+            max_results = MAX_RESULTS_LIMIT;
         }
-    }
 
-    for (const auto &edge : required_edges_) {
-        if (forbidden_edges_.count(edge) > 0) {
-            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
-                             "Edge '" + edge + "' is both required and forbidden");
-        }
-    }
+        // Extract constraint values for efficient access
+        int min_length            = 0;
+        int max_length            = -1; // -1 means unlimited
+        bool require_unique_nodes = false;
+        bool require_unique_edges = false;
+        bool require_acyclic      = false;
+        double max_weight         = -1.0; // -1 means unlimited
+        double min_weight         = -1.0; // -1 means no minimum
 
-    // Storage for results
-    std::vector<PathResult> results;
-
-    // Path state for BFS
-    struct PathState {
-        std::vector<std::string> nodes;
-        std::vector<std::string> edges;
-        std::unordered_set<std::string> visited_nodes;
-        std::unordered_set<std::string> visited_edges;
-        double cost;
-    };
-
-    // BFS queue
-    std::queue<PathState> queue;
-
-    // Initialize with start node
-    PathState initial;
-    initial.nodes.push_back(std::string(start_node));
-    initial.visited_nodes.insert(std::string(start_node));
-    initial.cost = 0.0;
-    queue.push(std::move(initial));
-
-    // BFS traversal
-    while (!queue.empty() &&
-           (max_results <= 0 || results.size() < static_cast<size_t>(max_results))) {
-        PathState current = std::move(queue.front());
-        queue.pop();
-
-        const std::string &current_node = current.nodes.back();
-
-        // Check if we reached the target
-        if (current_node == end_node) {
-            // Weight check: reject paths below min_weight threshold
-            if (min_weight >= 0.0 && current.cost < min_weight) {
-                continue; // Path too light – don't accept
+        for (const auto &constraint : constraints_) {
+            switch (constraint.type) {
+                case ConstraintType::MIN_LENGTH:
+                    if (constraint.int_value) {
+                        min_length = *constraint.int_value;
+                    }
+                    break;
+                case ConstraintType::MAX_LENGTH:
+                    if (constraint.int_value) {
+                        max_length = *constraint.int_value;
+                    }
+                    break;
+                case ConstraintType::UNIQUE_NODES:
+                    require_unique_nodes = true;
+                    break;
+                case ConstraintType::UNIQUE_EDGES:
+                    require_unique_edges = true;
+                    break;
+                case ConstraintType::NO_CYCLES:
+                    require_acyclic = true;
+                    break;
+                case ConstraintType::MAX_WEIGHT:
+                    if (constraint.double_value) {
+                        max_weight = *constraint.double_value;
+                    }
+                    break;
+                case ConstraintType::MIN_WEIGHT:
+                    if (constraint.double_value) {
+                        min_weight = *constraint.double_value;
+                    }
+                    break;
+                default:
+                    break;
             }
-            // Validate path against all other constraints
-            auto validation = validatePath(current.nodes, current.edges);
+        }
 
-            if (validation.has_value() && *validation) {
-                // All constraints satisfied
-                PathResult result;
-                result.nodes                     = current.nodes;
-                result.edges                     = current.edges;
-                result.cost                      = current.cost;
-                result.satisfies_all_constraints = true;
-                results.push_back(std::move(result));
+        // Validate constraint compatibility
+        if (min_length > 0 && max_length > 0 && min_length > max_length) {
+            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "MIN_LENGTH (" + std::to_string(min_length)
+                                                                              + ") cannot be greater than MAX_LENGTH ("
+                                                                              + std::to_string(max_length) + ")");
+        }
+
+        // Check for contradictory constraints
+        for (const auto &node : required_nodes_) {
+            if (forbidden_nodes_.count(node) > 0) {
+                return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                                 "Node '" + node + "' is both required and forbidden");
             }
-            continue; // Don't explore further from target node
         }
 
-        // Check max length constraint (early termination)
-        // A path whose length is exactly equal to the maximum is still valid and
-        // must be allowed to reach the target for final validation.
-        if (max_length > 0 && current.nodes.size() >= static_cast<size_t>(max_length)) {
-            continue; // Path already at max length
+        for (const auto &edge : required_edges_) {
+            if (forbidden_edges_.count(edge) > 0) {
+                return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                                 "Edge '" + edge + "' is both required and forbidden");
+            }
         }
 
-        // Get neighbors
-        auto [status, adjacency] = loadAdjacency(current_node);
-        if (!status.ok) {
-            continue; // Skip nodes with no neighbors or errors
-        }
+        // Storage for results
+        std::vector<PathResult> results;
 
-        // Explore each neighbor
-        for (const auto &adj : adjacency) {
-            const std::string &next_node = adj.targetPk;
-            const std::string &edge_id   = adj.edgeId;
+        // Path state for BFS
+        struct PathState {
+            std::vector<std::string> nodes;
+            std::vector<std::string> edges;
+            std::unordered_set<std::string> visited_nodes;
+            std::unordered_set<std::string> visited_edges;
+            double cost;
+        };
 
-            // Check forbidden node constraint
-            if (forbidden_nodes_.count(next_node) > 0) {
-                continue;
+        // BFS queue
+        std::queue<PathState> queue;
+
+        // Initialize with start node
+        PathState initial;
+        initial.nodes.push_back(std::string(start_node));
+        initial.visited_nodes.insert(std::string(start_node));
+        initial.cost = 0.0;
+        queue.push(std::move(initial));
+
+        // BFS traversal
+        while (!queue.empty() &&
+               (max_results <= 0 || results.size() < static_cast<size_t>(max_results))) {
+            PathState current = std::move(queue.front());
+            queue.pop();
+
+            const std::string &current_node = current.nodes.back();
+
+            // Check if we reached the target
+            if (current_node == end_node) {
+                // Weight check: reject paths below min_weight threshold
+                if (min_weight >= 0.0 && current.cost < min_weight) {
+                    continue; // Path too light – don't accept
+                }
+                // Validate path against all other constraints
+                auto validation = validatePath(current.nodes, current.edges);
+
+                if (validation.has_value() && *validation) {
+                    // All constraints satisfied
+                    PathResult result;
+                    result.nodes                     = current.nodes;
+                    result.edges                     = current.edges;
+                    result.cost                      = current.cost;
+                    result.satisfies_all_constraints = true;
+                    results.push_back(std::move(result));
+                }
+                continue; // Don't explore further from target node
             }
 
-            // Check forbidden edge constraint
-            if (forbidden_edges_.count(edge_id) > 0) {
-                continue;
+            // Check max length constraint (early termination)
+            // A path whose length is exactly equal to the maximum is still valid and
+            // must be allowed to reach the target for final validation.
+            if (max_length > 0 && current.nodes.size() >= static_cast<size_t>(max_length)) {
+                continue; // Path already at max length
             }
 
-            // Check EDGE_PROPERTY constraints: prune edges that don't satisfy
-            // the required field value early, before adding to the BFS queue.
-            bool edge_property_ok = true;
-            for (const auto &c : constraints_) {
-                if (c.type == ConstraintType::EDGE_PROPERTY && c.property_key.has_value()
-                    && c.string_value.has_value()) {
-                    auto field_val = graph_mgr_->getEdgeField(edge_id, *c.property_key);
-                    if (!field_val.has_value() || *field_val != *c.string_value) {
-                        edge_property_ok = false;
-                        break;
+            // Get neighbors
+            auto [status, adjacency] = loadAdjacency(current_node);
+            if (!status.ok) {
+                continue; // Skip nodes with no neighbors or errors
+            }
+
+            // Explore each neighbor
+            for (const auto &adj : adjacency) {
+                const std::string &next_node = adj.targetPk;
+                const std::string &edge_id   = adj.edgeId;
+
+                // Check forbidden node constraint
+                if (forbidden_nodes_.count(next_node) > 0) {
+                    continue;
+                }
+
+                // Check forbidden edge constraint
+                if (forbidden_edges_.count(edge_id) > 0) {
+                    continue;
+                }
+
+                // Check EDGE_PROPERTY constraints: prune edges that don't satisfy
+                // the required field value early, before adding to the BFS queue.
+                bool edge_property_ok = true;
+                for (const auto &c : constraints_) {
+                    if (c.type == ConstraintType::EDGE_PROPERTY && c.property_key.has_value()
+                        && c.string_value.has_value()) {
+                        auto field_val = graph_mgr_->getEdgeField(edge_id, *c.property_key);
+                        if (!field_val.has_value() || *field_val != *c.string_value) {
+                            edge_property_ok = false;
+                            break;
+                        }
                     }
                 }
-            }
-            if (!edge_property_ok) {
-                continue;
-            }
+                if (!edge_property_ok) {
+                    continue;
+                }
 
-            // Check NODE_PROPERTY constraints: prune next_node if it doesn't
-            // satisfy all required node-field values.
-            bool node_property_ok = true;
-            for (const auto &c : constraints_) {
-                if (c.type == ConstraintType::NODE_PROPERTY && c.property_key.has_value()
-                    && c.string_value.has_value()) {
-                    auto field_val = graph_mgr_->getNodeField(next_node, *c.property_key);
-                    if (!field_val.has_value() || *field_val != *c.string_value) {
-                        node_property_ok = false;
-                        break;
+                // Check NODE_PROPERTY constraints: prune next_node if it doesn't
+                // satisfy all required node-field values.
+                bool node_property_ok = true;
+                for (const auto &c : constraints_) {
+                    if (c.type == ConstraintType::NODE_PROPERTY && c.property_key.has_value()
+                        && c.string_value.has_value()) {
+                        auto field_val = graph_mgr_->getNodeField(next_node, *c.property_key);
+                        if (!field_val.has_value() || *field_val != *c.string_value) {
+                            node_property_ok = false;
+                            break;
+                        }
                     }
                 }
+                if (!node_property_ok) {
+                    continue;
+                }
+
+                // Check unique nodes constraint
+                if (require_unique_nodes && current.visited_nodes.count(next_node) > 0) {
+                    continue;
+                }
+
+                // Check acyclic constraint (same as unique nodes)
+                if (require_acyclic && current.visited_nodes.count(next_node) > 0) {
+                    continue;
+                }
+
+                // Check unique edges constraint
+                if (require_unique_edges && current.visited_edges.count(edge_id) > 0) {
+                    continue;
+                }
+
+                // Create new path state
+                PathState next_state;
+                next_state.nodes = current.nodes;
+                next_state.nodes.push_back(next_node);
+                next_state.edges = current.edges;
+                next_state.edges.push_back(edge_id);
+                next_state.visited_nodes = current.visited_nodes;
+                next_state.visited_nodes.insert(next_node);
+                next_state.visited_edges = current.visited_edges;
+                next_state.visited_edges.insert(edge_id);
+
+                // Get edge weight for cost calculation
+                double edge_weight = 1.0;
+                try {
+                    edge_weight = graph_mgr_->getEdgeWeight("", edge_id, "_weight");
+                } catch (const std::exception &) {
+                    // Weight lookup should never abort traversal; fall back to the
+                    // unweighted interpretation when the stored edge payload is malformed.
+                    edge_weight = 1.0;
+                }
+                next_state.cost = current.cost + edge_weight;
+
+                // Prune states that already exceed the max_weight budget
+                if (max_weight >= 0.0 && next_state.cost > max_weight) {
+                    continue;
+                }
+
+                queue.push(std::move(next_state));
             }
-            if (!node_property_ok) {
-                continue;
-            }
-
-            // Check unique nodes constraint
-            if (require_unique_nodes && current.visited_nodes.count(next_node) > 0) {
-                continue;
-            }
-
-            // Check acyclic constraint (same as unique nodes)
-            if (require_acyclic && current.visited_nodes.count(next_node) > 0) {
-                continue;
-            }
-
-            // Check unique edges constraint
-            if (require_unique_edges && current.visited_edges.count(edge_id) > 0) {
-                continue;
-            }
-
-            // Create new path state
-            PathState next_state;
-            next_state.nodes = current.nodes;
-            next_state.nodes.push_back(next_node);
-            next_state.edges = current.edges;
-            next_state.edges.push_back(edge_id);
-            next_state.visited_nodes = current.visited_nodes;
-            next_state.visited_nodes.insert(next_node);
-            next_state.visited_edges = current.visited_edges;
-            next_state.visited_edges.insert(edge_id);
-
-            // Get edge weight for cost calculation
-            double edge_weight = graph_mgr_->getEdgeWeight("", edge_id, "_weight");
-            next_state.cost    = current.cost + edge_weight;
-
-            // Prune states that already exceed the max_weight budget
-            if (max_weight >= 0.0 && next_state.cost > max_weight) {
-                continue;
-            }
-
-            queue.push(std::move(next_state));
         }
+
+        // If no paths found
+        if (results.empty()) {
+            return makeError(ErrorRegistry::ErrorCode::NOT_FOUND, "No paths found from '" + std::string(start_node)
+                                                                      + "' to '" + std::string(end_node)
+                                                                      + "' satisfying all constraints");
+        }
+
+        // Sort results by cost (shortest paths first)
+        std::sort(results.begin(), results.end(), [](const PathResult &a, const PathResult &b) { return a.cost < b.cost; });
+
+        // Limit to max_results
+        if (results.size() > max_results) {
+            results.resize(max_results);
+        }
+
+        return results;
+    } catch (const std::exception &e) {
+        return makeError(ErrorRegistry::ErrorCode::INVALID_STATE,
+                         std::string("findConstrainedPaths failed: ") + e.what());
     }
-
-    // If no paths found
-    if (results.empty()) {
-        return makeError(ErrorRegistry::ErrorCode::NOT_FOUND, "No paths found from '" + std::string(start_node)
-                                                                  + "' to '" + std::string(end_node)
-                                                                  + "' satisfying all constraints");
-    }
-
-    // Sort results by cost (shortest paths first)
-    std::sort(results.begin(), results.end(), [](const PathResult &a, const PathResult &b) { return a.cost < b.cost; });
-
-    // Limit to max_results
-    if (results.size() > max_results) {
-        results.resize(max_results);
-    }
-
-    return results;
 }
 
 void PathConstraints::clearConstraints() {

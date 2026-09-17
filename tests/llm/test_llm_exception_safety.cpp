@@ -239,24 +239,32 @@ TEST(LLMExceptionSafety, KVCacheBufferDestructorIsNoexcept) {
  * exception and NOT propagate it (which would call std::terminate).
  */
 TEST(LLMExceptionSafety, KVCacheBufferDestructorSwallowsFlushException) {
-    ASSERT_NO_THROW({
-        KVCacheBuffer::Config cfg;
-        cfg.embedding_dim       = 4;
-        cfg.max_tokens_per_batch = 1024;
-        cfg.enable_auto_flush   = false;
+    KVCacheBuffer::Config cfg;
+    cfg.embedding_dim       = 4;
+    cfg.max_tokens_per_batch = 1024;
+    cfg.enable_auto_flush   = false;
 
-        KVCacheBuffer buf(cfg);
+    KVCacheBuffer buf(cfg);
 
-        buf.setFlushCallback([](const std::vector<KVCacheBuffer::KVCache>&) {
-            throw std::runtime_error("flush callback exploded in destructor test");
-        });
-
-        // Append a token so current_batch_ is non-empty → destructor calls flush()
-        const std::vector<float> key(4, 1.0f);
-        const std::vector<float> val(4, 2.0f);
-        EXPECT_TRUE(buf.appendTokens(0, key, val, 1));
-        // ~KVCacheBuffer() called here — must NOT propagate the callback exception
+    buf.setFlushCallback([](const std::vector<KVCacheBuffer::KVCache>&) {
+        throw std::runtime_error("flush callback exploded in destructor test");
     });
+
+    // Append a token so current_batch_ is non-empty -> destructor calls flush().
+    // appendTokens() returns whether auto-flush triggered, so validate the
+    // buffered state instead of the boolean result.
+    const std::vector<float> key(4, 1.0f);
+    const std::vector<float> val(4, 2.0f);
+    bool append_threw = false;
+    try {
+        (void)buf.appendTokens(0, key, val, 1);
+    } catch (...) {
+        append_threw = true;
+    }
+    EXPECT_FALSE(append_threw);
+    EXPECT_EQ(buf.getStats().current_batch_size, 1u);
+    EXPECT_EQ(buf.getCurrentBatch().size(), 1u);
+    // ~KVCacheBuffer() called here — must NOT propagate the callback exception
 }
 
 /**

@@ -2247,7 +2247,9 @@ endif()
 #         getDisabledModules(), getVersionSummary(), formatBuildInfo(),
 #         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 #         (from build/test_build_info.cpp, Issue #2470)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp")
+# NOTE: tests/build/CMakeLists.txt auto-generates the same target name for the
+# build module prefix, so this explicit registration must not re-create it.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp" AND NOT TARGET module_build_test_build_info_focused)
     add_executable(module_build_test_build_info_focused
         test_build_info.cpp
         ../src/themis/build_info.cpp
