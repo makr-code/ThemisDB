@@ -385,6 +385,7 @@ jobs:
         env:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           OUTPUT_FILE: /tmp/aggregated-errors.md
+          COMPACT_OUTPUT_FILE: /tmp/aggregated-errors-compact.md
           GROUPED_OUTPUT_FILE: /tmp/aggregated-errors-by-module-file.json
           CURRENT_STATE_FILE: /tmp/aggregated-error-state.json
           PREVIOUS_STATE_FILE: ${{ steps.previous-state.outputs.state_file }}
@@ -540,8 +541,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -f /tmp/aggregated-errors.md ]; then
-            echo "Missing /tmp/aggregated-errors.md for chronic issue comment body" >&2
+          COMPACT_FILE=/tmp/aggregated-errors-compact.md
+          # Fall back to full report if compact file was not generated
+          if [ ! -f "$COMPACT_FILE" ]; then
+            COMPACT_FILE=/tmp/aggregated-errors.md
+          fi
+          if [ ! -f "$COMPACT_FILE" ]; then
+            echo "Missing aggregated error report for chronic issue comment body" >&2
             exit 1
           fi
           if [ ! -f /tmp/aggregated-error-state.json ]; then
@@ -549,11 +555,13 @@ jobs:
             exit 1
           fi
           {
-            echo "## 📎 New Build Error Report"
+            echo "## 📋 Chronic Build Error Summary"
             echo
-            echo "**Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "**Run**: [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) · **SHA**: \`${{ github.sha != '' && github.sha || 'n/a' }}\`"
             echo
-            cat /tmp/aggregated-errors.md
+            cat "$COMPACT_FILE"
+            echo
+            echo "_Full diagnostics available in the [workflow artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})._"
             echo "<!-- ci-build:error-state:v1 -->"
             base64 -w 0 /tmp/aggregated-error-state.json
             echo
@@ -567,6 +575,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: comment_issue
           issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
+          issue-marker: '<!-- ci-build:chronic-error-comment -->'
           issue-body-file: /tmp/chronic-build-error-comment.md
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}

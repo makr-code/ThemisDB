@@ -660,6 +660,88 @@ class ErrorAggregator {
     };
   }
 
+  /**
+   * Generates a compact markdown summary for use in GitHub issue comments.
+   * Intentionally terse — full detail lives in the JSON artifacts.
+   */
+  generateCompactMarkdown() {
+    const stats = this.getStats();
+
+    const topErrors = Array.from(this.fingerprints.entries())
+      .map(([, data]) => {
+        const finding = data.finding || {};
+        return {
+          type: finding.type || 'unknown',
+          file: finding.file || '(unknown)',
+          line: finding.line || null,
+          message: (finding.message || 'n/a').slice(0, 120),
+          frequency: data.frequency || 1,
+          priorityScore: this.computePriorityScore({
+            ...finding,
+            frequency: data.frequency,
+            lastSeen: data.lastSeen,
+            firstSeen: data.firstSeen,
+          }),
+        };
+      })
+      .sort((a, b) => (b.priorityScore || 0) - (a.priorityScore || 0))
+      .slice(0, 5);
+
+    const lines = [];
+    const delta = this.delta || { new_errors: [], resolved_errors: [] };
+    const chronicLabel = `Chronic (≥${CHRONIC_THRESHOLD}x)`;
+
+    // Compact metrics row
+    lines.push(
+      `| Unique | ${chronicLabel} | Groups | New | Resolved |`,
+      `|--------|${'-'.repeat(chronicLabel.length + 2)}|--------|-----|----------|`,
+      `| ${stats.total_unique_errors} | ${stats.chronic_errors} | ${stats.module_file_groups} | ${delta.new_errors.length} | ${delta.resolved_errors.length} |`,
+      '',
+    );
+
+    // Top priority issues
+    if (topErrors.length > 0) {
+      lines.push('<details><summary>🚨 Top priority diagnostics</summary>', '');
+      topErrors.forEach((e, idx) => {
+        const loc = e.line ? `${e.file}:${e.line}` : e.file;
+        lines.push(`${idx + 1}. **${e.type}** [${e.frequency}x] \`${loc}\` — ${e.message}`);
+      });
+      lines.push('', '</details>', '');
+    }
+
+    // Delta summary (only when previous state exists)
+    if (this.previousState) {
+      const newTop = delta.new_errors.slice(0, 3);
+      const resolvedTop = delta.resolved_errors.slice(0, 3);
+      if (newTop.length > 0 || resolvedTop.length > 0) {
+        lines.push('<details><summary>🔁 Delta vs previous run</summary>', '');
+        if (newTop.length > 0) {
+          lines.push('**New:**');
+          newTop.forEach((e) => {
+            const loc = e.line ? `${e.file}:${e.line}` : e.file;
+            lines.push(`- **${e.type}** \`${loc}\` — ${(e.message || 'n/a').slice(0, 100)}`);
+          });
+          if (delta.new_errors.length > 3) {
+            lines.push(`- _… and ${delta.new_errors.length - 3} more_`);
+          }
+        }
+        if (resolvedTop.length > 0) {
+          lines.push('**Resolved ✅:**');
+          resolvedTop.forEach((e) => {
+            const loc = e.line ? `${e.file}:${e.line}` : e.file;
+            lines.push(`- ~~${e.type}~~ \`${loc}\``);
+          });
+          if (delta.resolved_errors.length > 3) {
+            lines.push(`- _… and ${delta.resolved_errors.length - 3} more_`);
+          }
+        }
+        lines.push('', '</details>', '');
+      }
+    }
+
+    return lines.join('\n');
+  }
+
   generateMarkdown() {
     const stats = this.getStats();
     let md = '';
@@ -827,6 +909,8 @@ async function main() {
   const tracks = aggregator.buildRemediationTracks(stats, sourceRunId, repoRoot);
   const currentState = aggregator.buildStateSnapshot();
   let markdown = enforceMarkdownSizeLimit(aggregator.generateMarkdown());
+  const compactMarkdown = aggregator.generateCompactMarkdown();
+  const compactOutputFile = process.env.COMPACT_OUTPUT_FILE || outputFile.replace(/\.md$/, '-compact.md');
   const grouped = {
     generated_at: new Date().toISOString(),
     stats,
@@ -834,6 +918,7 @@ async function main() {
   };
 
   fs.writeFileSync(outputFile, markdown);
+  fs.writeFileSync(compactOutputFile, compactMarkdown);
   fs.writeFileSync(groupedOutputFile, JSON.stringify(grouped, null, 2));
   fs.writeFileSync(tracksOutputFile, JSON.stringify(tracks, null, 2));
   fs.writeFileSync(currentStateOutputFile, JSON.stringify(currentState, null, 2));
@@ -844,6 +929,7 @@ async function main() {
   console.log(`  - Module/file groups: ${stats.module_file_groups}`);
   console.log(`  - Chronic diagnostics: ${stats.chronic_errors}`);
   console.log(`\n📝 Report written to: ${outputFile}`);
+  console.log(`📋 Compact summary written to: ${compactOutputFile}`);
   console.log(`🧾 Grouped JSON written to: ${groupedOutputFile}`);
   console.log(`🧭 Triage baseline JSON written to: ${tracksOutputFile}`);
 
