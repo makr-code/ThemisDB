@@ -7,6 +7,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
+RELEASE_BUILD_MATRIX_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-build-matrix.yml"
 WORDPRESS_PRESS_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-wordpress-press.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
 DOCS_ROCKSDB_GENERATOR = REPO_ROOT / "scripts" / "generate_docs_rocksdb.py"
@@ -61,7 +62,49 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
     raise AssertionError(f"Could not find balanced CMake block for {anchor!r}")
 
 
+def extract_submodule_paths(command_suffix: str) -> list[str]:
+    return re.split(r"\s*(?:\|\||&&|;)\s*", command_suffix, maxsplit=1)[0].strip().split()
+
+
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
+    def test_release_build_matrix_submodule_sync_only_references_declared_paths(self) -> None:
+        workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        gitmodules_text = (REPO_ROOT / ".gitmodules").read_text(encoding="utf-8")
+        declared_paths = set(re.findall(r"^\s*path = (.+)$", gitmodules_text, re.MULTILINE))
+
+        for job_id in ("linux-release", "windows-release"):
+            job_block = extract_yaml_job_block(workflow_text, job_id)
+            sync_prefix = "git submodule sync -- "
+            update_prefix = "git submodule update --init --depth 1 "
+            sync_matches = [
+                extract_submodule_paths(line.split(sync_prefix, 1)[1])
+                for line in job_block.splitlines()
+                if sync_prefix in line
+            ]
+            update_matches = [
+                extract_submodule_paths(line.split(update_prefix, 1)[1])
+                for line in job_block.splitlines()
+                if update_prefix in line
+            ]
+
+            self.assertEqual(len(sync_matches), 1, msg=f"expected one sync command for {job_id}")
+            self.assertEqual(len(update_matches), 1, msg=f"expected one update command for {job_id}")
+
+            sync_paths = sync_matches[0]
+            update_paths = update_matches[0]
+
+            self.assertTrue(sync_paths)
+            self.assertTrue(update_paths)
+            self.assertEqual(set(sync_paths), set(update_paths))
+            for command_name, command_paths in (("sync", sync_paths), ("update", update_paths)):
+                self.assertTrue(
+                    set(command_paths).issubset(declared_paths),
+                    msg=(
+                        f"{job_id} {command_name} command includes undeclared submodule paths "
+                        "(for example the stale llama.cpp entry)"
+                    ),
+                )
+
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
         workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
         macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
