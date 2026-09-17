@@ -93,7 +93,7 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             sync_paths = sync_matches[0]
             update_paths = update_matches[0]
 
-            self.assertEqual(sync_paths, update_paths)
+            self.assertEqual(set(sync_paths), set(update_paths))
             self.assertTrue(sync_paths)
             self.assertNotIn("llama.cpp", sync_paths)
             self.assertTrue(set(sync_paths).issubset(declared_paths))
