@@ -1324,7 +1324,7 @@ endif()
 # Distributed Coordinator Benchmarks
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_distributed_coordinator.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_distributed_coordinator.cpp" AND NOT TARGET bench_distributed_coordinator)
     message(STATUS "Adding Distributed Coordinator benchmarks")
     
     add_executable(bench_distributed_coordinator
@@ -3654,7 +3654,7 @@ endif()
 #   - operational scalability across shard counts
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_shard_routing.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_shard_routing.cpp" AND NOT TARGET bench_shard_routing)
     message(STATUS "Adding Shard routing benchmarks")
 
     add_executable(bench_shard_routing
@@ -3681,7 +3681,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_shard_routing.cpp")
     message(STATUS "  ShardRouting: single-shard lookup, consistent-hash, batch routing, distribution quality")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_sharding_performance.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_sharding_performance.cpp" AND NOT TARGET bench_sharding_performance)
     message(STATUS "Adding Sharding performance benchmarks")
 
     add_executable(bench_sharding_performance
